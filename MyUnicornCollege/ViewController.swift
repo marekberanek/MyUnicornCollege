@@ -23,18 +23,18 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 //  var tempData: NSArray = []
   
   var tableData: [ApplicationItem] = []
+  var allData: [ApplicationItem] = []
   var tempData: [ApplicationItem] = []
   var sortName : String = "asc"
   var sortId : String = "desc"
   var processed : Bool = false
 
-  @IBOutlet weak var navigationItemBar: UINavigationItem!
+ 
   @IBOutlet weak var loadingLabel: UILabel!
   @IBOutlet weak var segmentedControl: UISegmentedControl!
   @IBOutlet var appsTableView : UITableView?
   @IBOutlet weak var refreshButton: UIBarButtonItem!
   @IBOutlet var introView : UIView?
-  @IBOutlet var dataView : UIView?
   @IBOutlet weak var progressView: UIProgressView!
   
   var maxCount : Int = 0
@@ -54,35 +54,31 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
 
   @IBAction func indexChanged(sender: UISegmentedControl) {
-    var sortedData : [ApplicationItem] = []
+    var filteredData : [ApplicationItem] = []
     
     switch segmentedControl.selectedSegmentIndex
     {
     case 0:
       if (self.tableData != []) {
-        if (self.sortId == "desc") {
-          tableData.sort ({$0.id > $1.id})
-          self.sortId = "asc"
-        } else {
-          tableData.sort ({$0.id < $1.id})
-          self.sortId = "desc"
-        }
+        self.tableData = self.allData
         self.appsTableView!.reloadData()
       }
     case 1:
       if (self.tableData != []) {
-        if (self.sortName == "asc") {
-        tableData.sort ({$0.name < $1.name})
-          self.sortName = "desc"
-        } else {
-          tableData.sort ({$0.name > $1.name})
-          self.sortName = "asc"
-        }
+        self.tableData = self.allData.filter { a in
+          a.language == "čeština" }
+        self.appsTableView!.reloadData()
+      }
+    case 2:
+      if (self.tableData != []) {
+        self.tableData = self.allData.filter { a in
+          a.language == "angličtina" }
         self.appsTableView!.reloadData()
       }
     default:
       break
     }
+
   }
 
   @IBAction func UpInside(sender: AnyObject) {
@@ -99,8 +95,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     let rowData: ApplicationItem = self.tableData[indexPath.row] as ApplicationItem
     
+    let df = NSDateFormatter()
+    df.dateFormat = "yyyy-MM-dd"
+
     cell.textLabel?.text = rowData.name
-    cell.detailTextLabel?.text = "\(rowData.date!) \(rowData.state!)"
+    cell.detailTextLabel?.text = "\(df.stringFromDate(rowData.date!)) \(rowData.state!)"
     
     return cell
   }
@@ -117,7 +116,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     self.maxCount = 0
     self.tableData = []
     self.tempData = []
-    self.dataView?.alpha = 0
+    self.appsTableView?.alpha = 0
     self.introView?.alpha = 1
     self.refreshButton.enabled = false
     self.segmentedControl.enabled = false
@@ -174,6 +173,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
           appsFiltered.sort ({$0.id > $1.id})
             
           self.tableData = appsFiltered
+          self.allData = self.tableData
           self.processed = true
           callback()
         }
@@ -204,10 +204,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
           
           self.refreshButton.enabled = true
           self.segmentedControl.enabled = true
+          self.allData = self.tableData
           self.appsTableView!.reloadData()
           UIView.animateWithDuration(0.5, animations: {
             self.introView?.alpha = 0
-            self.dataView?.alpha = 1
+            self.appsTableView?.alpha = 1
           })
         }
         self.progressView.progress = Float(self.maxCount)/Float(self.totalCount)
