@@ -31,10 +31,21 @@ class StatsViewController: UIViewController {
   override func viewWillAppear(animated: Bool) {
     var appsFiltered: [ApplicationItem] = []
     super.viewWillAppear(animated)
+    
+    // get tabledata from ViewController
+    /*
     let barViewControllers = self.tabBarController?.viewControllers
     let avc = barViewControllers![0] as ViewController
-    self.tableData = avc.tableData
+    */
+    
+    let tabBarController = self.tabBarController
+    let navController = tabBarController?.viewControllers![0] as UINavigationController
+    let avc = navController.viewControllers![0] as ViewController
+    
+    self.tableData = avc.allData
 
+    
+    
     // get number of applications in Initial stateType
     appsFiltered = []
     appsFiltered = self.tableData.filter { a in
