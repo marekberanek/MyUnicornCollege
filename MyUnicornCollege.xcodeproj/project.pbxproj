@@ -14,6 +14,16 @@
 		D5091B7F1A8F6D3A0079D893 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5091B7E1A8F6D3A0079D893 /* Images.xcassets */; };
 		D5091B821A8F6D3A0079D893 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5091B801A8F6D3A0079D893 /* LaunchScreen.xib */; };
 		D5091B8E1A8F6D3A0079D893 /* MyUnicornCollegeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5091B8D1A8F6D3A0079D893 /* MyUnicornCollegeTests.swift */; };
+		D5091BA01A8F6D560079D893 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5091B9D1A8F6D4C0079D893 /* Alamofire.framework */; };
+		D5091BA11A8F6D560079D893 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D5091B9D1A8F6D4C0079D893 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D50E0A011AA1D453004E6E04 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50E0A001AA1D453004E6E04 /* StatsViewController.swift */; };
+		D51255C11A91091A006C897D /* Plus4U.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51255C01A91091A006C897D /* Plus4U.swift */; };
+		D51E8F2D1AA3629B00E7FD48 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */; };
+		D57C1C791AA10C3F005E7E0D /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57C1C781AA10C3F005E7E0D /* PageViewController.swift */; };
+		D58A84711AA8EA6E00E1E625 /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58A84701AA8EA6E00E1E625 /* NSData+GZIP.swift */; };
+		D58A84721AA8EAD800E1E625 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D58A846D1AA8E90700E1E625 /* libz.dylib */; };
+		D58A84791AA8FCB800E1E625 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58A84781AA8FCB800E1E625 /* SwiftyJSON.swift */; };
+		D59AFC4A1A8F72BE001A2D93 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59AFC491A8F72BE001A2D93 /* Application.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,10 +34,45 @@
 			remoteGlobalIDString = D5091B6E1A8F6D3A0079D893;
 			remoteInfo = MyUnicornCollege;
 		};
+		D5091B9C1A8F6D4C0079D893 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 27AB60071A7FAFBF0069F786;
+			remoteInfo = Alamofire;
+		};
+		D5091B9E1A8F6D4C0079D893 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 27AB60121A7FAFBF0069F786;
+			remoteInfo = AlamofireTests;
+		};
+		D5091BA21A8F6D560079D893 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 27AB60061A7FAFBF0069F786;
+			remoteInfo = Alamofire;
+		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		D5091BA41A8F6D560079D893 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D5091BA11A8F6D560079D893 /* Alamofire.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		D5091B6F1A8F6D3A0079D893 /* MyUnicornCollege.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyUnicornCollege.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5091B6F1A8F6D3A0079D893 /* ucApplications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ucApplications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5091B731A8F6D3A0079D893 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5091B741A8F6D3A0079D893 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D5091B771A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyUnicornCollege.xcdatamodel; sourceTree = "<group>"; };
@@ -38,6 +83,16 @@
 		D5091B871A8F6D3A0079D893 /* MyUnicornCollegeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyUnicornCollegeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5091B8C1A8F6D3A0079D893 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5091B8D1A8F6D3A0079D893 /* MyUnicornCollegeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUnicornCollegeTests.swift; sourceTree = "<group>"; };
+		D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
+		D50E0A001AA1D453004E6E04 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
+		D51255C01A91091A006C897D /* Plus4U.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plus4U.swift; sourceTree = "<group>"; };
+		D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D57C1C781AA10C3F005E7E0D /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		D58A846D1AA8E90700E1E625 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		D58A84701AA8EA6E00E1E625 /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
+		D58A84731AA8EBF200E1E625 /* MyUnicornCollege-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyUnicornCollege-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		D58A84781AA8FCB800E1E625 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
+		D59AFC491A8F72BE001A2D93 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +100,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D58A84721AA8EAD800E1E625 /* libz.dylib in Frameworks */,
+				D51E8F2D1AA3629B00E7FD48 /* CoreData.framework in Frameworks */,
+				D5091BA01A8F6D560079D893 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +119,12 @@
 		D5091B661A8F6D3A0079D893 = {
 			isa = PBXGroup;
 			children = (
+				D58A84781AA8FCB800E1E625 /* SwiftyJSON.swift */,
+				D58A84731AA8EBF200E1E625 /* MyUnicornCollege-Bridging-Header.h */,
+				D58A84701AA8EA6E00E1E625 /* NSData+GZIP.swift */,
+				D58A846D1AA8E90700E1E625 /* libz.dylib */,
+				D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */,
+				D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */,
 				D5091B711A8F6D3A0079D893 /* MyUnicornCollege */,
 				D5091B8A1A8F6D3A0079D893 /* MyUnicornCollegeTests */,
 				D5091B701A8F6D3A0079D893 /* Products */,
@@ -70,7 +134,7 @@
 		D5091B701A8F6D3A0079D893 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D5091B6F1A8F6D3A0079D893 /* MyUnicornCollege.app */,
+				D5091B6F1A8F6D3A0079D893 /* ucApplications.app */,
 				D5091B871A8F6D3A0079D893 /* MyUnicornCollegeTests.xctest */,
 			);
 			name = Products;
@@ -81,11 +145,15 @@
 			children = (
 				D5091B741A8F6D3A0079D893 /* AppDelegate.swift */,
 				D5091B791A8F6D3A0079D893 /* ViewController.swift */,
+				D50E0A001AA1D453004E6E04 /* StatsViewController.swift */,
 				D5091B7B1A8F6D3A0079D893 /* Main.storyboard */,
 				D5091B7E1A8F6D3A0079D893 /* Images.xcassets */,
 				D5091B801A8F6D3A0079D893 /* LaunchScreen.xib */,
 				D5091B761A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld */,
 				D5091B721A8F6D3A0079D893 /* Supporting Files */,
+				D59AFC491A8F72BE001A2D93 /* Application.swift */,
+				D51255C01A91091A006C897D /* Plus4U.swift */,
+				D57C1C781AA10C3F005E7E0D /* PageViewController.swift */,
 			);
 			path = MyUnicornCollege;
 			sourceTree = "<group>";
@@ -115,6 +183,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D5091B981A8F6D4C0079D893 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D5091B9D1A8F6D4C0079D893 /* Alamofire.framework */,
+				D5091B9F1A8F6D4C0079D893 /* AlamofireTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -125,14 +202,16 @@
 				D5091B6B1A8F6D3A0079D893 /* Sources */,
 				D5091B6C1A8F6D3A0079D893 /* Frameworks */,
 				D5091B6D1A8F6D3A0079D893 /* Resources */,
+				D5091BA41A8F6D560079D893 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D5091BA31A8F6D560079D893 /* PBXTargetDependency */,
 			);
 			name = MyUnicornCollege;
 			productName = MyUnicornCollege;
-			productReference = D5091B6F1A8F6D3A0079D893 /* MyUnicornCollege.app */;
+			productReference = D5091B6F1A8F6D3A0079D893 /* ucApplications.app */;
 			productType = "com.apple.product-type.application";
 		};
 		D5091B861A8F6D3A0079D893 /* MyUnicornCollegeTests */ = {
@@ -164,6 +243,7 @@
 				TargetAttributes = {
 					D5091B6E1A8F6D3A0079D893 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = S7UZ3M9ANQ;
 					};
 					D5091B861A8F6D3A0079D893 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -182,6 +262,12 @@
 			mainGroup = D5091B661A8F6D3A0079D893;
 			productRefGroup = D5091B701A8F6D3A0079D893 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D5091B981A8F6D4C0079D893 /* Products */;
+					ProjectRef = D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D5091B6E1A8F6D3A0079D893 /* MyUnicornCollege */,
@@ -189,6 +275,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D5091B9D1A8F6D4C0079D893 /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = D5091B9C1A8F6D4C0079D893 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D5091B9F1A8F6D4C0079D893 /* AlamofireTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AlamofireTests.xctest;
+			remoteRef = D5091B9E1A8F6D4C0079D893 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D5091B6D1A8F6D3A0079D893 /* Resources */ = {
@@ -215,9 +318,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D59AFC4A1A8F72BE001A2D93 /* Application.swift in Sources */,
 				D5091B7A1A8F6D3A0079D893 /* ViewController.swift in Sources */,
 				D5091B781A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld in Sources */,
+				D57C1C791AA10C3F005E7E0D /* PageViewController.swift in Sources */,
+				D58A84711AA8EA6E00E1E625 /* NSData+GZIP.swift in Sources */,
+				D50E0A011AA1D453004E6E04 /* StatsViewController.swift in Sources */,
+				D58A84791AA8FCB800E1E625 /* SwiftyJSON.swift in Sources */,
 				D5091B751A8F6D3A0079D893 /* AppDelegate.swift in Sources */,
+				D51255C11A91091A006C897D /* Plus4U.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +345,11 @@
 			isa = PBXTargetDependency;
 			target = D5091B6E1A8F6D3A0079D893 /* MyUnicornCollege */;
 			targetProxy = D5091B881A8F6D3A0079D893 /* PBXContainerItemProxy */;
+		};
+		D5091BA31A8F6D560079D893 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Alamofire;
+			targetProxy = D5091BA21A8F6D560079D893 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -340,9 +454,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = MyUnicornCollege/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ucApplications;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyUnicornCollege-Bridging-Header.h";
 			};
 			name = Debug;
 		};
@@ -350,9 +466,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = MyUnicornCollege/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ucApplications;
+				SWIFT_OBJC_BRIDGING_HEADER = "MyUnicornCollege-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -370,7 +488,7 @@
 				);
 				INFOPLIST_FILE = MyUnicornCollegeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MyUnicornCollegeTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyUnicornCollege.app/MyUnicornCollege";
 			};
 			name = Debug;
@@ -385,7 +503,7 @@
 				);
 				INFOPLIST_FILE = MyUnicornCollegeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MyUnicornCollegeTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyUnicornCollege.app/MyUnicornCollege";
 			};
 			name = Release;
@@ -409,6 +527,7 @@
 				D5091B931A8F6D3A0079D893 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D5091B941A8F6D3A0079D893 /* Build configuration list for PBXNativeTarget "MyUnicornCollegeTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +536,7 @@
 				D5091B961A8F6D3A0079D893 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
