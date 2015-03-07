@@ -107,7 +107,7 @@
                                 </constraints>
                             </view>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rcl-ee-i89">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
                                     <navigationItem id="MLJ-3y-SlC">
                                         <nil key="title"/>
@@ -133,13 +133,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="rcl-ee-i89" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="CEI-gJ-Aqc"/>
+                            <constraint firstItem="rcl-ee-i89" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="20" id="CEI-gJ-Aqc"/>
                             <constraint firstItem="rcl-ee-i89" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="GqO-2o-Sc2"/>
                             <constraint firstAttribute="centerY" secondItem="8dG-cq-uHa" secondAttribute="centerY" id="Kwf-LR-0SG"/>
                             <constraint firstItem="rcl-ee-i89" firstAttribute="trailing" secondItem="KSL-8C-xug" secondAttribute="trailing" id="QQQ-hE-rF1"/>
                             <constraint firstAttribute="centerY" secondItem="8dG-cq-uHa" secondAttribute="centerY" id="RLI-m9-pI5"/>
                             <constraint firstItem="rcl-ee-i89" firstAttribute="leading" secondItem="KSL-8C-xug" secondAttribute="leading" id="dH6-26-ofz"/>
-                            <constraint firstItem="rcl-ee-i89" firstAttribute="bottom" secondItem="KSL-8C-xug" secondAttribute="top" constant="-20" id="hNe-2M-scp"/>
+                            <constraint firstItem="rcl-ee-i89" firstAttribute="bottom" secondItem="KSL-8C-xug" secondAttribute="top" id="hNe-2M-scp"/>
                             <constraint firstAttribute="centerX" secondItem="8dG-cq-uHa" secondAttribute="centerX" id="hPU-zg-2DW"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="KSL-8C-xug" secondAttribute="bottom" id="q5o-Rd-LVm"/>
                             <constraint firstAttribute="trailingMargin" secondItem="rcl-ee-i89" secondAttribute="trailing" constant="-16" id="zVo-e4-B7Z"/>
