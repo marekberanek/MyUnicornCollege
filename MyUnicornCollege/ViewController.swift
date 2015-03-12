@@ -96,10 +96,15 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let rowData: ApplicationItem = self.tableData[indexPath.row] as ApplicationItem
     
     let df = NSDateFormatter()
-    df.dateFormat = "yyyy-MM-dd"
+    df.dateFormat = "yyyy-MM-dd hh:mm"
 
     cell.textLabel?.text = rowData.name
-    cell.detailTextLabel?.text = "\(df.stringFromDate(rowData.date!)) \(rowData.state!)"
+    cell.detailTextLabel?.text = "\(df.stringFromDate(rowData.date!))"
+    
+    if (rowData.stateType == "INITIAL") { cell.imageView?.image = UIImage(named: "Initial") }
+    else if (rowData.stateType == "ACTIVE") { cell.imageView?.image = UIImage(named: "Active") }
+    else if (rowData.state == "Přijat ke studiu") { cell.imageView?.image = UIImage(named: "Final") }
+    else { cell.imageView?.image = UIImage(named: "FinalAlternative") }
     
     return cell
   }
@@ -122,9 +127,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     self.segmentedControl.enabled = false
 
     self.processed = false
-    
+        
     Alamofire.request(.GET, "https://api.unicornuniverse.eu/ues/wcp/ues/core/container/UESFolder/getEntryList?uesuri=ues:UCL-BT:SGC.EPR/1516")
-      .authenticate(user: p4u_user, password: p4u_password)
+      .authenticate(user: p4u_user!, password: p4u_password!)
       .responseJSON() {
       (_, _, JSON, _) in
         if(JSON != nil){
@@ -150,8 +155,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var appsFiltered: [ApplicationItem] = []
     
     self.progressView.progress = 0
-    self.loadingLabel.text = "Loading basic information"
-    self.loadingLabel.textAlignment = NSTextAlignment.Center
+    //self.loadingLabel.text = "Loading basic information"
+    //self.loadingLabel.textAlignment = NSTextAlignment.Center
     
     self.tempData = (value.valueForKey("pageEntries") as [NSDictionary]).map {
       ApplicationItem(id: $0["code"] as String, name: ($0["name"] as String).replace("Přihláška ke studiu ", withString: ""))
@@ -191,8 +196,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     self.progressView.progress = 0
     self.totalCount = self.tableData.count
     
-    self.loadingLabel.text = "Loading additional information"
-    self.loadingLabel.textAlignment = NSTextAlignment.Center
+    //self.loadingLabel.text = "Loading additional information"
+    //self.loadingLabel.textAlignment = NSTextAlignment.Center
 
     // for each ApplicationItem call getAdditionalInformation
     for item in self.tableData {
@@ -206,6 +211,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
           self.segmentedControl.enabled = true
           self.allData = self.tableData
           self.appsTableView!.reloadData()
+          
+          var sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
+          sharedValues.setInteger(self.totalCount, forKey: "totalApplications")
+          
           UIView.animateWithDuration(0.5, animations: {
             self.introView?.alpha = 0
             self.appsTableView?.alpha = 1

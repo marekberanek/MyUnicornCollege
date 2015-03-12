@@ -71,7 +71,7 @@ class ApplicationItem: NSObject {
     var url = "https://api.unicornuniverse.eu/ues/wcp/ues/core/artifact/UESArtifact/getAttributes?uesuri=ues:UCL-BT:" + self.id
     
     Alamofire.request(.GET, url)
-      .authenticate(user: p4u_user, password: p4u_password)
+      .authenticate(user: p4u_user!, password: p4u_password!)
       .responseJSON() {
         (_, response, dataJSON, _) in
         if(dataJSON != nil){
@@ -99,19 +99,26 @@ class ApplicationItem: NSObject {
   func getAdditionalInformation(callback: () -> ()) {
     var url = "https://api.unicornuniverse.eu/ues/wcp/ues/core/attachment/UESAttachment/getAttachmentData?uesuri=ues:UCL-BT:\(self.id):APPLICATION_FIELDS"
     
+    var jsonString : String = ""
+    var jsonData: AnyObject?
+    
     if (self.mar == "UCLMMD/A")
     {
     
       let req = Alamofire.request(.GET, url)
-      req.authenticate(user: p4u_user, password: p4u_password)
+      req.authenticate(user: p4u_user!, password: p4u_password!)
       req.responseJSON { (request, response, data, error) in
         if(data != nil) {
-          let jsonString = self.getJSON(data!.valueForKeyPath("dataHandler") as String)
-          
-          var nsdata: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding)!
-          var error: NSError?
-          
-          let jsonData: AnyObject? = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions(0), error: &error)
+          if (data!.valueForKeyPath("dataHandler") == nil)
+          {
+            jsonData = data
+          } else {
+            jsonString = self.getJSON(data!.valueForKeyPath("dataHandler") as String)
+            var nsdata: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding)!
+            var error: NSError?
+            
+            jsonData = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions(0), error: &error)
+          }
           self.field = jsonData!.valueForKeyPath("field") as String!
           self.type = jsonData!.valueForKeyPath("type") as String!
           self.language = jsonData!.valueForKeyPath("language") as String!
