@@ -19,9 +19,6 @@ extension String
 
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-//  var tableData: NSArray = []
-//  var tempData: NSArray = []
-  
   var tableData: [ApplicationItem] = []
   var allData: [ApplicationItem] = []
   var tempData: [ApplicationItem] = []
@@ -44,13 +41,25 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     super.viewDidLoad()
     self.appsTableView?.estimatedRowHeight = 44.0
     self.appsTableView?.rowHeight = UITableViewAutomaticDimension
-
+    
     // load applications from Plus4U
     getApplications()
   }
   
   override func viewWillAppear(animated: Bool) {
     
+  }
+  
+  func loadingCompleted(data: AnyObject) {
+    println("loadingCompleted")
+  }
+  
+  func updateProgress(progress: Float) {
+    self.progressView.progress = progress
+  }
+  
+  func loadingError(error: String) {
+    println(error)
   }
 
   @IBAction func indexChanged(sender: UISegmentedControl) {
@@ -185,7 +194,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.progressView.progress = Float(self.maxCount)/Float(self.totalCount)
       })
     }
-    
     
   }
   
