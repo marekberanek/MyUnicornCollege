@@ -18,15 +18,12 @@ extension String
 }
 
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ApplicationsModelDelegate {
   var tableData: [ApplicationItem] = []
   var allData: [ApplicationItem] = []
   var tempData: [ApplicationItem] = []
-  var sortName : String = "asc"
-  var sortId : String = "desc"
   var processed : Bool = false
-
- 
+  
   @IBOutlet weak var loadingLabel: UILabel!
   @IBOutlet weak var segmentedControl: UISegmentedControl!
   @IBOutlet var appsTableView : UITableView?
@@ -37,21 +34,55 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   var maxCount : Int = 0
   var totalCount : Int = 0
   
+  var refreshControl = UIRefreshControl()
+
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     self.appsTableView?.estimatedRowHeight = 44.0
     self.appsTableView?.rowHeight = UITableViewAutomaticDimension
     
-    // load applications from Plus4U
-    getApplications()
+    loadApplications()
   }
   
   override func viewWillAppear(animated: Bool) {
     
   }
   
+  func loadApplications()
+  {
+    var appDelagate:AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    
+    var model = appDelagate.applicationsModel
+    
+    model.delegate = self
+    
+    self.tableData = []
+    self.tempData = []
+    self.appsTableView?.alpha = 0
+    self.introView?.alpha = 1
+    self.refreshButton.enabled = false
+    self.segmentedControl.hidden = true
+    
+    model.loadApplicationsList()
+    self.tableData = model.data
+  }
+  
   func loadingCompleted(data: AnyObject) {
-    println("loadingCompleted")
+    self.refreshButton.enabled = true
+    self.segmentedControl.hidden = false
+    self.allData = data as [ApplicationItem]
+    self.tableData = data as [ApplicationItem]
+    self.appsTableView!.reloadData()
+    
+    var sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
+    sharedValues.setInteger(self.totalCount, forKey: "totalApplications")
+    
+    UIView.animateWithDuration(0.5, animations: {
+      self.introView?.alpha = 0
+      self.appsTableView?.alpha = 1
+    })
+
   }
   
   func updateProgress(progress: Float) {
@@ -59,7 +90,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
   
   func loadingError(error: String) {
-    println(error)
+    let alert = UIAlertController(title: "Critical Error", message: error, preferredStyle: UIAlertControllerStyle.Alert)
+    
+    alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
+    self.presentViewController(alert, animated: true, completion: nil)
   }
 
   @IBAction func indexChanged(sender: UISegmentedControl) {
@@ -91,7 +125,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
 
   @IBAction func UpInside(sender: AnyObject) {
-    getApplications()
+    loadApplications()
   }
   
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -118,121 +152,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     return cell
   }
   
-
-  override func didReceiveMemoryWarning() {
-    super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
-  }
   
-  
-  func getApplications()
-  {
-    self.maxCount = 0
-    self.tableData = []
-    self.tempData = []
-    self.appsTableView?.alpha = 0
-    self.introView?.alpha = 1
-    self.refreshButton.enabled = false
-    self.segmentedControl.enabled = false
-
-    self.processed = false
-        
-    Alamofire.request(.GET, "https://api.unicornuniverse.eu/ues/wcp/ues/core/container/UESFolder/getEntryList?uesuri=ues:UCL-BT:SGC.EPR/1516")
-      .authenticate(user: p4u_user!, password: p4u_password!)
-      .responseJSON() {
-      (_, _, JSON, _) in
-        if(JSON != nil){
-          
-          self.loadApplicationsBasicInformation(JSON!, {
-            if (self.processed == true) {
-              // all adequate applications are downloaded
-              // let's fetch additional information about application
-              self.loadApplicationsAdditionalInformation()
-            }
-
-          })
-        } else {
-          var alert = UIAlertView(title: "No internet connection", message: "Connect to the internet and try again", delegate: nil, cancelButtonTitle: "Ok :/")
-          alert.show()
-        }
-    }
-    
-  }
- 
-  func loadApplicationsBasicInformation(value: AnyObject, callback: () -> ())
-  {
-    var appsFiltered: [ApplicationItem] = []
-    
-    self.progressView.progress = 0
-    //self.loadingLabel.text = "Loading basic information"
-    //self.loadingLabel.textAlignment = NSTextAlignment.Center
-    
-    self.tempData = (value.valueForKey("pageEntries") as [NSDictionary]).map {
-      ApplicationItem(id: $0["code"] as String, name: ($0["name"] as String).replace("Přihláška ke studiu ", withString: ""))
-    }
-    self.maxCount = 0
-    self.totalCount = self.tempData.count
-    for item in self.tempData{
-      (item as ApplicationItem).getBasicInformation({
-        if(++self.maxCount==self.totalCount){
-         
-          /* all data is downloaded */
-          
-          // data is filtered by MAR and stateType
-          appsFiltered = self.tempData.filter { a in
-            a.mar == "UCLMMD/A" &&
-            a.stateType != "CANCELLED" }
-          
-          // data is sorted by id desc
-          appsFiltered.sort ({$0.id > $1.id})
-            
-          self.tableData = appsFiltered
-          self.allData = self.tableData
-          self.processed = true
-          callback()
-        }
-        self.progressView.progress = Float(self.maxCount)/Float(self.totalCount)
-      })
-    }
-    
-  }
-  
-  func loadApplicationsAdditionalInformation()
-  {
-    
-    self.maxCount = 0
-    self.progressView.progress = 0
-    self.totalCount = self.tableData.count
-    
-    //self.loadingLabel.text = "Loading additional information"
-    //self.loadingLabel.textAlignment = NSTextAlignment.Center
-
-    // for each ApplicationItem call getAdditionalInformation
-    for item in self.tableData {
-      
-      (item as ApplicationItem).getAdditionalInformation({
-        if(++self.maxCount==self.totalCount){
-          
-          /* all data is downloaded */
-          
-          self.refreshButton.enabled = true
-          self.segmentedControl.enabled = true
-          self.allData = self.tableData
-          self.appsTableView!.reloadData()
-          
-          var sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
-          sharedValues.setInteger(self.totalCount, forKey: "totalApplications")
-          
-          UIView.animateWithDuration(0.5, animations: {
-            self.introView?.alpha = 0
-            self.appsTableView?.alpha = 1
-          })
-        }
-        self.progressView.progress = Float(self.maxCount)/Float(self.totalCount)
-      })
-    }
-    
-  }
-
 }
 
