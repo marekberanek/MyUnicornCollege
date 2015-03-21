@@ -9,6 +9,27 @@
 import UIKit
 import CoreData
 
+extension UIImage {
+  func imageWithColor(tintColor: UIColor) -> UIImage {
+    UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+    
+    let context = UIGraphicsGetCurrentContext() as CGContextRef
+    CGContextTranslateCTM(context, 0, self.size.height)
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextSetBlendMode(context, kCGBlendModeNormal)
+    
+    let rect = CGRectMake(0, 0, self.size.width, self.size.height) as CGRect
+    CGContextClipToMask(context, rect, self.CGImage)
+    tintColor.setFill()
+    CGContextFillRect(context, rect)
+    
+    let newImage = UIGraphicsGetImageFromCurrentImageContext() as UIImage
+    UIGraphicsEndImageContext()
+    
+    return newImage
+  }
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -17,6 +38,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     
+    
+    self.window?.backgroundColor = UIColor.whiteColor()
+    UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+    
+    var tabBarAppearance = UITabBar.appearance()
+
+    UINavigationBar.appearance().barTintColor = UCBlue
+    
+//    UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 0 / 255, green: 0 / 255, blue: 0 / 255, alpha: 1)], forState: .Normal)
+    UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UCBlue], forState: .Selected)
+    
+      
+    tabBarAppearance.tintColor = UCBlue
+    //tabBarAppearance.barTintColor = UCBlue
     return true
   }
 

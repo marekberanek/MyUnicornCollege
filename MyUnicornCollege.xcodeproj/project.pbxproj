@@ -17,7 +17,7 @@
 		D5091BA01A8F6D560079D893 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5091B9D1A8F6D4C0079D893 /* Alamofire.framework */; };
 		D5091BA11A8F6D560079D893 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D5091B9D1A8F6D4C0079D893 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D50E0A011AA1D453004E6E04 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50E0A001AA1D453004E6E04 /* StatsViewController.swift */; };
-		D51255C11A91091A006C897D /* Plus4U.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51255C01A91091A006C897D /* Plus4U.swift */; };
+		D51255C11A91091A006C897D /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51255C01A91091A006C897D /* Misc.swift */; };
 		D51E8F2D1AA3629B00E7FD48 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */; };
 		D54F8DA51ABCAA1100EDF5BB /* BIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54F8DA41ABCAA1100EDF5BB /* BIModel.swift */; };
 		D57C1C791AA10C3F005E7E0D /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57C1C781AA10C3F005E7E0D /* PageViewController.swift */; };
@@ -121,7 +121,7 @@
 		D5091B8D1A8F6D3A0079D893 /* MyUnicornCollegeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUnicornCollegeTests.swift; sourceTree = "<group>"; };
 		D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
 		D50E0A001AA1D453004E6E04 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
-		D51255C01A91091A006C897D /* Plus4U.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Plus4U.swift; sourceTree = "<group>"; };
+		D51255C01A91091A006C897D /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D54F8DA41ABCAA1100EDF5BB /* BIModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BIModel.swift; sourceTree = "<group>"; };
 		D57C1C781AA10C3F005E7E0D /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
@@ -209,16 +209,12 @@
 			isa = PBXGroup;
 			children = (
 				D5091B741A8F6D3A0079D893 /* AppDelegate.swift */,
+				D51255C01A91091A006C897D /* Misc.swift */,
 				D589F4CC1AB1FFF500B039A6 /* Model */,
+				D5FBDBCC1ABD565A001B912A /* Views */,
 				D589F4CA1AB1FFE500B039A6 /* Controllers */,
-				D5D3C52F1AAF33DA00A5BF78 /* ucApplications.entitlements */,
-				D5091B7B1A8F6D3A0079D893 /* Main.storyboard */,
 				D5091B7E1A8F6D3A0079D893 /* Images.xcassets */,
-				D5091B801A8F6D3A0079D893 /* LaunchScreen.xib */,
-				D5091B761A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld */,
 				D5091B721A8F6D3A0079D893 /* Supporting Files */,
-				D51255C01A91091A006C897D /* Plus4U.swift */,
-				D57C1C781AA10C3F005E7E0D /* PageViewController.swift */,
 			);
 			path = MyUnicornCollege;
 			sourceTree = "<group>";
@@ -262,6 +258,7 @@
 			children = (
 				D50E0A001AA1D453004E6E04 /* StatsViewController.swift */,
 				D5091B791A8F6D3A0079D893 /* ViewController.swift */,
+				D57C1C781AA10C3F005E7E0D /* PageViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -269,6 +266,8 @@
 		D589F4CC1AB1FFF500B039A6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D5D3C52F1AAF33DA00A5BF78 /* ucApplications.entitlements */,
+				D5091B761A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld */,
 				D59AFC491A8F72BE001A2D93 /* Application.swift */,
 				D589F4CF1AB2003C00B039A6 /* ApplicationsModel.swift */,
 				D54F8DA41ABCAA1100EDF5BB /* BIModel.swift */,
@@ -321,6 +320,15 @@
 				D5D3C5371AAF372900A5BF78 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D5FBDBCC1ABD565A001B912A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D5091B7B1A8F6D3A0079D893 /* Main.storyboard */,
+				D5091B801A8F6D3A0079D893 /* LaunchScreen.xib */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -532,7 +540,7 @@
 				D50E0A011AA1D453004E6E04 /* StatsViewController.swift in Sources */,
 				D58A84791AA8FCB800E1E625 /* SwiftyJSON.swift in Sources */,
 				D5091B751A8F6D3A0079D893 /* AppDelegate.swift in Sources */,
-				D51255C11A91091A006C897D /* Plus4U.swift in Sources */,
+				D51255C11A91091A006C897D /* Misc.swift in Sources */,
 				D54F8DA51ABCAA1100EDF5BB /* BIModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
