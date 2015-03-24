@@ -45,13 +45,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var tabBarAppearance = UITabBar.appearance()
 
     UINavigationBar.appearance().barTintColor = UCBlue
-    
-//    UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor(red: 0 / 255, green: 0 / 255, blue: 0 / 255, alpha: 1)], forState: .Normal)
     UITabBarItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UCBlue], forState: .Selected)
-    
-      
     tabBarAppearance.tintColor = UCBlue
-    //tabBarAppearance.barTintColor = UCBlue
+    
+    UISegmentedControl.appearance().tintColor = UIColor.whiteColor()
+
+    UIPageControl.appearance().pageIndicatorTintColor = UIColor.groupTableViewBackgroundColor()
+    UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.lightGrayColor()
+
+
     return true
   }
 

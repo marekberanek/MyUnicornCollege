@@ -76,10 +76,7 @@ class ApplicationItem: NSObject {
         (_, response, dataJSON, _) in
         if(dataJSON != nil){
           self.stateType = dataJSON!.valueForKeyPath("stateType") as String!
-          //let dateFormatter = NSDateFormatter()
-          //dateFormatter.dateFormat = "YYYY-MM-DD"
           self.date = self.castString2Date(dataJSON!.valueForKeyPath("creationTime") as String!, dateFormat: "yyyy-MM-dd'T'HH:mm:ss:Z")
-          //self.date = dateFormatter.dateFromString(dataJSON!.valueForKeyPath("creationTime") as String!)!
           self.mar = self.getArtCode(dataJSON!.valueForKeyPath("metaArtifactUri") as String!)
           self.state = dataJSON!.valueForKeyPath("stateName") as String?
           callback()

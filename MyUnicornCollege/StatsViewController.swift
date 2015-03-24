@@ -8,81 +8,71 @@
 
 import UIKit
 
+class StatsViewController: UIViewController, UIPageViewControllerDataSource {
 
-class StatsViewController: UIViewController {
-  var tableData: [ApplicationItem] = []
-
-  @IBOutlet weak var totalLabel: UILabel!
-  @IBOutlet weak var initialLabel: UILabel!
-  @IBOutlet weak var activeLabel: UILabel!
-  @IBOutlet weak var acceptedLabel: UILabel!
-  @IBOutlet weak var notAcceptedLabel: UILabel!
-  @IBOutlet weak var managementICTLabel: UILabel!
-
+  private var pageViewController: UIPageViewController?
   
-  
-  
+  private var chartTypes = ["formPie", "fieldPie", "statesBars", "historyLines"]
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    createPageViewController()
   }
   
-  override func viewWillAppear(animated: Bool) {
-    var appsFiltered: [ApplicationItem] = []
-    super.viewWillAppear(animated)
+  private func createPageViewController() {
+    let pageController = self.storyboard!.instantiateViewControllerWithIdentifier("pageViewController") as UIPageViewController
+    pageController.dataSource = self
     
-    // get tabledata from ViewController
-    /*
-    let barViewControllers = self.tabBarController?.viewControllers
-    let avc = barViewControllers![0] as ViewController
-    */
+    if (chartTypes.count > 0)
+    {
+      let firstController = getItemController(0)!
+      let startingViewController: NSArray = [firstController]
+      pageController.setViewControllers(startingViewController, direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+    }
     
-    let tabBarController = self.tabBarController
-    let navController = tabBarController?.viewControllers![0] as UINavigationController
-    let avc = navController.viewControllers![0] as ViewController
-    
-    self.tableData = avc.allData
-
-    
-    
-    // get number of applications in Initial stateType
-    appsFiltered = []
-    appsFiltered = self.tableData.filter { a in
-      a.stateType == "INITIAL" }
-    initialLabel.text = String(appsFiltered.count)
-    
-    // get number of applications in Active stateType
-    appsFiltered = []
-    appsFiltered = self.tableData.filter { a in
-      a.stateType == "ACTIVE" }
-    activeLabel.text = String(appsFiltered.count)
-    
-    // get number of applications in Accepted state
-    appsFiltered = []
-    appsFiltered = self.tableData.filter { a in
-      a.state == "Přijat ke studiu" }
-    acceptedLabel.text = String(appsFiltered.count)
-
-    // get number of applications in Not Accepted state
-    appsFiltered = []
-    appsFiltered = self.tableData.filter { a in
-      a.state == "Nepřijat ke studiu" }
-    notAcceptedLabel.text = String(appsFiltered.count)
-    
-    // get number of applications in Management ICT projektů field
-    appsFiltered = []
-    appsFiltered = self.tableData.filter { a in
-      a.field == "Management ICT projektů" }
-    managementICTLabel.text = String(appsFiltered.count)
-    
-
-    totalLabel.text = String(tableData.count)
+    pageViewController = pageController
+    addChildViewController(pageViewController!)
+    self.view.addSubview(pageViewController!.view)
+    pageViewController!.didMoveToParentViewController(self)
   }
   
-  func updateStats(appsData: [ApplicationItem])
-  {
-    self.totalLabel.text = String(appsData.count)
+  func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    let itemController = viewController as ChartController
+    
+    if itemController.itemIndex > 0 {
+      return getItemController(itemController.itemIndex-1)
+    }
+    
+    return nil
+  }
+  
+  func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    let itemController = viewController as ChartController
+    
+    if itemController.itemIndex+1 < chartTypes.count {
+      return getItemController(itemController.itemIndex+1)
+    }
+    
+    return nil
+  }
+  
+  private func getItemController(itemIndex: Int) -> ChartController? {
+    if itemIndex < chartTypes.count {
+      let chartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as ChartController
+      chartController.itemIndex = itemIndex
+      chartController.chartType = chartTypes[itemIndex]
+      return chartController
+    }
+    return nil
+  }
+  
+  func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
+    return chartTypes.count
+  }
+  
+  func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
+    return 0
   }
   
   override func didReceiveMemoryWarning() {
@@ -90,9 +80,5 @@ class StatsViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
 
-  func setLabel(label: String)
-  {
-    self.totalLabel.text = label
-  }
     
 }

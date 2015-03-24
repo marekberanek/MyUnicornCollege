@@ -21,16 +21,13 @@ extension String
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ApplicationsModelDelegate {
   var tableData: [ApplicationItem] = []
   var allData: [ApplicationItem] = []
-  var tempData: [ApplicationItem] = []
   var processed : Bool = false
   
   var tableViewController = UITableViewController()
   
-  @IBOutlet weak var loadingLabel: UILabel!
   @IBOutlet weak var segmentedControl: UISegmentedControl!
   @IBOutlet var appsTableView : UITableView?
-  @IBOutlet var introView : UIView?
-  @IBOutlet weak var progressView: UIProgressView!
+  @IBOutlet var messageLabel : UILabel?
   
   var maxCount : Int = 0
   var totalCount : Int = 0
@@ -53,17 +50,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     self.appsTableView?.estimatedRowHeight = 44.0
     self.appsTableView?.rowHeight = UITableViewAutomaticDimension
     
-    self.segmentedControl.tintColor = UIColor.whiteColor()
 
-    /*
-    
-    // setting a color of inactive icon in tabbar
-    for item in tabBarController?.tabBar.items as [UITabBarItem] {
-      if let image = item.image {
-        item.image = image.imageWithColor(UIColor(red: 0 / 255, green: 0 / 255, blue: 0 / 255, alpha: 1)).imageWithRenderingMode(.AlwaysOriginal)
-      }
-    }
-*/
+
   }
   
   override func viewWillAppear(animated: Bool) {
@@ -79,18 +67,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     model.delegate = self
     
     self.tableData = []
-    self.tempData = []
-//    self.appsTableView?.alpha = 0
-//    self.introView?.alpha = 1
-//    self.segmentedControl.hidden = true
     
-    model.loadApplicationsList()
-    self.tableData = model.data
-    
+    /* for testing purposes only, call loadApplicationsListDummy() */
+
+    //model.loadApplicationsList()
+    model.loadApplicationsListDummy()
   }
   
   func loadingCompleted(data: AnyObject) {
-//    self.segmentedControl.hidden = false
     self.allData = data as [ApplicationItem]
     self.tableData = data as [ApplicationItem]
     self.appsTableView!.reloadData()
@@ -98,15 +82,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
     sharedValues.setInteger(self.allData.count, forKey: "totalApplications")
     
-/*
-    UIView.animateWithDuration(0.5, animations: {
-      self.introView?.alpha = 0
-      self.appsTableView?.alpha = 1
-    })
-*/
-
+    applyFilter()
+    
     var formatter = NSDateFormatter()
-    formatter.dateFormat = "MMM d, h:mm a"
+    formatter.dateFormat = "MMM d, HH:mm"
     var date = NSDate()
     var title = NSString(format: "Last update: %@", formatter.stringFromDate(date))
     var attrsDictionary = NSDictionary(object: UIColor.darkTextColor(), forKey: NSForegroundColorAttributeName)
@@ -115,32 +94,53 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     self.refreshControl.attributedTitle = attributedTitle
     
     self.refreshControl.endRefreshing()
-
-
   }
   
   func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-    if (self.tableData.count > 0)
+    if (self.allData.count > 0)
     {
-      self.segmentedControl.hidden = false
+//      self.segmentedControl.hidden = false
       self.appsTableView?.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+      messageLabel?.hidden = true
       
       return 1
       
     } else {
-      self.segmentedControl.hidden = true
-      var messageLabel = UILabel(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height))
-      messageLabel.text = "No data is currently available. Please pull down to refresh."
-      messageLabel.textColor = UIColor.darkTextColor()
-      messageLabel.numberOfLines = 0
-      messageLabel.textAlignment = NSTextAlignment.Center
-      messageLabel.font = UIFont(name: "Arial", size: 16)
-      messageLabel.sizeToFit()
+//      self.segmentedControl.hidden = true
+      messageLabel = UILabel(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height))
+      messageLabel?.text = "No data is currently available. Please pull down to refresh."
+      messageLabel?.textColor = UIColor.darkTextColor()
+      messageLabel?.numberOfLines = 0
+      messageLabel?.textAlignment = NSTextAlignment.Center
+      messageLabel?.font = UIFont(name: "Arial", size: 16)
+      messageLabel?.sizeToFit()
       
       self.appsTableView?.backgroundView = messageLabel
       self.appsTableView?.separatorStyle = UITableViewCellSeparatorStyle.None
         
-      return 0
+    }
+    return 0
+  }
+  
+  func applyFilter()
+  {
+    var filteredData : [ApplicationItem] = []
+    
+    switch segmentedControl.selectedSegmentIndex
+    {
+    case 0:
+      self.tableData = self.allData
+      self.appsTableView!.reloadData()
+    case 1:
+      self.tableData = self.allData.filter { a in
+        a.language == "čeština" }
+      self.appsTableView!.reloadData()
+    case 2:
+      self.tableData = self.allData.filter { a in
+        a.language == "angličtina" }
+      self.appsTableView!.reloadData()
+    default:
+      break
     }
   }
   
@@ -156,37 +156,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
 
   @IBAction func indexChanged(sender: UISegmentedControl) {
-    var filteredData : [ApplicationItem] = []
-    
-    switch segmentedControl.selectedSegmentIndex
-    {
-    case 0:
-      if (self.tableData != []) {
-        self.tableData = self.allData
-        self.appsTableView!.reloadData()
-      }
-    case 1:
-      if (self.tableData != []) {
-        self.tableData = self.allData.filter { a in
-          a.language == "čeština" }
-        self.appsTableView!.reloadData()
-      }
-    case 2:
-      if (self.tableData != []) {
-        self.tableData = self.allData.filter { a in
-          a.language == "angličtina" }
-        self.appsTableView!.reloadData()
-      }
-    default:
-      break
-    }
-
+    applyFilter()
   }
 
-  @IBAction func UpInside(sender: AnyObject) {
-    loadApplications()
-  }
-  
   func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return tableData.count
   }
@@ -198,7 +170,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     let rowData: ApplicationItem = self.tableData[indexPath.row] as ApplicationItem
     
     let df = NSDateFormatter()
-    df.dateFormat = "MMM d, h:mm a"
+//    df.dateFormat = "MMM d, h:mm a"
+    df.dateFormat = "dd.MM.yyyy, HH:mm"
 
     cell.textLabel?.text = rowData.name
     cell.detailTextLabel?.text = "\(df.stringFromDate(rowData.date!))"

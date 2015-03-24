@@ -20,7 +20,6 @@
 		D51255C11A91091A006C897D /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51255C01A91091A006C897D /* Misc.swift */; };
 		D51E8F2D1AA3629B00E7FD48 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */; };
 		D54F8DA51ABCAA1100EDF5BB /* BIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54F8DA41ABCAA1100EDF5BB /* BIModel.swift */; };
-		D57C1C791AA10C3F005E7E0D /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57C1C781AA10C3F005E7E0D /* PageViewController.swift */; };
 		D589F4D01AB2003C00B039A6 /* ApplicationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D589F4CF1AB2003C00B039A6 /* ApplicationsModel.swift */; };
 		D58A84711AA8EA6E00E1E625 /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58A84701AA8EA6E00E1E625 /* NSData+GZIP.swift */; };
 		D58A84721AA8EAD800E1E625 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D58A846D1AA8E90700E1E625 /* libz.dylib */; };
@@ -35,6 +34,7 @@
 		D5D3C5241AAF2F4100A5BF78 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5D3C5231AAF2F4100A5BF78 /* Images.xcassets */; };
 		D5D3C5271AAF2F4100A5BF78 /* ucApplications WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D5D3C50F1AAF2F4000A5BF78 /* ucApplications WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D5DD40E21AAF219B004ABA1C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D5DD40E11AAF219B004ABA1C /* Settings.bundle */; };
+		D5FBDBCE1ABEA6DB001B912A /* ChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FBDBCD1ABEA6DB001B912A /* ChartController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,7 +124,6 @@
 		D51255C01A91091A006C897D /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D54F8DA41ABCAA1100EDF5BB /* BIModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BIModel.swift; sourceTree = "<group>"; };
-		D57C1C781AA10C3F005E7E0D /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		D589F4CF1AB2003C00B039A6 /* ApplicationsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationsModel.swift; sourceTree = "<group>"; };
 		D58A846D1AA8E90700E1E625 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D58A84701AA8EA6E00E1E625 /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
@@ -145,6 +144,7 @@
 		D5D3C5301AAF343A00A5BF78 /* ucApplications WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ucApplications WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		D5D3C5371AAF372900A5BF78 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		D5DD40E11AAF219B004ABA1C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		D5FBDBCD1ABEA6DB001B912A /* ChartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,9 +256,9 @@
 		D589F4CA1AB1FFE500B039A6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D50E0A001AA1D453004E6E04 /* StatsViewController.swift */,
 				D5091B791A8F6D3A0079D893 /* ViewController.swift */,
-				D57C1C781AA10C3F005E7E0D /* PageViewController.swift */,
+				D50E0A001AA1D453004E6E04 /* StatsViewController.swift */,
+				D5FBDBCD1ABEA6DB001B912A /* ChartController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -534,7 +534,7 @@
 				D59AFC4A1A8F72BE001A2D93 /* Application.swift in Sources */,
 				D5091B7A1A8F6D3A0079D893 /* ViewController.swift in Sources */,
 				D5091B781A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld in Sources */,
-				D57C1C791AA10C3F005E7E0D /* PageViewController.swift in Sources */,
+				D5FBDBCE1ABEA6DB001B912A /* ChartController.swift in Sources */,
 				D58A84711AA8EA6E00E1E625 /* NSData+GZIP.swift in Sources */,
 				D589F4D01AB2003C00B039A6 /* ApplicationsModel.swift in Sources */,
 				D50E0A011AA1D453004E6E04 /* StatsViewController.swift in Sources */,

@@ -24,6 +24,58 @@ class ApplicationsModel: NSObject {
     super.init()
   }
   
+  func loadApplicationsListDummy()
+  {
+    var applications : [ApplicationItem] = []
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss:Z"
+    
+    
+
+    var application = ApplicationItem(id: "uca001", name: "Beránek Marek")
+    application.mar = "UCLMMD/A"
+    application.state = "Založena"
+    application.stateType = "INITIAL"
+    application.date = dateFormatter.dateFromString("2014-11-28T09:41:58+01:00")
+    application.field = "Management ICT projektů"
+    application.type = "Prezenční studium"
+    application.language = "čeština"
+    applications.append(application)
+
+    application = ApplicationItem(id: "uca002", name: "Čadil Jan")
+    application.mar = "UCLMMD/A"
+    application.state = "Přijat ke studiu"
+    application.stateType = "FINAL"
+    application.date = dateFormatter.dateFromString("2015-03-01T09:41:58+01:00")
+    application.field = "Ekonomika a management"
+    application.type = "Kombinované studium"
+    application.language = "čeština"
+    applications.append(application)
+
+    application = ApplicationItem(id: "uca003", name: "Zouhar Ondřej")
+    application.mar = "UCLMMD/A"
+    application.state = "Zaevidována"
+    application.stateType = "ACTIVE"
+    application.date = dateFormatter.dateFromString("2015-03-20T19:41:58+01:00")
+    application.field = "Informační technologie"
+    application.type = "Prezenční studium"
+    application.language = "čeština"
+    applications.append(application)
+
+    application = ApplicationItem(id: "uca004", name: "Novák Jan")
+    application.mar = "UCLMMD/A"
+    application.state = "Zaevidována"
+    application.stateType = "ACTIVE"
+    application.date = dateFormatter.dateFromString("2015-03-21T09:41:58+01:00")
+    application.field = "Ekonomika a management"
+    application.type = "Prezenční studium"
+    application.language = "angličtina"
+    applications.append(application)
+
+    self.data = applications
+    self.delegate.loadingCompleted(self.data)
+  }
+  
   func loadApplicationsList() {
     if (p4u_user != nil && p4u_password != nil) {
       Alamofire.request(.GET, "https://api.unicornuniverse.eu/ues/wcp/ues/core/container/UESFolder/getEntryList?uesuri=ues:UCL-BT:SGC.EPR/1516")
@@ -33,8 +85,8 @@ class ApplicationsModel: NSObject {
           if(JSON != nil){
             self.loadApplicationBasicInfo(JSON!, {
               if (self.processed == true) {
-                // all adequate applications are downloaded
-                // let's fetch additional information about application
+                /* all data is downloaded */
+
                 self.loadApplicationDetailInfo()
               }
             })
