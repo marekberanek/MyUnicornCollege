@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84A11479DD7FA1184A266ADD /* libPods-MyUnicornCollege.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D6C0CF7A6864273E21CEA82 /* libPods-MyUnicornCollege.a */; };
 		D5091B751A8F6D3A0079D893 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5091B741A8F6D3A0079D893 /* AppDelegate.swift */; };
 		D5091B781A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D5091B761A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld */; };
 		D5091B7A1A8F6D3A0079D893 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5091B791A8F6D3A0079D893 /* ViewController.swift */; };
@@ -14,11 +15,10 @@
 		D5091B7F1A8F6D3A0079D893 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5091B7E1A8F6D3A0079D893 /* Images.xcassets */; };
 		D5091B821A8F6D3A0079D893 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5091B801A8F6D3A0079D893 /* LaunchScreen.xib */; };
 		D5091B8E1A8F6D3A0079D893 /* MyUnicornCollegeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5091B8D1A8F6D3A0079D893 /* MyUnicornCollegeTests.swift */; };
-		D5091BA01A8F6D560079D893 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5091B9D1A8F6D4C0079D893 /* Alamofire.framework */; };
-		D5091BA11A8F6D560079D893 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D5091B9D1A8F6D4C0079D893 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D50E0A011AA1D453004E6E04 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50E0A001AA1D453004E6E04 /* StatsViewController.swift */; };
 		D51255C11A91091A006C897D /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51255C01A91091A006C897D /* Misc.swift */; };
 		D51E8F2D1AA3629B00E7FD48 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */; };
+		D543581A1AD5AFA000C34EE9 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D54358171AD5AF5C00C34EE9 /* Alamofire.framework */; };
 		D54F8DA51ABCAA1100EDF5BB /* BIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54F8DA41ABCAA1100EDF5BB /* BIModel.swift */; };
 		D589F4D01AB2003C00B039A6 /* ApplicationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D589F4CF1AB2003C00B039A6 /* ApplicationsModel.swift */; };
 		D58A84711AA8EA6E00E1E625 /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58A84701AA8EA6E00E1E625 /* NSData+GZIP.swift */; };
@@ -45,26 +45,19 @@
 			remoteGlobalIDString = D5091B6E1A8F6D3A0079D893;
 			remoteInfo = MyUnicornCollege;
 		};
-		D5091B9C1A8F6D4C0079D893 /* PBXContainerItemProxy */ = {
+		D54358161AD5AF5C00C34EE9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */;
+			containerPortal = D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 27AB60071A7FAFBF0069F786;
 			remoteInfo = Alamofire;
 		};
-		D5091B9E1A8F6D4C0079D893 /* PBXContainerItemProxy */ = {
+		D54358181AD5AF5C00C34EE9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */;
+			containerPortal = D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 27AB60121A7FAFBF0069F786;
 			remoteInfo = AlamofireTests;
-		};
-		D5091BA21A8F6D560079D893 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 27AB60061A7FAFBF0069F786;
-			remoteInfo = Alamofire;
 		};
 		D5D3C51B1AAF2F4100A5BF78 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -89,7 +82,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D5091BA11A8F6D560079D893 /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,6 +100,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		09D5D9ADDC0B1BBF494E80BE /* Pods-MyUnicornCollege.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyUnicornCollege.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyUnicornCollege/Pods-MyUnicornCollege.release.xcconfig"; sourceTree = "<group>"; };
+		3D6C0CF7A6864273E21CEA82 /* libPods-MyUnicornCollege.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyUnicornCollege.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		734F43F7031FE4E28B6B8698 /* Pods-MyUnicornCollege.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyUnicornCollege.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyUnicornCollege/Pods-MyUnicornCollege.debug.xcconfig"; sourceTree = "<group>"; };
 		D5091B6F1A8F6D3A0079D893 /* ucApplications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ucApplications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5091B731A8F6D3A0079D893 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5091B741A8F6D3A0079D893 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -119,19 +114,22 @@
 		D5091B871A8F6D3A0079D893 /* MyUnicornCollegeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyUnicornCollegeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5091B8C1A8F6D3A0079D893 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5091B8D1A8F6D3A0079D893 /* MyUnicornCollegeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUnicornCollegeTests.swift; sourceTree = "<group>"; };
-		D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "Alamofire-master/Alamofire.xcodeproj"; sourceTree = "<group>"; };
 		D50E0A001AA1D453004E6E04 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		D51255C01A91091A006C897D /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "Alamofire-master/Alamofire.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		D54F8DA41ABCAA1100EDF5BB /* BIModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BIModel.swift; sourceTree = "<group>"; };
+		D589D40A1AD5A93800AAEF1B /* CorePlot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CorePlot.framework; path = "Pods/../build/Debug-iphoneos/Pods-MyUnicornCollege/CorePlot.framework"; sourceTree = "<group>"; };
+		D589D40C1AD5A98900AAEF1B /* CorePlot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CorePlot.framework; path = "Pods/../build/Debug-iphoneos/Pods-MyUnicornCollege/CorePlot.framework"; sourceTree = "<group>"; };
 		D589F4CF1AB2003C00B039A6 /* ApplicationsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationsModel.swift; sourceTree = "<group>"; };
 		D58A846D1AA8E90700E1E625 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		D58A84701AA8EA6E00E1E625 /* NSData+GZIP.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSData+GZIP.swift"; sourceTree = "<group>"; };
-		D58A84731AA8EBF200E1E625 /* MyUnicornCollege-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MyUnicornCollege-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		D58A84781AA8FCB800E1E625 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		D58E06121AAF4BE500C880B5 /* CzechInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CzechInterfaceController.swift; sourceTree = "<group>"; };
 		D58E06141AAF4C2F00C880B5 /* EnglishInterfaceControler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnglishInterfaceControler.swift; sourceTree = "<group>"; };
 		D59AFC491A8F72BE001A2D93 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		D5D08B621AD573050046AF48 /* MyUnicornCollege-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyUnicornCollege-Bridging-Header.h"; sourceTree = "<group>"; };
+		D5D08B631AD573CB0046AF48 /* CorePlot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CorePlot.framework; path = "Pods/../build/Debug-iphoneos/Pods-MyUnicornCollege/CorePlot.framework"; sourceTree = "<group>"; };
 		D5D3C50F1AAF2F4000A5BF78 /* ucApplications WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "ucApplications WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5D3C5121AAF2F4000A5BF78 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5D3C5131AAF2F4000A5BF78 /* TotalInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalInterfaceController.swift; sourceTree = "<group>"; };
@@ -152,9 +150,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D543581A1AD5AFA000C34EE9 /* Alamofire.framework in Frameworks */,
 				D58A84721AA8EAD800E1E625 /* libz.dylib in Frameworks */,
 				D51E8F2D1AA3629B00E7FD48 /* CoreData.framework in Frameworks */,
-				D5091BA01A8F6D560079D893 /* Alamofire.framework in Frameworks */,
+				84A11479DD7FA1184A266ADD /* libPods-MyUnicornCollege.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,22 +174,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64B5D1D60C98EE4E8F100CA1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				734F43F7031FE4E28B6B8698 /* Pods-MyUnicornCollege.debug.xcconfig */,
+				09D5D9ADDC0B1BBF494E80BE /* Pods-MyUnicornCollege.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		D5091B661A8F6D3A0079D893 = {
 			isa = PBXGroup;
 			children = (
 				D5DD40E11AAF219B004ABA1C /* Settings.bundle */,
 				D58A84781AA8FCB800E1E625 /* SwiftyJSON.swift */,
-				D58A84731AA8EBF200E1E625 /* MyUnicornCollege-Bridging-Header.h */,
 				D58A84701AA8EA6E00E1E625 /* NSData+GZIP.swift */,
 				D58A846D1AA8E90700E1E625 /* libz.dylib */,
 				D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */,
-				D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */,
 				D5091B711A8F6D3A0079D893 /* MyUnicornCollege */,
 				D5091B8A1A8F6D3A0079D893 /* MyUnicornCollegeTests */,
 				D5D3C5101AAF2F4000A5BF78 /* ucApplications WatchKit Extension */,
 				D5D3C51D1AAF2F4100A5BF78 /* ucApplications WatchKit App */,
 				D5D3C5361AAF372900A5BF78 /* Frameworks */,
 				D5091B701A8F6D3A0079D893 /* Products */,
+				64B5D1D60C98EE4E8F100CA1 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -208,6 +215,8 @@
 		D5091B711A8F6D3A0079D893 /* MyUnicornCollege */ = {
 			isa = PBXGroup;
 			children = (
+				D543581C1AD5AFDF00C34EE9 /* Libraries */,
+				D5D08B621AD573050046AF48 /* MyUnicornCollege-Bridging-Header.h */,
 				D5091B741A8F6D3A0079D893 /* AppDelegate.swift */,
 				D51255C01A91091A006C897D /* Misc.swift */,
 				D589F4CC1AB1FFF500B039A6 /* Model */,
@@ -244,13 +253,21 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		D5091B981A8F6D4C0079D893 /* Products */ = {
+		D54358121AD5AF5C00C34EE9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D5091B9D1A8F6D4C0079D893 /* Alamofire.framework */,
-				D5091B9F1A8F6D4C0079D893 /* AlamofireTests.xctest */,
+				D54358171AD5AF5C00C34EE9 /* Alamofire.framework */,
+				D54358191AD5AF5C00C34EE9 /* AlamofireTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D543581C1AD5AFDF00C34EE9 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */,
+			);
+			name = Libraries;
 			sourceTree = "<group>";
 		};
 		D589F4CA1AB1FFE500B039A6 /* Controllers */ = {
@@ -317,7 +334,11 @@
 		D5D3C5361AAF372900A5BF78 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D589D40C1AD5A98900AAEF1B /* CorePlot.framework */,
+				D589D40A1AD5A93800AAEF1B /* CorePlot.framework */,
+				D5D08B631AD573CB0046AF48 /* CorePlot.framework */,
 				D5D3C5371AAF372900A5BF78 /* NotificationCenter.framework */,
+				3D6C0CF7A6864273E21CEA82 /* libPods-MyUnicornCollege.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -338,16 +359,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D5091B911A8F6D3A0079D893 /* Build configuration list for PBXNativeTarget "MyUnicornCollege" */;
 			buildPhases = (
+				1EACD3957D1BAD72EB954845 /* Check Pods Manifest.lock */,
 				D5091B6B1A8F6D3A0079D893 /* Sources */,
 				D5091B6C1A8F6D3A0079D893 /* Frameworks */,
 				D5091B6D1A8F6D3A0079D893 /* Resources */,
 				D5091BA41A8F6D560079D893 /* Embed Frameworks */,
 				D5D3C52E1AAF2F4100A5BF78 /* Embed App Extensions */,
+				73C7E0107F2C3047817BA5AD /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				D5091BA31A8F6D560079D893 /* PBXTargetDependency */,
 				D5D3C5261AAF2F4100A5BF78 /* PBXTargetDependency */,
 			);
 			name = MyUnicornCollege;
@@ -456,8 +478,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = D5091B981A8F6D4C0079D893 /* Products */;
-					ProjectRef = D5091B971A8F6D4C0079D893 /* Alamofire.xcodeproj */;
+					ProductGroup = D54358121AD5AF5C00C34EE9 /* Products */;
+					ProjectRef = D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -471,18 +493,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		D5091B9D1A8F6D4C0079D893 /* Alamofire.framework */ = {
+		D54358171AD5AF5C00C34EE9 /* Alamofire.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Alamofire.framework;
-			remoteRef = D5091B9C1A8F6D4C0079D893 /* PBXContainerItemProxy */;
+			remoteRef = D54358161AD5AF5C00C34EE9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D5091B9F1A8F6D4C0079D893 /* AlamofireTests.xctest */ = {
+		D54358191AD5AF5C00C34EE9 /* AlamofireTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = AlamofireTests.xctest;
-			remoteRef = D5091B9E1A8F6D4C0079D893 /* PBXContainerItemProxy */;
+			remoteRef = D54358181AD5AF5C00C34EE9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -525,6 +547,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1EACD3957D1BAD72EB954845 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		73C7E0107F2C3047817BA5AD /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MyUnicornCollege/Pods-MyUnicornCollege-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D5091B6B1A8F6D3A0079D893 /* Sources */ = {
@@ -570,11 +625,6 @@
 			isa = PBXTargetDependency;
 			target = D5091B6E1A8F6D3A0079D893 /* MyUnicornCollege */;
 			targetProxy = D5091B881A8F6D3A0079D893 /* PBXContainerItemProxy */;
-		};
-		D5091BA31A8F6D560079D893 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Alamofire;
-			targetProxy = D5091BA21A8F6D560079D893 /* PBXContainerItemProxy */;
 		};
 		D5D3C51C1AAF2F4100A5BF78 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -695,33 +745,55 @@
 		};
 		D5091B921A8F6D3A0079D893 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 734F43F7031FE4E28B6B8698 /* Pods-MyUnicornCollege.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MyUnicornCollege/ucApplications.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods-MyUnicornCollege",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"${PROJECT_DIR}/**",
+				);
 				INFOPLIST_FILE = MyUnicornCollege/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = ucApplications;
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "MyUnicornCollege-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "MyUnicornCollege/MyUnicornCollege-Bridging-Header.h";
 			};
 			name = Debug;
 		};
 		D5091B931A8F6D3A0079D893 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 09D5D9ADDC0B1BBF494E80BE /* Pods-MyUnicornCollege.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = MyUnicornCollege/ucApplications.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos/Pods-MyUnicornCollege",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"${PROJECT_DIR}/**",
+				);
 				INFOPLIST_FILE = MyUnicornCollege/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = ucApplications;
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "MyUnicornCollege-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "MyUnicornCollege/MyUnicornCollege-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -740,7 +812,7 @@
 				INFOPLIST_FILE = MyUnicornCollegeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = MyUnicornCollegeTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyUnicornCollege.app/MyUnicornCollege";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ucApplications.app/ucApplications";
 			};
 			name = Debug;
 		};
@@ -755,7 +827,7 @@
 				INFOPLIST_FILE = MyUnicornCollegeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = MyUnicornCollegeTests;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MyUnicornCollege.app/MyUnicornCollege";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ucApplications.app/ucApplications";
 			};
 			name = Release;
 		};

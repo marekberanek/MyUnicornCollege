@@ -21,14 +21,14 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
   }
   
   private func createPageViewController() {
-    let pageController = self.storyboard!.instantiateViewControllerWithIdentifier("pageViewController") as UIPageViewController
+    let pageController = self.storyboard!.instantiateViewControllerWithIdentifier("pageViewController") as! UIPageViewController
     pageController.dataSource = self
     
     if (chartTypes.count > 0)
     {
       let firstController = getItemController(0)!
       let startingViewController: NSArray = [firstController]
-      pageController.setViewControllers(startingViewController, direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+      pageController.setViewControllers(startingViewController as [AnyObject], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
     }
     
     pageViewController = pageController
@@ -38,7 +38,7 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
   }
   
   func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-    let itemController = viewController as ChartController
+    let itemController = viewController as! ChartController
     
     if itemController.itemIndex > 0 {
       return getItemController(itemController.itemIndex-1)
@@ -48,7 +48,7 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
   }
   
   func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-    let itemController = viewController as ChartController
+    let itemController = viewController as! ChartController
     
     if itemController.itemIndex+1 < chartTypes.count {
       return getItemController(itemController.itemIndex+1)
@@ -59,7 +59,7 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
   
   private func getItemController(itemIndex: Int) -> ChartController? {
     if itemIndex < chartTypes.count {
-      let chartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as ChartController
+      let chartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as! ChartController
       chartController.itemIndex = itemIndex
       chartController.chartType = chartTypes[itemIndex]
       return chartController

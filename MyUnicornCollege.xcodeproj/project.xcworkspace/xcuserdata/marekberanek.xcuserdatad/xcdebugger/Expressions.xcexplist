@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "MyUnicornCollege.ViewController.tableView (MyUnicornCollege.ViewController)(ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell:ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MyUnicornCollege.ViewController.(getApplications (MyUnicornCollege.ViewController) -&gt; () -&gt; ()).(closure #1):ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MyUnicornCollege.ViewController.tableView (MyUnicornCollege.ViewController)(ObjectiveC.UITableView, numberOfRowsInSection : Swift.Int) -&gt; Swift.Int:ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MyUnicornCollege.ApplicationItem.(getExtraInfos (MyUnicornCollege.ApplicationItem) -&gt; () -&gt; ()).(closure #1):Application.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.id">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

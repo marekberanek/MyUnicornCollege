@@ -10,6 +10,7 @@ import UIKit
 
 class ChartController: UIViewController {
 
+  
   @IBOutlet weak var countLabel: UILabel!
   
   var itemIndex: Int = 0
@@ -18,8 +19,8 @@ class ChartController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    countLabel.text = chartType
-
+    self.countLabel.text = chartType
+    
       // Do any additional setup after loading the view.
     
     

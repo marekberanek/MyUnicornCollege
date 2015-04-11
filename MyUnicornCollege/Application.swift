@@ -9,8 +9,6 @@
 import Foundation
 import Alamofire
 
-
-
 class ApplicationItem: NSObject {
   let id: String
   let name: String
@@ -55,7 +53,7 @@ class ApplicationItem: NSObject {
     let decodedData = NSData(base64EncodedString: dataBase64, options: NSDataBase64DecodingOptions(0))
     
     let decodedString = NSString(data: decodedData!, encoding: NSUTF8StringEncoding)
-    return decodedString!
+    return decodedString! as String
   }
   
   // cast String to NSData
@@ -75,10 +73,10 @@ class ApplicationItem: NSObject {
       .responseJSON() {
         (_, response, dataJSON, _) in
         if(dataJSON != nil){
-          self.stateType = dataJSON!.valueForKeyPath("stateType") as String!
-          self.date = self.castString2Date(dataJSON!.valueForKeyPath("creationTime") as String!, dateFormat: "yyyy-MM-dd'T'HH:mm:ss:Z")
-          self.mar = self.getArtCode(dataJSON!.valueForKeyPath("metaArtifactUri") as String!)
-          self.state = dataJSON!.valueForKeyPath("stateName") as String?
+          self.stateType = dataJSON!.valueForKeyPath("stateType") as! String!
+          self.date = self.castString2Date(dataJSON!.valueForKeyPath("creationTime") as! String!, dateFormat: "yyyy-MM-dd'T'HH:mm:ss:Z")
+          self.mar = self.getArtCode(dataJSON!.valueForKeyPath("metaArtifactUri") as! String!)
+          self.state = dataJSON!.valueForKeyPath("stateName") as! String?
           callback()
         } else {
           // if QoS limit is exceeded, repeat a request
@@ -110,32 +108,32 @@ class ApplicationItem: NSObject {
           {
             jsonData = data
           } else {
-            jsonString = self.getJSON(data!.valueForKeyPath("dataHandler") as String)
+            jsonString = self.getJSON(data!.valueForKeyPath("dataHandler") as! String)
             var nsdata: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding)!
             var error: NSError?
             
             jsonData = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions(0), error: &error)
           }
-          self.field = jsonData!.valueForKeyPath("field") as String!
-          self.type = jsonData!.valueForKeyPath("type") as String!
-          self.language = jsonData!.valueForKeyPath("language") as String!
-          self.from_where = jsonData!.valueForKeyPath("from_where") as String!
-          self.entrance_date = self.castString2Date(jsonData!.valueForKeyPath("from_where") as String!, dateFormat: "DD.MM.YYYY")
-          self.scholarship_date = jsonData!.valueForKeyPath("scholarship_date") as String!
-          self.sex = jsonData!.valueForKeyPath("sex") as String!
-          self.birth_number = jsonData!.valueForKeyPath("birth_number") as String!
-          self.citizenship = jsonData!.valueForKeyPath("citizenship") as String!
-          self.pa_email = jsonData!.valueForKeyPath("pa_email") as String!
-          self.pa_telephone = jsonData!.valueForKeyPath("pa_telephone") as String!
-          self.pa_street = jsonData!.valueForKeyPath("pa_street") as String!
-          self.pa_town = jsonData!.valueForKeyPath("pa_town") as String!
-          self.pa_zipcode = jsonData!.valueForKeyPath("pa_zipcode") as String!
-          self.pa_state = jsonData!.valueForKeyPath("pa_state") as String!
-          self.ta_street = jsonData!.valueForKeyPath("ta_street") as String!
-          self.ta_town = jsonData!.valueForKeyPath("ta_town") as String!
-          self.ta_zipcode = jsonData!.valueForKeyPath("ta_zipcode") as String!
-          self.ta_state = jsonData!.valueForKeyPath("ta_state") as String!
-          self.education_background = jsonData!.valueForKeyPath("education_background") as String!
+          self.field = jsonData!.valueForKeyPath("field") as! String!
+          self.type = jsonData!.valueForKeyPath("type") as! String!
+          self.language = jsonData!.valueForKeyPath("language") as! String!
+          self.from_where = jsonData!.valueForKeyPath("from_where") as! String!
+          self.entrance_date = self.castString2Date(jsonData!.valueForKeyPath("from_where") as! String!, dateFormat: "DD.MM.YYYY")
+          self.scholarship_date = jsonData!.valueForKeyPath("scholarship_date") as! String!
+          self.sex = jsonData!.valueForKeyPath("sex") as! String!
+          self.birth_number = jsonData!.valueForKeyPath("birth_number") as! String!
+          self.citizenship = jsonData!.valueForKeyPath("citizenship") as! String!
+          self.pa_email = jsonData!.valueForKeyPath("pa_email") as! String!
+          self.pa_telephone = jsonData!.valueForKeyPath("pa_telephone") as! String!
+          self.pa_street = jsonData!.valueForKeyPath("pa_street") as! String!
+          self.pa_town = jsonData!.valueForKeyPath("pa_town") as! String!
+          self.pa_zipcode = jsonData!.valueForKeyPath("pa_zipcode") as! String!
+          self.pa_state = jsonData!.valueForKeyPath("pa_state") as! String!
+          self.ta_street = jsonData!.valueForKeyPath("ta_street") as! String!
+          self.ta_town = jsonData!.valueForKeyPath("ta_town") as! String!
+          self.ta_zipcode = jsonData!.valueForKeyPath("ta_zipcode") as! String!
+          self.ta_state = jsonData!.valueForKeyPath("ta_state") as! String!
+          self.education_background = jsonData!.valueForKeyPath("education_background") as! String!
           
           callback()
         } else {
@@ -156,7 +154,8 @@ class ApplicationItem: NSObject {
     
     var artcodeuri = uesuri.componentsSeparatedByString(":")[2]
     
-    var startIn = artcodeuri.utf16Count-19
+    var startIn = count(artcodeuri.utf16)-19
+    //    var startIn = artcodeuri.utf16Count-19
     var artcode = ""
     
     artcode = artcodeuri.substringWithRange(Range<String.Index>(start:artcodeuri.startIndex, end:advance(artcodeuri.endIndex, -19)))

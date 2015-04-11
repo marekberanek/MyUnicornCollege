@@ -83,7 +83,7 @@ class ApplicationsModel: NSObject {
         .responseJSON() {
           (_, _, JSON, _) in
           if(JSON != nil){
-            self.loadApplicationBasicInfo(JSON!, {
+            self.loadApplicationBasicInfo(JSON!, callback: {
               if (self.processed == true) {
                 /* all data is downloaded */
 
@@ -107,8 +107,8 @@ class ApplicationsModel: NSObject {
     
     self.delegate.updateProgress(0)
     
-    tempData = (applications.valueForKey("pageEntries") as [NSDictionary]).map {
-      ApplicationItem(id: $0["code"] as String, name: ($0["name"] as String).replace("Přihláška ke studiu ", withString: ""))
+    tempData = (applications.valueForKey("pageEntries") as! [NSDictionary]).map {
+      ApplicationItem(id: $0["code"] as! String, name: ($0["name"] as! String).replace("Přihláška ke studiu ", withString: ""))
     }
 
     totalCount = tempData.count

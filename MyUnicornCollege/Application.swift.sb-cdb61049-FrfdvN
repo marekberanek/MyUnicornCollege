@@ -1,0 +1,54 @@
+//
+//  Application.swift
+//  MyUnicornCollege
+//
+//  Created by Marek Beránek on 14.02.15.
+//  Copyright (c) 2015 Marek Beránek. All rights reserved.
+//
+
+import Foundation
+import Alamofire
+
+class ApplicationItem: NSObject {
+  let id: String
+  let name: String
+  
+  var state: String?
+  var mar: String?
+  var stateType: String?
+  var time: String?
+  
+  init(id: String, name: String) {
+    self.id = id
+    self.name = name
+    
+    super.init()
+    
+    getExtraInfos(self)
+  }
+  
+  
+}
+
+func getExtraInfos(item: ApplicationItem) {
+  
+  let user = "ucl001"
+  let password = "mar123ek9"
+  
+  var url = "https://api.unicornuniverse.eu/ues/wcp/ues/core/artifact/UESArtifact/getAttributes?uesuri=ues:UCL-BT:" + item.id
+  
+  Alamofire.request(.GET, url)
+    .authenticate(user: user, password: password)
+    .responseJSON() {
+      (_, _, JSON, _) in
+      
+      item.stateType = JSON!.valueForKeyPath("stateType") as String?
+      item.time = JSON!.valueForKeyPath("creationTime") as String?
+      item.mar = JSON!.valueForKeyPath("metaArtifactUri") as String?
+      item.state = JSON!.valueForKeyPath("stateName") as String?
+      
+  }
+  
+  
+  
+}

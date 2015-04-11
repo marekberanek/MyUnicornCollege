@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alamofire
 
 extension String
 {
@@ -60,7 +59,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   
   func loadApplications()
   {
-    var appDelagate:AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    var appDelagate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     var model = appDelagate.applicationsModel
     
@@ -70,13 +69,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     /* for testing purposes only, call loadApplicationsListDummy() */
 
-    //model.loadApplicationsList()
-    model.loadApplicationsListDummy()
+    model.loadApplicationsList()
+    //model.loadApplicationsListDummy()
   }
   
   func loadingCompleted(data: AnyObject) {
-    self.allData = data as [ApplicationItem]
-    self.tableData = data as [ApplicationItem]
+    self.allData = data as! [ApplicationItem]
+    self.tableData = data as! [ApplicationItem]
     self.appsTableView!.reloadData()
     
     var sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
@@ -90,7 +89,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var title = NSString(format: "Last update: %@", formatter.stringFromDate(date))
     var attrsDictionary = NSDictionary(object: UIColor.darkTextColor(), forKey: NSForegroundColorAttributeName)
     
-    var attributedTitle = NSAttributedString(string: title, attributes: attrsDictionary)
+    var attributedTitle = NSAttributedString(string: title as String, attributes: attrsDictionary as [NSObject : AnyObject])
     self.refreshControl.attributedTitle = attributedTitle
     
     self.refreshControl.endRefreshing()
@@ -165,7 +164,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     
-    var cell = tableView.dequeueReusableCellWithIdentifier("ApplicationCell") as UITableViewCell
+    var cell = tableView.dequeueReusableCellWithIdentifier("ApplicationCell") as! UITableViewCell
     
     let rowData: ApplicationItem = self.tableData[indexPath.row] as ApplicationItem
     
