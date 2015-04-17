@@ -139,7 +139,7 @@ class ChartController: UIViewController, BIModelDelegate, CPTPlotDataSource, CPT
     biModel.delegate = self
     
     if (model.data.count > 0) {
-      //biModel.loadDataForChart(data: model.data, chartType: chartType)
+      biModel.loadDataForChart(model.data, chartType: UCChartType.FormPie)
     }
     
   }

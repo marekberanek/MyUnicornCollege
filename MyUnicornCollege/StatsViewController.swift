@@ -12,11 +12,27 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
 
   private var pageViewController: UIPageViewController?
   
+  private var formChartController: ChartController?
+  private var fieldChartController: ChartController?
+  private var stateChartController: ChartController?
+  
   private var chartTypes = ["formPie", "fieldPie", "statesBars", "historyLines"]
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    formChartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as? ChartController
+    formChartController?.itemIndex = 0
+    formChartController?.chartType = "formPie"
+
+    fieldChartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as? ChartController
+    fieldChartController?.itemIndex = 0
+    fieldChartController?.chartType = "fieldPie"
+
+    stateChartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as? ChartController
+    stateChartController?.itemIndex = 0
+    stateChartController?.chartType = "statePie"
+
     createPageViewController()
   }
   
