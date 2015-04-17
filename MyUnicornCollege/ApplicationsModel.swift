@@ -128,7 +128,7 @@ class ApplicationsModel: NSObject {
           self.processed = true
           callback()
         }
-        self.delegate.updateProgress(Float(maxCount)/Float(totalCount))
+//        self.delegate.updateProgress(Float(maxCount)/Float(totalCount))
       })
     }
     

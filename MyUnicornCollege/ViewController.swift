@@ -69,8 +69,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     /* for testing purposes only, call loadApplicationsListDummy() */
 
-    model.loadApplicationsList()
-    //model.loadApplicationsListDummy()
+    //model.loadApplicationsList()
+    model.loadApplicationsListDummy()
   }
   
   func loadingCompleted(data: AnyObject) {
