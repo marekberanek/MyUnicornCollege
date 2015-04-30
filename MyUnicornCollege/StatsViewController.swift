@@ -32,11 +32,24 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
     stateChartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as? ChartController
     stateChartController?.itemIndex = 0
     stateChartController?.chartType = "statePie"
+    
+    let pageController = self.storyboard!.instantiateViewControllerWithIdentifier("pageViewController") as! UIPageViewController
+    pageController.dataSource = self
+    
+    let firstController = formChartController
+    let startingViewControler: [ChartController] = [firstController!]
+    
+    pageController.setViewControllers(startingViewControler as [AnyObject], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+    
+    pageViewController = pageController
+    addChildViewController(pageViewController!)
+    self.view.addSubview(pageViewController!.view)
+    pageViewController!.didMoveToParentViewController(self)
 
-    createPageViewController()
+//    createPageViewController()
   }
   
-  private func createPageViewController() {
+/*  private func createPageViewController() {
     let pageController = self.storyboard!.instantiateViewControllerWithIdentifier("pageViewController") as! UIPageViewController
     pageController.dataSource = self
     
@@ -52,7 +65,7 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
     self.view.addSubview(pageViewController!.view)
     pageViewController!.didMoveToParentViewController(self)
   }
-  
+*/
   func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
     let itemController = viewController as! ChartController
     
@@ -84,7 +97,7 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
   }
   
   func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
-    return chartTypes.count
+    return 3
   }
   
   func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {

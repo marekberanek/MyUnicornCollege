@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChartController: UIViewController, BIModelDelegate, CPTPlotDataSource, CPTPieChartDataSource {
+class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSource {
   
   var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
   
@@ -136,12 +136,12 @@ class ChartController: UIViewController, BIModelDelegate, CPTPlotDataSource, CPT
     var model = appDelegate.applicationsModel
     var biModel = appDelegate.biModel
     
-    biModel.delegate = self
-    
+/*
     if (model.data.count > 0) {
       biModel.loadDataForChart(model.data, chartType: UCChartType.FormPie)
     }
     
+    */
   }
   
   override func didReceiveMemoryWarning() {

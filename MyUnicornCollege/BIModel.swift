@@ -8,28 +8,23 @@
 
 import Foundation
 
-protocol BIModelDelegate {
-  func loadingPieChartDataCompleted(data : [pieChartDataStruct])
-  func loadingError(error : String)
-}
-
 class BIModel: NSObject {
-  var delegate:BIModelDelegate!
-  var formPieChartData: [pieChartDataStruct]
   
   override init() {
-    formPieChartData = []
     super.init()
   }
   
-  func loadDataForChart(data: [ApplicationItem], chartType: UCChartType)
+  func loadDataForChart(data: [ApplicationItem], chartType: UCChartType) -> [pieChartDataStruct]
   {
+    var formPieChartData: [pieChartDataStruct]
+
+    formPieChartData = []
+
     if (chartType == .FormPie) {
-      self.formPieChartData = prepareDataForFormPieChart(data)
-      self.delegate.loadingPieChartDataCompleted(self.formPieChartData)
+      formPieChartData = prepareDataForFormPieChart(data)
     }
     
-    
+    return formPieChartData
   }
   
   private func prepareDataForFormPieChart(data: [ApplicationItem]) -> [pieChartDataStruct]
