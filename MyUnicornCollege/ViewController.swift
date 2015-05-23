@@ -59,9 +59,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   
   func loadApplications()
   {
-    var appDelagate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
-    var model = appDelagate.applicationsModel
+    var model = appDelegate.applicationsModel
     
     model.delegate = self
     

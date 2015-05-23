@@ -15,6 +15,7 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
   private var formChartController: ChartController?
   private var fieldChartController: ChartController?
   private var stateChartController: ChartController?
+  @IBOutlet weak var segmentControl: UISegmentedControl!
   
   private var chartTypes = ["formPie", "fieldPie", "statesBars", "historyLines"]
   
@@ -23,14 +24,17 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
     
     formChartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as? ChartController
     formChartController?.itemIndex = 0
+    formChartController?.language = segmentControl.selectedSegmentIndex
     formChartController?.chartType = "formPie"
 
     fieldChartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as? ChartController
     fieldChartController?.itemIndex = 0
+    fieldChartController?.language = segmentControl.selectedSegmentIndex
     fieldChartController?.chartType = "fieldPie"
 
     stateChartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as? ChartController
     stateChartController?.itemIndex = 0
+    stateChartController?.language = segmentControl.selectedSegmentIndex
     stateChartController?.chartType = "statePie"
     
     let pageController = self.storyboard!.instantiateViewControllerWithIdentifier("pageViewController") as! UIPageViewController
@@ -45,55 +49,52 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
     addChildViewController(pageViewController!)
     self.view.addSubview(pageViewController!.view)
     pageViewController!.didMoveToParentViewController(self)
-
-//    createPageViewController()
   }
   
-/*  private func createPageViewController() {
-    let pageController = self.storyboard!.instantiateViewControllerWithIdentifier("pageViewController") as! UIPageViewController
-    pageController.dataSource = self
+  @IBAction func indexChanged(sender: AnyObject) {
     
-    if (chartTypes.count > 0)
-    {
-      let firstController = getItemController(0)!
-      let startingViewController: NSArray = [firstController]
-      pageController.setViewControllers(startingViewController as [AnyObject], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+    println(sender.selectedSegmentIndex)
+    var chartController : ChartController?
+    
+    chartController = pageViewController?.viewControllers[0] as? ChartController
+    
+    if chartController == formChartController {
+      
+      formChartController?.language = sender.selectedSegmentIndex
+    } else if chartController == fieldChartController {
+      fieldChartController?.language = sender.selectedSegmentIndex
+    } else if chartController == stateChartController {
+      stateChartController?.language = sender.selectedSegmentIndex
     }
-    
-    pageViewController = pageController
-    addChildViewController(pageViewController!)
-    self.view.addSubview(pageViewController!.view)
-    pageViewController!.didMoveToParentViewController(self)
+
   }
-*/
   func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
-    let itemController = viewController as! ChartController
+
+    var properViewController: UIViewController = UIViewController()
     
-    if itemController.itemIndex > 0 {
-      return getItemController(itemController.itemIndex-1)
+    if viewController == formChartController {
+      properViewController = fieldChartController! } else if
+      viewController == fieldChartController {
+        properViewController = stateChartController!
+    } else if viewController == stateChartController {
+      properViewController = formChartController!
     }
     
-    return nil
+    return properViewController
   }
   
   func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
-    let itemController = viewController as! ChartController
+    var properViewController: UIViewController = UIViewController()
     
-    if itemController.itemIndex+1 < chartTypes.count {
-      return getItemController(itemController.itemIndex+1)
+    if viewController == stateChartController {
+      properViewController = fieldChartController! }
+    else if viewController == fieldChartController {
+        properViewController = formChartController!
+    } else if viewController == formChartController {
+      properViewController = stateChartController!
     }
     
-    return nil
-  }
-  
-  private func getItemController(itemIndex: Int) -> ChartController? {
-    if itemIndex < chartTypes.count {
-      let chartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as! ChartController
-      chartController.itemIndex = itemIndex
-      chartController.chartType = chartTypes[itemIndex]
-      return chartController
-    }
-    return nil
+    return properViewController
   }
   
   func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {

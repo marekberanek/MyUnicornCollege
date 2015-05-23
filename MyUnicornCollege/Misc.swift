@@ -25,7 +25,7 @@ let UCGray = UIColor(red: 125.0 / 255.0, green: 125.0 / 255.0, blue: 125.0 / 255
 
 enum UCChartType: String {
   case FormPie = "formPie"
-  case FieldPe = "fieldPie"
+  case FieldPie = "fieldPie"
   case StateBars = "stateBars"
   case HistoryLines = "historyLines"
 }

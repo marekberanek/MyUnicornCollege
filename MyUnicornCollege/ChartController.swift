@@ -11,6 +11,7 @@ import UIKit
 class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSource {
   
   var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+  var pieChartData: [pieChartDataStruct] = []
   
 
   @IBOutlet weak var graphView: CPTGraphHostingView!
@@ -18,10 +19,19 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
   
   var itemIndex: Int = 0
   var chartType: String = ""
+  var language: Int = 0
   
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    var model = appDelegate.applicationsModel
+    var biModel = appDelegate.biModel
+
+    if (model.data.count > 0)
+    {
+      pieChartData = biModel.loadDataForChart(model.data, chartType: chartType)
+    }
     
     var graph = CPTXYGraph(frame: CGRectZero)
     //graph.title = chartType
@@ -38,10 +48,10 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     axes.yAxis.axisLineStyle = lineStyle
     
     // add a pie plot
-    var pie = CPTPieChart()
+    var pie = CPTPieChart(frame: graph.frame)
     pie.dataSource = self
     pie.pieRadius = (self.view.frame.size.width * 0.9)/2
-    pie.pieInnerRadius = (self.view.frame.size.width * 0.4)/2
+    pie.pieInnerRadius = (self.view.frame.size.width * 0.3)/2
     pie.identifier = chartType
     pie.startAngle = CGFloat(M_PI_4)
     pie.labelOffset = -50.0
@@ -52,6 +62,7 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     self.graphView.hostedGraph = graph
     
     graph.reloadData()
+    countLabel.text = String(model.data.count)
     
     /*    var theLegend : CPTLegend = CPTLegend(graph: graph)
     theLegend.numberOfColumns = 2
@@ -115,11 +126,14 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
   }
   
   func numberOfRecordsForPlot(plot: CPTPlot!) -> UInt {
-    if chartType == "formPie" { return 4 } else {return 3}
+//    if chartType == "formPie" { return 4 } else {return 3}
+    println("number")
+    println(pieChartData.count)
+    return UInt(pieChartData.count)
   }
   
-  func numberForPlot(plot: CPTPlot!, field fieldEnum: UInt, recordIndex idx: UInt) -> NSNumber! {
-    println(fieldEnum)
+  func numberForPlot(plot: CPTPlot!, field fieldEnum: UInt, recordIndex idx: UInt) -> AnyObject! {
+    //    println(fieldEnum)
     return idx+1
   }
   
@@ -133,9 +147,8 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
   }
   
   override func viewDidAppear(animated: Bool) {
-    var model = appDelegate.applicationsModel
-    var biModel = appDelegate.biModel
     
+    println("viewDidAppear")
 /*
     if (model.data.count > 0) {
       biModel.loadDataForChart(model.data, chartType: UCChartType.FormPie)

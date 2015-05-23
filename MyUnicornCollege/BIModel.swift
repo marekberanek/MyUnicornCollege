@@ -14,13 +14,13 @@ class BIModel: NSObject {
     super.init()
   }
   
-  func loadDataForChart(data: [ApplicationItem], chartType: UCChartType) -> [pieChartDataStruct]
+  func loadDataForChart(data: [ApplicationItem], chartType: String) -> [pieChartDataStruct]
   {
     var formPieChartData: [pieChartDataStruct]
 
     formPieChartData = []
 
-    if (chartType == .FormPie) {
+    if (chartType == "formPie") {
       formPieChartData = prepareDataForFormPieChart(data)
     }
     

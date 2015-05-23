@@ -7,21 +7,30 @@
 
 static const CGFloat kCPTAnimationFrameRate = CPTFloat(1.0 / 60.0); // 60 frames per second
 
-static CPTAnimation *instance = nil;
+static NSString *const CPTAnimationOperationKey = @"CPTAnimationOperationKey";
+static NSString *const CPTAnimationValueKey     = @"CPTAnimationValueKey";
+static NSString *const CPTAnimationStartedKey   = @"CPTAnimationStartedKey";
+static NSString *const CPTAnimationFinishedKey  = @"CPTAnimationFinishedKey";
 
 /// @cond
 @interface CPTAnimation()
 
 @property (nonatomic, readwrite, assign) CGFloat timeOffset;
-@property (nonatomic, readwrite, retain) NSMutableArray *animationOperations;
-@property (nonatomic, readwrite, retain) NSMutableArray *runningAnimationOperations;
-@property (nonatomic, readwrite, retain) NSMutableArray *expiredAnimationOperations;
-@property (nonatomic, readwrite, retain) NSTimer *timer;
+@property (nonatomic, readwrite, strong) NSMutableArray *animationOperations;
+@property (nonatomic, readwrite, strong) NSMutableArray *runningAnimationOperations;
+@property (nonatomic, readwrite) dispatch_source_t timer;
+@property (nonatomic, readwrite) dispatch_queue_t animationQueue;
 
 +(SEL)setterFromProperty:(NSString *)property;
 
 -(CPTAnimationTimingFunction)timingFunctionForAnimationCurve:(CPTAnimationCurve)animationCurve;
--(void)update:(NSTimer *)theTimer;
+-(void)updateOnMainThreadWithParameters:(NSDictionary *)parameters;
+
+-(void)startTimer;
+-(void)cancelTimer;
+-(void)update;
+
+dispatch_source_t CreateDispatchTimer(CGFloat interval, dispatch_queue_t queue, dispatch_block_t block);
 
 @end
 /// @endcond
@@ -63,20 +72,18 @@ static CPTAnimation *instance = nil;
 @synthesize runningAnimationOperations;
 
 /** @internal
- *  @property NSMutableArray *expiredAnimationOperations
- *  @brief The list of completed animation operations.
- *
- *  These operations are removed from @ref animationOperations and the list is cleared after every animation frame.
- **/
-@synthesize expiredAnimationOperations;
-
-/** @internal
- *  @property NSTimer *timer
+ *  @property dispatch_source_t timer
  *  @brief The animation timer. Each tick of the timer corresponds to one animation frame.
  **/
 @synthesize timer;
 
 #pragma mark - Init/Dealloc
+
+/** @internal
+ *  @property dispatch_queue_t animationQueue;
+ *  @brief The serial dispatch queue used to synchronize animation updates.
+ **/
+@synthesize animationQueue;
 
 /// @name Initialization
 /// @{
@@ -89,18 +96,19 @@ static CPTAnimation *instance = nil;
  *
  *  @return The initialized object.
  **/
--(id)init
+-(instancetype)init
 {
-  if ( (self = [super init]) ) {
-    animationOperations        = [[NSMutableArray alloc] init];
-    runningAnimationOperations = [[NSMutableArray alloc] init];
-    expiredAnimationOperations = [[NSMutableArray alloc] init];
-    timer                      = nil;
-    timeOffset                 = CPTFloat(0.0);
-    defaultAnimationCurve      = CPTAnimationCurveLinear;
-  }
-  
-  return self;
+    if ( (self = [super init]) ) {
+        animationOperations        = [[NSMutableArray alloc] init];
+        runningAnimationOperations = [[NSMutableArray alloc] init];
+        timer                      = NULL;
+        timeOffset                 = CPTFloat(0.0);
+        defaultAnimationCurve      = CPTAnimationCurveLinear;
+
+        animationQueue = dispatch_queue_create("CorePlot.CPTAnimation.animationQueue", NULL);
+    }
+
+    return self;
 }
 
 /// @}
@@ -109,24 +117,20 @@ static CPTAnimation *instance = nil;
 
 -(void)dealloc
 {
-  for ( CPTAnimationOperation *animationOperation in animationOperations ) {
-    NSObject<CPTAnimationDelegate> *animationDelegate = animationOperation.delegate;
-    
-    if ( [animationDelegate respondsToSelector:@selector(animationCancelled:)] ) {
-      [animationDelegate performSelector:@selector(animationCancelled:)
-                              withObject:animationOperation
-                              afterDelay:0];
+    [self cancelTimer];
+
+    dispatch_release(animationQueue);
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+
+    for ( CPTAnimationOperation *animationOperation in animationOperations ) {
+        id<CPTAnimationDelegate> animationDelegate = animationOperation.delegate;
+
+        if ( [animationDelegate respondsToSelector:@selector(animationCancelled:)] ) {
+            dispatch_async(mainQueue, ^{
+                [animationDelegate animationCancelled:animationOperation];
+            });
+        }
     }
-  }
-  
-  [animationOperations release];
-  [runningAnimationOperations release];
-  [expiredAnimationOperations release];
-  
-  [timer invalidate];
-  [timer release];
-  
-  [super dealloc];
 }
 
 /// @endcond
@@ -136,12 +140,16 @@ static CPTAnimation *instance = nil;
 /** @brief A shared CPTAnimation instance responsible for scheduling and executing animations.
  *  @return The shared CPTAnimation instance.
  **/
-+(CPTAnimation *)sharedInstance
++(instancetype)sharedInstance
 {
-  if ( !instance ) {
-    instance = [[CPTAnimation alloc] init];
-  }
-  return instance;
+    static dispatch_once_t once = 0;
+    static CPTAnimation *shared;
+
+    dispatch_once(&once, ^{
+        shared = [[self alloc] init];
+    });
+
+    return shared;
 }
 
 #pragma mark - Property Animation
@@ -154,36 +162,31 @@ static CPTAnimation *instance = nil;
  *  @param delegate The animation delegate (can be @nil).
  *  @return The queued animation operation.
  **/
-+(CPTAnimationOperation *)animate:(id)object property:(NSString *)property period:(CPTAnimationPeriod *)period animationCurve:(CPTAnimationCurve)animationCurve delegate:(NSObject<CPTAnimationDelegate> *)delegate
++(CPTAnimationOperation *)animate:(id)object property:(NSString *)property period:(CPTAnimationPeriod *)period animationCurve:(CPTAnimationCurve)animationCurve delegate:(id<CPTAnimationDelegate>)delegate
 {
-  CPTAnimationOperation *animationOperation = [[CPTAnimationOperation alloc] init];
-  
-  animationOperation.period         = period;
-  animationOperation.animationCurve = animationCurve;
-  animationOperation.delegate       = delegate;
-  
-  if ( object ) {
-    animationOperation.boundObject = object;
-    animationOperation.boundGetter = NSSelectorFromString(property);
-    animationOperation.boundSetter = [CPTAnimation setterFromProperty:property];
-    
-    if ( ![object respondsToSelector:animationOperation.boundGetter] || ![object respondsToSelector:animationOperation.boundSetter] ) {
-      animationOperation.boundObject = nil;
-      animationOperation.boundGetter = NULL;
-      animationOperation.boundSetter = NULL;
+    CPTAnimationOperation *animationOperation = [[CPTAnimationOperation alloc] init];
+
+    animationOperation.period         = period;
+    animationOperation.animationCurve = animationCurve;
+    animationOperation.delegate       = delegate;
+
+    if ( object ) {
+        animationOperation.boundObject = object;
+        animationOperation.boundGetter = NSSelectorFromString(property);
+        animationOperation.boundSetter = [CPTAnimation setterFromProperty:property];
     }
-  }
-  
-  [[CPTAnimation sharedInstance] performSelector:@selector(addAnimationOperation:) withObject:animationOperation afterDelay:0];
-  
-  return [animationOperation autorelease];
+
+    [[CPTAnimation sharedInstance] addAnimationOperation:animationOperation];
+
+    return animationOperation;
 }
 
 /// @cond
 
 +(SEL)setterFromProperty:(NSString *)property
 {
-  return NSSelectorFromString([NSString stringWithFormat:@"set%@:", [property stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:[[property substringToIndex:1] capitalizedString]]]);
+    return NSSelectorFromString([NSString stringWithFormat:@"set%@:", [property stringByReplacingCharactersInRange:NSMakeRange(0, 1)
+                                                                                                        withString:[[property substringToIndex:1] capitalizedString]]]);
 }
 
 /// @endcond
@@ -196,19 +199,19 @@ static CPTAnimation *instance = nil;
  **/
 -(CPTAnimationOperation *)addAnimationOperation:(CPTAnimationOperation *)animationOperation
 {
-  id boundObject             = animationOperation.boundObject;
-  CPTAnimationPeriod *period = animationOperation.period;
-  
-  if ( animationOperation.delegate || (boundObject && period && ![period.startValue isEqual:period.endValue]) ) {
-    [self.animationOperations addObject:animationOperation];
-    
-    if ( !self.timer ) {
-      self.timer = [NSTimer timerWithTimeInterval:kCPTAnimationFrameRate target:self selector:@selector(update:) userInfo:nil repeats:YES];
-      [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+    id boundObject             = animationOperation.boundObject;
+    CPTAnimationPeriod *period = animationOperation.period;
+
+    if ( animationOperation.delegate || (boundObject && period && ![period.startValue isEqual:period.endValue]) ) {
+        dispatch_async(self.animationQueue, ^{
+            [self.animationOperations addObject:animationOperation];
+
+            if ( !self.timer ) {
+                [self startTimer];
+            }
+        });
     }
-  }
-  
-  return animationOperation;
+    return animationOperation;
 }
 
 /** @brief Removes an animation operation from the animation queue.
@@ -216,40 +219,22 @@ static CPTAnimation *instance = nil;
  **/
 -(void)removeAnimationOperation:(CPTAnimationOperation *)animationOperation
 {
-  if ( animationOperation ) {
-    NSMutableArray *theAnimationOperations = self.animationOperations;
-    
-    if ( [theAnimationOperations containsObject:animationOperation] ) {
-      [self.expiredAnimationOperations addObject:animationOperation];
-      [theAnimationOperations removeObject:animationOperation];
-      
-      NSObject<CPTAnimationDelegate> *animationDelegate = animationOperation.delegate;
-      if ( [animationDelegate respondsToSelector:@selector(animationCancelled:)] ) {
-        [animationDelegate performSelector:@selector(animationCancelled:)
-                                withObject:animationOperation
-                                afterDelay:0];
-      }
+    if ( animationOperation ) {
+        dispatch_async(self.animationQueue, ^{
+            animationOperation.canceled = YES;
+        });
     }
-  }
 }
 
 /** @brief Removes all animation operations from the animation queue.
- **/
+**/
 -(void)removeAllAnimationOperations
 {
-  NSMutableArray *theAnimationOperations = self.animationOperations;
-  
-  for ( CPTAnimationOperation *operation in theAnimationOperations ) {
-    NSObject<CPTAnimationDelegate> *animationDelegate = operation.delegate;
-    if ( [animationDelegate respondsToSelector:@selector(animationCancelled:)] ) {
-      [animationDelegate performSelector:@selector(animationCancelled:)
-                              withObject:operation
-                              afterDelay:0];
-    }
-  }
-  
-  [self.expiredAnimationOperations addObjectsFromArray:theAnimationOperations];
-  [theAnimationOperations removeAllObjects];
+    dispatch_async(self.animationQueue, ^{
+        for ( CPTAnimationOperation *animationOperation in self.animationOperations ) {
+            animationOperation.canceled = YES;
+        }
+    });
 }
 
 #pragma mark - Retrieving Animation Operations
@@ -260,169 +245,236 @@ static CPTAnimation *instance = nil;
  **/
 -(CPTAnimationOperation *)operationWithIdentifier:(id<NSCopying, NSObject>)identifier
 {
-  for ( CPTAnimationOperation *operation in self.animationOperations ) {
-    if ( [[operation identifier] isEqual:identifier] ) {
-      return operation;
+    for ( CPTAnimationOperation *operation in self.animationOperations ) {
+        if ( [[operation identifier] isEqual:identifier] ) {
+            return operation;
+        }
     }
-  }
-  return nil;
+    return nil;
 }
 
 #pragma mark - Animation Update
 
 /// @cond
 
--(void)update:(NSTimer *)theTimer
+-(void)update
 {
-  self.timeOffset += kCPTAnimationFrameRate;
-  
-  NSMutableArray *theAnimationOperations = self.animationOperations;
-  NSMutableArray *runningOperations      = self.runningAnimationOperations;
-  NSMutableArray *expiredOperations      = self.expiredAnimationOperations;
-  
-  CGFloat currentTime = self.timeOffset;
-  Class valueClass    = [NSValue class];
-  Class decimalClass  = [NSDecimalNumber class];
-  
-  for ( CPTAnimationOperation *animationOperation in theAnimationOperations ) {
-    NSObject<CPTAnimationDelegate> *animationDelegate = animationOperation.delegate;
-    
-    CPTAnimationPeriod *period = animationOperation.period;
-    
-    CGFloat duration  = period.duration;
-    CGFloat startTime = period.startOffset;
-    CGFloat delay     = period.delay;
-    if ( isnan(delay) ) {
-      if ( [period canStartWithValueFromObject:animationOperation.boundObject propertyGetter:animationOperation.boundGetter] ) {
-        period.delay = currentTime - startTime;
-        startTime    = currentTime;
-      }
-      else {
-        startTime = CPTFloat(NAN);
-      }
-    }
-    else {
-      startTime += delay;
-    }
-    CGFloat endTime = startTime + duration;
-    
-    if ( currentTime >= startTime ) {
-      id boundObject = animationOperation.boundObject;
-      
-      CPTAnimationTimingFunction timingFunction = [self timingFunctionForAnimationCurve:animationOperation.animationCurve];
-      
-      if ( boundObject && timingFunction ) {
-        if ( ![runningOperations containsObject:animationOperation] ) {
-          // Remove any running animations for the same property
-          SEL boundGetter = animationOperation.boundGetter;
-          SEL boundSetter = animationOperation.boundSetter;
-          
-          for ( CPTAnimationOperation *operation in runningOperations ) {
-            if ( operation.boundObject == boundObject ) {
-              if ( (operation.boundGetter == boundGetter) && (operation.boundSetter == boundSetter) ) {
-                [expiredOperations addObject:operation];
-              }
-            }
-          }
-          
-          // Start the new animation
-          [runningOperations addObject:animationOperation];
-          
-          if ( [animationDelegate respondsToSelector:@selector(animationDidStart:)] ) {
-            [animationDelegate performSelector:@selector(animationDidStart:)
-                                    withObject:animationOperation
-                                    afterDelay:0];
-          }
-          
-          if ( !period.startValue ) {
-            [period setStartValueFromObject:boundObject propertyGetter:animationOperation.boundGetter];
-          }
-        }
-        
-        if ( ![expiredOperations containsObject:animationOperation] ) {
-          CGFloat progress = timingFunction(currentTime - startTime, duration);
-          
-          NSValue *tweenedValue = [period tweenedValueForProgress:progress];
-          SEL boundSetter       = animationOperation.boundSetter;
-          
-          @try {
-            if ( [animationDelegate respondsToSelector:@selector(animationWillUpdate:)] ) {
-              [animationDelegate performSelector:@selector(animationWillUpdate:)
-                                      withObject:animationOperation
-                                      afterDelay:0];
-            }
-            
-            if ( [tweenedValue isKindOfClass:decimalClass] ) {
-              NSDecimal buffer = [(NSDecimalNumber *)tweenedValue decimalValue];
-              
-              typedef void (*SetterType)(id, SEL, NSDecimal);
-              SetterType setterMethod = (SetterType)[boundObject methodForSelector:boundSetter];
-              setterMethod(boundObject, boundSetter, buffer);
-            }
-            else if ( [tweenedValue isKindOfClass:valueClass] ) {
-              NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[boundObject methodSignatureForSelector:boundSetter]];
-              [invocation setTarget:boundObject];
-              [invocation setSelector:boundSetter];
-              
-              NSUInteger bufferSize = 0;
-              NSGetSizeAndAlignment(tweenedValue.objCType, &bufferSize, NULL);
-              
-              void *buffer = malloc(bufferSize);
-              [tweenedValue getValue:buffer];
-              
-              [invocation setArgument:buffer atIndex:2];
-              [invocation invoke];
-              
-              free(buffer);
+    self.timeOffset += kCPTAnimationFrameRate;
+
+    NSMutableArray *theAnimationOperations = self.animationOperations;
+    NSMutableArray *runningOperations      = self.runningAnimationOperations;
+    NSMutableArray *expiredOperations      = [[NSMutableArray alloc] init];
+
+    CGFloat currentTime = self.timeOffset;
+    NSArray *runModes   = @[NSRunLoopCommonModes];
+
+    dispatch_queue_t mainQueue = dispatch_get_main_queue();
+
+    // Update all waiting and running animation operations
+    for ( CPTAnimationOperation *animationOperation in theAnimationOperations ) {
+        id<CPTAnimationDelegate> animationDelegate = animationOperation.delegate;
+
+        CPTAnimationPeriod *period = animationOperation.period;
+
+        CGFloat duration  = period.duration;
+        CGFloat startTime = period.startOffset;
+        CGFloat delay     = period.delay;
+        if ( isnan(delay) ) {
+            if ( [period canStartWithValueFromObject:animationOperation.boundObject propertyGetter:animationOperation.boundGetter] ) {
+                period.delay = currentTime - startTime;
+                startTime    = currentTime;
             }
             else {
-              typedef void (*SetterType)(id, SEL, *NSValue);
-              SetterType setterMethod = (SetterType)[boundObject methodForSelector:boundSetter];
-              setterMethod(boundObject, boundSetter, tweenedValue);
+                startTime = CPTFloat(NAN);
             }
-            
-            if ( [animationDelegate respondsToSelector:@selector(animationDidUpdate:)] ) {
-              [animationDelegate performSelector:@selector(animationDidUpdate:)
-                                      withObject:animationOperation
-                                      afterDelay:0];
-            }
-            
-            if ( currentTime >= endTime ) {
-              [expiredOperations addObject:animationOperation];
-              
-              if ( [animationDelegate respondsToSelector:@selector(animationDidFinish:)] ) {
-                [animationDelegate performSelector:@selector(animationDidFinish:)
-                                        withObject:animationOperation
-                                        afterDelay:0];
-              }
-            }
-          }
-          @catch ( NSException *__unused exception ) {
-            // something went wrong; don't run this operation any more
-            [expiredOperations addObject:animationOperation];
-            
-            if ( [animationDelegate respondsToSelector:@selector(animationCancelled:)] ) {
-              [animationDelegate performSelector:@selector(animationCancelled:)
-                                      withObject:animationOperation
-                                      afterDelay:0];
-            }
-          }
         }
-      }
+        else {
+            startTime += delay;
+        }
+        CGFloat endTime = startTime + duration;
+
+        if ( animationOperation.isCanceled ) {
+            [expiredOperations addObject:animationOperation];
+
+            if ( [animationDelegate respondsToSelector:@selector(animationCancelled:)] ) {
+                dispatch_async(mainQueue, ^{
+                    [animationDelegate animationCancelled:animationOperation];
+                });
+            }
+        }
+        else if ( currentTime >= startTime ) {
+            id boundObject = animationOperation.boundObject;
+
+            CPTAnimationTimingFunction timingFunction = [self timingFunctionForAnimationCurve:animationOperation.animationCurve];
+
+            if ( boundObject && timingFunction ) {
+                BOOL started = NO;
+
+                if ( ![runningOperations containsObject:animationOperation] ) {
+                    // Remove any running animations for the same property
+                    SEL boundGetter = animationOperation.boundGetter;
+                    SEL boundSetter = animationOperation.boundSetter;
+
+                    for ( CPTAnimationOperation *operation in runningOperations ) {
+                        if ( operation.boundObject == boundObject ) {
+                            if ( (operation.boundGetter == boundGetter) && (operation.boundSetter == boundSetter) ) {
+                                operation.canceled = YES;
+                            }
+                        }
+                    }
+
+                    // Start the new animation
+                    [runningOperations addObject:animationOperation];
+                    started = YES;
+                }
+                if ( !animationOperation.isCanceled ) {
+                    if ( !period.startValue ) {
+                        [period setStartValueFromObject:animationOperation.boundObject propertyGetter:animationOperation.boundGetter];
+                    }
+
+                    CGFloat progress = timingFunction(currentTime - startTime, duration);
+
+                    NSDictionary *parameters = @{
+                        CPTAnimationOperationKey: animationOperation,
+                        CPTAnimationValueKey: [period tweenedValueForProgress:progress],
+                        CPTAnimationStartedKey: @(started),
+                        CPTAnimationFinishedKey: @(currentTime >= endTime)
+                    };
+
+                    // Used -performSelectorOnMainThread:... instead of GCD to ensure the animation continues to run in all run loop common modes.
+                    [self performSelectorOnMainThread:@selector(updateOnMainThreadWithParameters:)
+                                           withObject:parameters
+                                        waitUntilDone:NO
+                                                modes:runModes];
+
+                    if ( currentTime >= endTime ) {
+                        [expiredOperations addObject:animationOperation];
+                    }
+                }
+            }
+        }
     }
-  }
-  
-  for ( CPTAnimationOperation *animationOperation in expiredOperations ) {
-    [runningOperations removeObjectIdenticalTo:animationOperation];
-    [theAnimationOperations removeObjectIdenticalTo:animationOperation];
-  }
-  
-  [expiredOperations removeAllObjects];
-  
-  if ( theAnimationOperations.count == 0 ) {
-    [self.timer invalidate];
-    self.timer = nil;
-  }
+
+    for ( CPTAnimationOperation *animationOperation in expiredOperations ) {
+        [runningOperations removeObjectIdenticalTo:animationOperation];
+        [theAnimationOperations removeObjectIdenticalTo:animationOperation];
+    }
+
+    if ( theAnimationOperations.count == 0 ) {
+        [self cancelTimer];
+    }
+}
+
+// This method must be called from the main thread.
+-(void)updateOnMainThreadWithParameters:(NSDictionary *)parameters
+{
+    CPTAnimationOperation *animationOperation = parameters[CPTAnimationOperationKey];
+
+    __block BOOL canceled;
+
+    dispatch_sync(self.animationQueue, ^{
+        canceled = animationOperation.isCanceled;
+    });
+
+    if ( !canceled ) {
+        @try {
+            id<CPTAnimationDelegate> delegate = animationOperation.delegate;
+
+            NSNumber *started = parameters[CPTAnimationStartedKey];
+            if ( started.boolValue ) {
+                if ( [delegate respondsToSelector:@selector(animationDidStart:)] ) {
+                    [delegate animationDidStart:animationOperation];
+                }
+            }
+
+            if ( [delegate respondsToSelector:@selector(animationWillUpdate:)] ) {
+                [delegate animationWillUpdate:animationOperation];
+            }
+
+            SEL boundSetter = animationOperation.boundSetter;
+            id boundObject  = animationOperation.boundObject;
+            id tweenedValue = parameters[CPTAnimationValueKey];
+
+            if ( [tweenedValue isKindOfClass:[NSDecimalNumber class]] ) {
+                NSDecimal buffer = [(NSDecimalNumber *)tweenedValue decimalValue];
+
+                typedef void (*SetterType)(id, SEL, NSDecimal);
+                SetterType setterMethod = (SetterType)[boundObject methodForSelector : boundSetter];
+                setterMethod(boundObject, boundSetter, buffer);
+            }
+            else if ( [tweenedValue isKindOfClass:[NSValue class]] ) {
+                NSValue *value = (NSValue *)tweenedValue;
+
+                NSUInteger bufferSize = 0;
+                NSGetSizeAndAlignment(value.objCType, &bufferSize, NULL);
+
+                NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[boundObject methodSignatureForSelector:boundSetter]];
+                [invocation setTarget:boundObject];
+                [invocation setSelector:boundSetter];
+
+                void *buffer = malloc(bufferSize);
+                [value getValue:buffer];
+                [invocation setArgument:buffer atIndex:2];
+                free(buffer);
+
+                [invocation invoke];
+            }
+            else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+                id<NSObject> theObject = boundObject;
+                [theObject performSelector:boundSetter withObject:tweenedValue];
+#pragma clang diagnostic pop
+            }
+
+            if ( [delegate respondsToSelector:@selector(animationDidUpdate:)] ) {
+                [delegate animationDidUpdate:animationOperation];
+            }
+
+            NSNumber *finished = parameters[CPTAnimationFinishedKey];
+            if ( finished.boolValue ) {
+                if ( [delegate respondsToSelector:@selector(animationDidFinish:)] ) {
+                    [delegate animationDidFinish:animationOperation];
+                }
+            }
+        }
+        @catch ( NSException *__unused exception ) {
+            // something went wrong; don't run this operation any more
+            dispatch_async(self.animationQueue, ^{
+                animationOperation.canceled = YES;
+            });
+        }
+    }
+}
+
+-(void)startTimer
+{
+    self.timer = CreateDispatchTimer(kCPTAnimationFrameRate, self.animationQueue, ^{
+        [self update];
+    });
+}
+
+-(void)cancelTimer
+{
+    dispatch_source_t theTimer = self.timer;
+
+    if ( theTimer ) {
+        dispatch_source_cancel(theTimer);
+        dispatch_release(theTimer);
+        self.timer = NULL;
+    }
+}
+
+dispatch_source_t CreateDispatchTimer(CGFloat interval, dispatch_queue_t queue, dispatch_block_t block)
+{
+    dispatch_source_t newTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+
+    if ( newTimer ) {
+        dispatch_source_set_timer(newTimer, dispatch_time(DISPATCH_TIME_NOW, 0), (uint64_t)(interval * NSEC_PER_SEC), 0);
+        dispatch_source_set_event_handler(newTimer, block);
+        dispatch_resume(newTimer);
+    }
+    return newTimer;
 }
 
 /// @endcond
@@ -433,142 +485,142 @@ static CPTAnimation *instance = nil;
 
 -(CPTAnimationTimingFunction)timingFunctionForAnimationCurve:(CPTAnimationCurve)animationCurve
 {
-  CPTAnimationTimingFunction timingFunction;
-  
-  if ( animationCurve == CPTAnimationCurveDefault ) {
-    animationCurve = self.defaultAnimationCurve;
-  }
-  
-  switch ( animationCurve ) {
-    case CPTAnimationCurveLinear:
-      timingFunction = CPTAnimationTimingFunctionLinear;
-      break;
-      
-    case CPTAnimationCurveBackIn:
-      timingFunction = CPTAnimationTimingFunctionBackIn;
-      break;
-      
-    case CPTAnimationCurveBackOut:
-      timingFunction = CPTAnimationTimingFunctionBackOut;
-      break;
-      
-    case CPTAnimationCurveBackInOut:
-      timingFunction = CPTAnimationTimingFunctionBackInOut;
-      break;
-      
-    case CPTAnimationCurveBounceIn:
-      timingFunction = CPTAnimationTimingFunctionBounceIn;
-      break;
-      
-    case CPTAnimationCurveBounceOut:
-      timingFunction = CPTAnimationTimingFunctionBounceOut;
-      break;
-      
-    case CPTAnimationCurveBounceInOut:
-      timingFunction = CPTAnimationTimingFunctionBounceInOut;
-      break;
-      
-    case CPTAnimationCurveCircularIn:
-      timingFunction = CPTAnimationTimingFunctionCircularIn;
-      break;
-      
-    case CPTAnimationCurveCircularOut:
-      timingFunction = CPTAnimationTimingFunctionCircularOut;
-      break;
-      
-    case CPTAnimationCurveCircularInOut:
-      timingFunction = CPTAnimationTimingFunctionCircularInOut;
-      break;
-      
-    case CPTAnimationCurveElasticIn:
-      timingFunction = CPTAnimationTimingFunctionElasticIn;
-      break;
-      
-    case CPTAnimationCurveElasticOut:
-      timingFunction = CPTAnimationTimingFunctionElasticOut;
-      break;
-      
-    case CPTAnimationCurveElasticInOut:
-      timingFunction = CPTAnimationTimingFunctionElasticInOut;
-      break;
-      
-    case CPTAnimationCurveExponentialIn:
-      timingFunction = CPTAnimationTimingFunctionExponentialIn;
-      break;
-      
-    case CPTAnimationCurveExponentialOut:
-      timingFunction = CPTAnimationTimingFunctionExponentialOut;
-      break;
-      
-    case CPTAnimationCurveExponentialInOut:
-      timingFunction = CPTAnimationTimingFunctionExponentialInOut;
-      break;
-      
-    case CPTAnimationCurveSinusoidalIn:
-      timingFunction = CPTAnimationTimingFunctionSinusoidalIn;
-      break;
-      
-    case CPTAnimationCurveSinusoidalOut:
-      timingFunction = CPTAnimationTimingFunctionSinusoidalOut;
-      break;
-      
-    case CPTAnimationCurveSinusoidalInOut:
-      timingFunction = CPTAnimationTimingFunctionSinusoidalInOut;
-      break;
-      
-    case CPTAnimationCurveCubicIn:
-      timingFunction = CPTAnimationTimingFunctionCubicIn;
-      break;
-      
-    case CPTAnimationCurveCubicOut:
-      timingFunction = CPTAnimationTimingFunctionCubicOut;
-      break;
-      
-    case CPTAnimationCurveCubicInOut:
-      timingFunction = CPTAnimationTimingFunctionCubicInOut;
-      break;
-      
-    case CPTAnimationCurveQuadraticIn:
-      timingFunction = CPTAnimationTimingFunctionQuadraticIn;
-      break;
-      
-    case CPTAnimationCurveQuadraticOut:
-      timingFunction = CPTAnimationTimingFunctionQuadraticOut;
-      break;
-      
-    case CPTAnimationCurveQuadraticInOut:
-      timingFunction = CPTAnimationTimingFunctionQuadraticInOut;
-      break;
-      
-    case CPTAnimationCurveQuarticIn:
-      timingFunction = CPTAnimationTimingFunctionQuarticIn;
-      break;
-      
-    case CPTAnimationCurveQuarticOut:
-      timingFunction = CPTAnimationTimingFunctionQuarticOut;
-      break;
-      
-    case CPTAnimationCurveQuarticInOut:
-      timingFunction = CPTAnimationTimingFunctionQuarticInOut;
-      break;
-      
-    case CPTAnimationCurveQuinticIn:
-      timingFunction = CPTAnimationTimingFunctionQuinticIn;
-      break;
-      
-    case CPTAnimationCurveQuinticOut:
-      timingFunction = CPTAnimationTimingFunctionQuinticOut;
-      break;
-      
-    case CPTAnimationCurveQuinticInOut:
-      timingFunction = CPTAnimationTimingFunctionQuinticInOut;
-      break;
-      
-    default:
-      timingFunction = NULL;
-  }
-  
-  return timingFunction;
+    CPTAnimationTimingFunction timingFunction;
+
+    if ( animationCurve == CPTAnimationCurveDefault ) {
+        animationCurve = self.defaultAnimationCurve;
+    }
+
+    switch ( animationCurve ) {
+        case CPTAnimationCurveLinear:
+            timingFunction = CPTAnimationTimingFunctionLinear;
+            break;
+
+        case CPTAnimationCurveBackIn:
+            timingFunction = CPTAnimationTimingFunctionBackIn;
+            break;
+
+        case CPTAnimationCurveBackOut:
+            timingFunction = CPTAnimationTimingFunctionBackOut;
+            break;
+
+        case CPTAnimationCurveBackInOut:
+            timingFunction = CPTAnimationTimingFunctionBackInOut;
+            break;
+
+        case CPTAnimationCurveBounceIn:
+            timingFunction = CPTAnimationTimingFunctionBounceIn;
+            break;
+
+        case CPTAnimationCurveBounceOut:
+            timingFunction = CPTAnimationTimingFunctionBounceOut;
+            break;
+
+        case CPTAnimationCurveBounceInOut:
+            timingFunction = CPTAnimationTimingFunctionBounceInOut;
+            break;
+
+        case CPTAnimationCurveCircularIn:
+            timingFunction = CPTAnimationTimingFunctionCircularIn;
+            break;
+
+        case CPTAnimationCurveCircularOut:
+            timingFunction = CPTAnimationTimingFunctionCircularOut;
+            break;
+
+        case CPTAnimationCurveCircularInOut:
+            timingFunction = CPTAnimationTimingFunctionCircularInOut;
+            break;
+
+        case CPTAnimationCurveElasticIn:
+            timingFunction = CPTAnimationTimingFunctionElasticIn;
+            break;
+
+        case CPTAnimationCurveElasticOut:
+            timingFunction = CPTAnimationTimingFunctionElasticOut;
+            break;
+
+        case CPTAnimationCurveElasticInOut:
+            timingFunction = CPTAnimationTimingFunctionElasticInOut;
+            break;
+
+        case CPTAnimationCurveExponentialIn:
+            timingFunction = CPTAnimationTimingFunctionExponentialIn;
+            break;
+
+        case CPTAnimationCurveExponentialOut:
+            timingFunction = CPTAnimationTimingFunctionExponentialOut;
+            break;
+
+        case CPTAnimationCurveExponentialInOut:
+            timingFunction = CPTAnimationTimingFunctionExponentialInOut;
+            break;
+
+        case CPTAnimationCurveSinusoidalIn:
+            timingFunction = CPTAnimationTimingFunctionSinusoidalIn;
+            break;
+
+        case CPTAnimationCurveSinusoidalOut:
+            timingFunction = CPTAnimationTimingFunctionSinusoidalOut;
+            break;
+
+        case CPTAnimationCurveSinusoidalInOut:
+            timingFunction = CPTAnimationTimingFunctionSinusoidalInOut;
+            break;
+
+        case CPTAnimationCurveCubicIn:
+            timingFunction = CPTAnimationTimingFunctionCubicIn;
+            break;
+
+        case CPTAnimationCurveCubicOut:
+            timingFunction = CPTAnimationTimingFunctionCubicOut;
+            break;
+
+        case CPTAnimationCurveCubicInOut:
+            timingFunction = CPTAnimationTimingFunctionCubicInOut;
+            break;
+
+        case CPTAnimationCurveQuadraticIn:
+            timingFunction = CPTAnimationTimingFunctionQuadraticIn;
+            break;
+
+        case CPTAnimationCurveQuadraticOut:
+            timingFunction = CPTAnimationTimingFunctionQuadraticOut;
+            break;
+
+        case CPTAnimationCurveQuadraticInOut:
+            timingFunction = CPTAnimationTimingFunctionQuadraticInOut;
+            break;
+
+        case CPTAnimationCurveQuarticIn:
+            timingFunction = CPTAnimationTimingFunctionQuarticIn;
+            break;
+
+        case CPTAnimationCurveQuarticOut:
+            timingFunction = CPTAnimationTimingFunctionQuarticOut;
+            break;
+
+        case CPTAnimationCurveQuarticInOut:
+            timingFunction = CPTAnimationTimingFunctionQuarticInOut;
+            break;
+
+        case CPTAnimationCurveQuinticIn:
+            timingFunction = CPTAnimationTimingFunctionQuinticIn;
+            break;
+
+        case CPTAnimationCurveQuinticOut:
+            timingFunction = CPTAnimationTimingFunctionQuinticOut;
+            break;
+
+        case CPTAnimationCurveQuinticInOut:
+            timingFunction = CPTAnimationTimingFunctionQuinticInOut;
+            break;
+
+        default:
+            timingFunction = NULL;
+    }
+
+    return timingFunction;
 }
 
 /// @endcond
@@ -580,7 +632,11 @@ static CPTAnimation *instance = nil;
 
 -(NSString *)description
 {
-  return [NSString stringWithFormat:@"<%@ timeOffset: %g; %u active and %u expired operations>", [super description], self.timeOffset, (unsigned)self.animationOperations.count, (unsigned)self.expiredAnimationOperations.count];
+    return [NSString stringWithFormat:@"<%@ timeOffset: %g; %lu active and %lu running operations>",
+            [super description],
+            self.timeOffset,
+            (unsigned long)self.animationOperations.count,
+            (unsigned long)self.runningAnimationOperations.count];
 }
 
 /// @endcond
