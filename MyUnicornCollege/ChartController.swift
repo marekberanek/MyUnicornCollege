@@ -13,6 +13,12 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
   var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
   var pieChartData: [pieChartDataStruct] = []
   
+  private var pieChartDataAll: [pieChartDataStruct] = []
+  private var pieChartDataCZ: [pieChartDataStruct] = []
+  private var pieChartDataEN: [pieChartDataStruct] = []
+  
+  private var pieChartDataCurrent: [pieChartDataStruct] = []
+  
 
   @IBOutlet weak var graphView: CPTGraphHostingView!
   @IBOutlet weak var countLabel: UILabel!
@@ -31,7 +37,30 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     if (model.data.count > 0)
     {
       pieChartData = biModel.loadDataForChart(model.data, chartType: chartType)
+      
+      //All
+      for a in pieChartData {
+        if a.lang == UCLang.LangAll {
+          pieChartDataAll.append(a)
+        }
+      }
+
+      //CZ
+      for a in pieChartData {
+        if a.lang == UCLang.LangCZ {
+          pieChartDataCZ.append(a)
+        }
+      }
+
+      //EN
+      for a in pieChartData {
+        if a.lang == UCLang.LangEN {
+          pieChartDataEN.append(a)
+        }
+      }
     }
+    
+    // all
     
     var graph = CPTXYGraph(frame: CGRectZero)
     //graph.title = chartType
@@ -41,7 +70,7 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     graph.paddingBottom = 0
     
     // hide the axes
-    var axes = graph.axisSet as! CPTXYAxisSet
+    var axes = graph?.axisSet as! CPTXYAxisSet
     var lineStyle = CPTMutableLineStyle()
     lineStyle.lineWidth = 0
     axes.xAxis.axisLineStyle = lineStyle
@@ -55,86 +84,59 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     pie.identifier = chartType
     pie.startAngle = CGFloat(M_PI_4)
     pie.labelOffset = -50.0
-    graph.addPlot(pie)
-    graph.axisSet = nil
-    graph.borderLineStyle = nil
+    graph!.addPlot(pie)
+    graph!.axisSet = nil
+    graph!.borderLineStyle = nil
     
     self.graphView.hostedGraph = graph
     
     graph.reloadData()
-    countLabel.text = String(model.data.count)
     
-    /*    var theLegend : CPTLegend = CPTLegend(graph: graph)
-    theLegend.numberOfColumns = 2
-    graph.legend = theLegend
-    graph.legendAnchor = CPTRectAnchorBottom
-    graph.legendDisplacement = CGPointMake(0.0, 20.0)
-    */
+  }
+  
+  private func getTotalPerLang(dataStruct: [pieChartDataStruct]) -> Int
+  {
+    var total: Int = 0
     
+    for a in dataStruct {
+      total += a.count
+    }
+    
+    return total
   }
   
   func dataLabelForPlot(plot: CPTPlot!, recordIndex idx: UInt) -> CPTLayer! {
-    var label : String = ""
-    switch (idx)
-    {
-    case 0:
-      label = "AAA"
-      break
-    case 1:
-      label = "EEE"
-      break
-    case 2:
-      label = "CCC"
-      break
-    default:
-      label = ""
-      break
+    var label: String = "\(pieChartDataCurrent[Int(idx)].category.rawValue)\n\(String(pieChartDataCurrent[Int(idx)].count))"
+    
+    let paragraphStyle =  NSMutableParagraphStyle()
+    paragraphStyle.alignment = NSTextAlignment.Center
+    paragraphStyle.lineSpacing = 5
+    
+    let attrString = NSAttributedString(string:label, attributes:
+      [NSForegroundColorAttributeName: UIColor.whiteColor(),
+        NSFontAttributeName: UIFont.boldSystemFontOfSize(14), NSParagraphStyleAttributeName: paragraphStyle])
+    
+    if pieChartDataCurrent[Int(idx)].count > 0 {
+      return CPTTextLayer(attributedText: attrString)
+    } else {
+      return CPTTextLayer(text: "")
     }
-    return CPTTextLayer(text: label)
   }
   
   func sliceFillForPieChart(pieChart: CPTPieChart!, recordIndex idx: UInt) -> CPTFill! {
-    
-    var areaColor : CPTColor
-    
-    switch (idx) {
-      
-    case 0:
-      areaColor = CPTColor.redColor()
-      break
-    case 1:
-      areaColor = CPTColor.blueColor()
-      break
-    case 2:
-      areaColor = CPTColor.brownColor()
-      break
-    case 3:
-      areaColor = CPTColor.yellowColor()
-      break
-    default:
-      areaColor = CPTColor.purpleColor()
-      break
-    }
-    
+    var areaColor : CPTColor = pieChartDataCurrent[Int(idx)].color
     var sliceFill : CPTFill = CPTFill(color: areaColor)
     
     return sliceFill
   }
   
-  func legendTitleForPieChart(pieChart: CPTPieChart!, recordIndex idx: UInt) -> String! {
-    if idx==1 {return "ahoj"} else {return "ddd"}
-  }
   
   func numberOfRecordsForPlot(plot: CPTPlot!) -> UInt {
-//    if chartType == "formPie" { return 4 } else {return 3}
-    println("number")
-    println(pieChartData.count)
-    return UInt(pieChartData.count)
+    return UInt(pieChartDataCurrent.count)
   }
   
   func numberForPlot(plot: CPTPlot!, field fieldEnum: UInt, recordIndex idx: UInt) -> AnyObject! {
-    //    println(fieldEnum)
-    return idx+1
+    return pieChartDataCurrent[Int(idx)].count
   }
   
   
@@ -146,31 +148,28 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     println(error)
   }
   
-  override func viewDidAppear(animated: Bool) {
+  override func viewWillAppear(animated: Bool) {
     
-    println("viewDidAppear")
-/*
-    if (model.data.count > 0) {
-      biModel.loadDataForChart(model.data, chartType: UCChartType.FormPie)
+    switch language {
+    case 1:
+      countLabel.text = String(getTotalPerLang(pieChartDataCZ))
+      pieChartDataCurrent = pieChartDataCZ
+      break
+    case 2:
+      countLabel.text = String(getTotalPerLang(pieChartDataEN))
+      pieChartDataCurrent = pieChartDataEN
+      break
+    default:
+      countLabel.text = String(getTotalPerLang(pieChartDataAll))
+      pieChartDataCurrent = pieChartDataAll
+      break
     }
-    
-    */
+
+    self.graphView.hostedGraph.reloadData()
   }
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
     // Dispose of any resources that can be recreated.
   }
-  
-  
-  /*
-  // MARK: - Navigation
-  
-  // In a storyboard-based application, you will often want to do a little preparation before navigation
-  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-  // Get the new view controller using segue.destinationViewController.
-  // Pass the selected object to the new view controller.
-  }
-  */
-  
 }
