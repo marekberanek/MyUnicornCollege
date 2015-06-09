@@ -17,25 +17,20 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
   private var stateChartController: ChartController?
   @IBOutlet weak var segmentControl: UISegmentedControl!
   
-  private var chartTypes = ["formPie", "fieldPie", "statesBars", "historyLines"]
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     formChartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as? ChartController
-    formChartController?.itemIndex = 0
     formChartController?.language = segmentControl.selectedSegmentIndex
-    formChartController?.chartType = "formPie"
+    formChartController?.chartType = UCChartType.FormPie.rawValue
 
     fieldChartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as? ChartController
-    fieldChartController?.itemIndex = 0
     fieldChartController?.language = segmentControl.selectedSegmentIndex
-    fieldChartController?.chartType = "fieldPie"
+    fieldChartController?.chartType = UCChartType.FieldPie.rawValue
 
     stateChartController = self.storyboard!.instantiateViewControllerWithIdentifier("chartController") as? ChartController
-    stateChartController?.itemIndex = 0
     stateChartController?.language = segmentControl.selectedSegmentIndex
-    stateChartController?.chartType = "statePie"
+    stateChartController?.chartType = UCChartType.StatePie.rawValue
     
     let pageController = self.storyboard!.instantiateViewControllerWithIdentifier("pageViewController") as! UIPageViewController
     pageController.dataSource = self
@@ -51,46 +46,54 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
     pageViewController!.didMoveToParentViewController(self)
   }
   
+  // Reload chart according to selected language
   @IBAction func indexChanged(sender: AnyObject) {
     
-    println(sender.selectedSegmentIndex)
-    var chartController : ChartController?
-    
-    chartController = pageViewController?.viewControllers[0] as? ChartController
+    var chartController: ChartController? = pageViewController?.viewControllers[0] as? ChartController
     
     if chartController == formChartController {
-      
       formChartController?.language = sender.selectedSegmentIndex
+      formChartController?.reloadGraph()
     } else if chartController == fieldChartController {
       fieldChartController?.language = sender.selectedSegmentIndex
+      fieldChartController?.reloadGraph()
     } else if chartController == stateChartController {
       stateChartController?.language = sender.selectedSegmentIndex
+      stateChartController?.reloadGraph()
     }
 
   }
+  
+  // Set properly value to segment control
+  func updateLanguageSelection(language: Int) {
+    segmentControl.selectedSegmentIndex = language    
+  }
+  
+  // Backward navigation
   func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
 
     var properViewController: UIViewController = UIViewController()
     
     if viewController == formChartController {
-      properViewController = fieldChartController! } else if
-      viewController == fieldChartController {
-        properViewController = stateChartController!
-    } else if viewController == stateChartController {
+      properViewController = stateChartController!
+    } else if viewController == fieldChartController {
       properViewController = formChartController!
+    } else if viewController == stateChartController {
+      properViewController = fieldChartController!
     }
     
     return properViewController
   }
   
+  // Forward navigation
   func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
     var properViewController: UIViewController = UIViewController()
     
-    if viewController == stateChartController {
-      properViewController = fieldChartController! }
-    else if viewController == fieldChartController {
-        properViewController = formChartController!
+    if viewController == fieldChartController {
+      properViewController = stateChartController!
     } else if viewController == formChartController {
+      properViewController = fieldChartController!
+    } else if viewController == stateChartController {
       properViewController = stateChartController!
     }
     

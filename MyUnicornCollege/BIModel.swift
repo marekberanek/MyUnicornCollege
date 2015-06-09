@@ -19,57 +19,252 @@ class BIModel: NSObject {
     var formPieChartData: [pieChartDataStruct]
 
     formPieChartData = []
-
-    if (chartType == "formPie") {
-      formPieChartData = prepareDataForFormPieChart(data)
+    
+    switch chartType
+    {
+      case "formPie":
+        formPieChartData = prepareDataForFormPieChart(data)
+        break
+      case "fieldPie" :
+        formPieChartData = prepareDataForFieldPieChart(data)
+        break
+      default:
+        break
     }
     
     return formPieChartData
   }
   
+  
+  // preparing data for form pie chart
   private func prepareDataForFormPieChart(data: [ApplicationItem]) -> [pieChartDataStruct]
   {
     var dataForChart : [pieChartDataStruct] = []
     
     var tempFilteredData : [ApplicationItem] = []
     
+    /*
+      Applicants for study without language differentiation
+    */
+    
     // Fulltime and all languages
-    tempFilteredData = data.filter { a in a.type == typeFT }
-    dataForChart.append(pieChartDataStruct(category: .FormFT , lang: .LangAll, count: tempFilteredData.count, color: UCCPTBlue))
+    tempFilteredData = data.filter { a in a.type == UCPrimaryDataFormType.Fulltime.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescType.Fulltime.rawValue , lang: .All, count: tempFilteredData.count, color: UCCPTBlue))
+    }
     
     // Parttime and all languages
-    tempFilteredData = data.filter { a in a.type == typePT }
-    dataForChart.append(pieChartDataStruct(category: .FormPT, lang: .LangAll, count: tempFilteredData.count, color: UCCPTGreen))
-
+    tempFilteredData = data.filter { a in a.type == UCPrimaryDataFormType.Parttime.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescType.Parttime.rawValue, lang: .All, count: tempFilteredData.count, color: UCCPTGreen))
+    }
+    
     // Individual and all languages
-    tempFilteredData = data.filter { a in a.type == typeIN }
-    dataForChart.append(pieChartDataStruct(category: .FormPT, lang: .LangAll, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+    tempFilteredData = data.filter { a in a.type == UCPrimaryDataFormType.Individual.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescType.Individual.rawValue, lang: .All, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+    }
+
+    /*
+      Applicants for study in Czech
+    */
 
     // Partime and czech language
-    tempFilteredData = data.filter { a in a.type == typeFT && a.language == langCZ }
-    dataForChart.append(pieChartDataStruct(category: .FormFT, lang: .LangCZ, count: tempFilteredData.count, color: UCCPTBlue))
+    tempFilteredData = data.filter { a in a.type == UCPrimaryDataFormType.Fulltime.rawValue && a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescType.Fulltime.rawValue, lang: .Czech, count: tempFilteredData.count, color: UCCPTBlue))
+    }
     
     // Parttime and czech language
-    tempFilteredData = data.filter { a in a.type == typePT && a.language == langCZ }
-    dataForChart.append(pieChartDataStruct(category: .FormPT, lang: .LangCZ, count: tempFilteredData.count, color: UCCPTGreen))
+    tempFilteredData = data.filter { a in a.type == UCPrimaryDataFormType.Parttime.rawValue && a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescType.Parttime.rawValue, lang: .Czech, count: tempFilteredData.count, color: UCCPTGreen))
+    }
 
     // Individual and czech language
-    tempFilteredData = data.filter { a in a.type == typeIN && a.language == langCZ }
-    dataForChart.append(pieChartDataStruct(category: .FormIN, lang: .LangCZ, count: tempFilteredData.count, color: UCCPTGreenAdditional))
-
+    tempFilteredData = data.filter { a in a.type == UCPrimaryDataFormType.Individual.rawValue && a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescType.Individual.rawValue, lang: .Czech, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+    }
+    
+    /*
+      Applicants for study in English
+    */
+    
     // Partime and english language
-    tempFilteredData = data.filter { a in a.type == typeFT && a.language == langEN }
-    dataForChart.append(pieChartDataStruct(category: .FormFT, lang: .LangEN, count: tempFilteredData.count, color: UCCPTBlue))
+    tempFilteredData = data.filter { a in a.type == UCPrimaryDataFormType.Fulltime.rawValue && a.language == UCPrimaryDataLanguage.English.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescType.Fulltime.rawValue, lang: .English, count: tempFilteredData.count, color: UCCPTBlue))
+    }
     
     // Parttime and english language
-    tempFilteredData = data.filter { a in a.type == typePT && a.language == langEN }
-    dataForChart.append(pieChartDataStruct(category: .FormPT, lang: .LangEN, count: tempFilteredData.count, color: UCCPTGreen))
+    tempFilteredData = data.filter { a in a.type == UCPrimaryDataFormType.Parttime.rawValue && a.language == UCPrimaryDataLanguage.English.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescType.Parttime.rawValue, lang: .English, count: tempFilteredData.count, color: UCCPTGreen))
+    }
 
     // Individual and english language
-    tempFilteredData = data.filter { a in a.type == typeIN && a.language == langEN }
-    dataForChart.append(pieChartDataStruct(category: .FormIN, lang: .LangEN, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+    tempFilteredData = data.filter { a in a.type == UCPrimaryDataFormType.Individual.rawValue && a.language == UCPrimaryDataLanguage.English.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescType.Individual.rawValue, lang: .English, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+    }
 
     return dataForChart
     
   }
+  
+  // preparing data for field pie chart
+  private func prepareDataForFieldPieChart(data: [ApplicationItem]) -> [pieChartDataStruct]
+  {
+    var dataForChart : [pieChartDataStruct] = []
+    
+    var tempFilteredData : [ApplicationItem] = []
+    
+    /*
+    Applicants for study without language differentiation
+    */
+    
+    // ICT Project Management
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.ICT.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.ICT.rawValue , lang: .All, count: tempFilteredData.count, color: UCCPTBlue))
+    }
+    
+    // Information Technology
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.IT.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.IT.rawValue, lang: .All, count: tempFilteredData.count, color: UCCPTGreen))
+    }
+    
+    // Economics & Management
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.EM.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.EM.rawValue, lang: .All, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+    }
+
+    /*
+    Applicants for study in Czech
+    */
+    
+    // ICT Project Management
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.ICT.rawValue &&  a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.ICT.rawValue , lang: .Czech, count: tempFilteredData.count, color: UCCPTBlue))
+    }
+    
+    // Information Technology
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.IT.rawValue &&  a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.IT.rawValue, lang: .Czech, count: tempFilteredData.count, color: UCCPTGreen))
+    }
+    
+    // Economics & Management
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.EM.rawValue &&  a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.EM.rawValue, lang: .Czech, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+    }
+
+    /*
+    Applicants for study in English
+    */
+    
+    // ICT Project Management
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.ICT.rawValue &&  a.language == UCPrimaryDataLanguage.English.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.ICT.rawValue , lang: .English, count: tempFilteredData.count, color: UCCPTBlue))
+    }
+    
+    // Information Technology
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.IT.rawValue &&  a.language == UCPrimaryDataLanguage.English.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.IT.rawValue, lang: .English, count: tempFilteredData.count, color: UCCPTGreen))
+    }
+    
+    // Economics & Management
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.EM.rawValue &&  a.language == UCPrimaryDataLanguage.English.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.EM.rawValue, lang: .English, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+    }
+
+    return dataForChart
+  }
+  
+  // preparing data for field pie chart
+  private func prepareDataForStatePieChart(data: [ApplicationItem]) -> [pieChartDataStruct]
+  {
+    var dataForChart : [pieChartDataStruct] = []
+    
+    var tempFilteredData : [ApplicationItem] = []
+    
+    /*
+    Applicants for study without language differentiation
+    */
+    
+    // ICT Project Management
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.ICT.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.ICT.rawValue , lang: .All, count: tempFilteredData.count, color: UCCPTBlue))
+    }
+    
+    // Information Technology
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.IT.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.IT.rawValue, lang: .All, count: tempFilteredData.count, color: UCCPTGreen))
+    }
+    
+    // Economics & Management
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.EM.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.EM.rawValue, lang: .All, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+    }
+    
+    /*
+    Applicants for study in Czech
+    */
+    
+    // ICT Project Management
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.ICT.rawValue &&  a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.ICT.rawValue , lang: .Czech, count: tempFilteredData.count, color: UCCPTBlue))
+    }
+    
+    // Information Technology
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.IT.rawValue &&  a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.IT.rawValue, lang: .Czech, count: tempFilteredData.count, color: UCCPTGreen))
+    }
+    
+    // Economics & Management
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.EM.rawValue &&  a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.EM.rawValue, lang: .Czech, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+    }
+    
+    /*
+    Applicants for study in English
+    */
+    
+    // ICT Project Management
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.ICT.rawValue &&  a.language == UCPrimaryDataLanguage.English.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.ICT.rawValue , lang: .English, count: tempFilteredData.count, color: UCCPTBlue))
+    }
+    
+    // Information Technology
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.IT.rawValue &&  a.language == UCPrimaryDataLanguage.English.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.IT.rawValue, lang: .English, count: tempFilteredData.count, color: UCCPTGreen))
+    }
+    
+    // Economics & Management
+    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.EM.rawValue &&  a.language == UCPrimaryDataLanguage.English.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescField.EM.rawValue, lang: .English, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+    }
+    
+    return dataForChart
+    
+  }
+
+  
 }
