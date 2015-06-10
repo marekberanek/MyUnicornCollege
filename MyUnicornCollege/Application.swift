@@ -141,6 +141,8 @@ class ApplicationItem: NSObject {
           // if QoS limit is exceeded, repeat a request
           if (response?.statusCode == 429) {
             self.getAdditionalInformation(callback)
+          } else if (response?.statusCode == nil) {
+            self.getAdditionalInformation(callback)
           } else {
             self.error = "ADDITIONAL_INFORMATION"
             println("\(self.id): \(self.error): \(error)")

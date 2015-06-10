@@ -125,9 +125,10 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
   }
   
   func dataLabelForPlot(plot: CPTPlot!, recordIndex idx: UInt) -> CPTLayer! {
-    let data: Float = 100*Float(pieChartDataCurrent[Int(idx)].count) / Float(getTotalPerLang(pieChartDataCurrent))
+    let dataPercentage: Float = 100*Float(pieChartDataCurrent[Int(idx)].count) / Float(getTotalPerLang(pieChartDataCurrent))
+    let dataRaw: Int = pieChartDataCurrent[Int(idx)].count
     
-    var label: String = "\(Int(data)) %"
+    var label: String = "\(Int(dataRaw))"
     
     let paragraphStyle =  NSMutableParagraphStyle()
     paragraphStyle.alignment = NSTextAlignment.Center
