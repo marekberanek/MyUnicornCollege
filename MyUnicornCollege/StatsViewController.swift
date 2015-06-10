@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StatsViewController: UIViewController, UIPageViewControllerDataSource {
+class StatsViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
   private var pageViewController: UIPageViewController?
   
@@ -34,6 +34,7 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
     
     let pageController = self.storyboard!.instantiateViewControllerWithIdentifier("pageViewController") as! UIPageViewController
     pageController.dataSource = self
+    pageController.delegate = self
     
     let firstController = formChartController
     let startingViewControler: [ChartController] = [firstController!]
@@ -64,9 +65,9 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource {
 
   }
   
-  // Set properly value to segment control
-  func updateLanguageSelection(language: Int) {
-    segmentControl.selectedSegmentIndex = language    
+  // Set proper selected segment index
+  func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [AnyObject]) {
+    segmentControl.selectedSegmentIndex = pendingViewControllers.first!.language
   }
   
   // Backward navigation
