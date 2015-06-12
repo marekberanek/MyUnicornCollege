@@ -72,6 +72,16 @@ class ApplicationsModel: NSObject {
     application.language = "angličtina"
     applications.append(application)
 
+    application = ApplicationItem(id: "uca005", name: "Nováková Jana")
+    application.mar = "UCLMMD/A"
+    application.state = "Nedostavil se"
+    application.stateType = "ALTERNATIVE_FINAL"
+    application.date = dateFormatter.dateFromString("2015-03-21T09:41:58+01:00")
+    application.field = "Ekonomika a management"
+    application.type = "Prezenční studium"
+    application.language = "čeština"
+    applications.append(application)
+
     self.data = applications
     self.delegate.loadingCompleted(self.data)
   }

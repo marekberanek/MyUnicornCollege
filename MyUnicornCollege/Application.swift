@@ -80,7 +80,7 @@ class ApplicationItem: NSObject {
           callback()
         } else {
           // if QoS limit is exceeded, repeat a request
-          if (response?.statusCode == 429) {
+          if (response?.statusCode == 429 || response?.statusCode == nil) {
             self.getBasicInformation(callback)
           } else {
             self.error = "BASIC_INFORMATION"
@@ -139,9 +139,7 @@ class ApplicationItem: NSObject {
         } else {
           println(response?.statusCode)
           // if QoS limit is exceeded, repeat a request
-          if (response?.statusCode == 429) {
-            self.getAdditionalInformation(callback)
-          } else if (response?.statusCode == nil) {
+          if (response?.statusCode == 429 || response?.statusCode == nil) {
             self.getAdditionalInformation(callback)
           } else {
             self.error = "ADDITIONAL_INFORMATION"

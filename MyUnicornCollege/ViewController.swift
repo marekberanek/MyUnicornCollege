@@ -48,15 +48,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     self.appsTableView?.estimatedRowHeight = 44.0
     self.appsTableView?.rowHeight = UITableViewAutomaticDimension
-    
-
-
   }
-  
-  override func viewWillAppear(animated: Bool) {
     
-  }
-  
   func loadApplications()
   {
     var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -80,6 +73,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     var sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
     sharedValues.setInteger(self.allData.count, forKey: "totalApplications")
+    sharedValues.setInteger(self.allData.filter { a in
+      a.language == "čeština" }.count, forKey: "czechApplications")
+    sharedValues.setInteger(self.allData.filter { a in
+      a.language == "angličtina" }.count, forKey: "englishApplications")
     
     applyFilter()
     
@@ -148,6 +145,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
   
   func loadingError(error: String) {
+    self.refreshControl.endRefreshing()
+
+    
     let alert = UIAlertController(title: "Critical Error", message: error, preferredStyle: UIAlertControllerStyle.Alert)
     
     alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))

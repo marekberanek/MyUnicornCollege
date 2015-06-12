@@ -141,7 +141,7 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     
     let attrString = NSAttributedString(string:label, attributes:
       [NSForegroundColorAttributeName: UIColor.whiteColor(),
-        NSFontAttributeName: UIFont.boldSystemFontOfSize(18), NSParagraphStyleAttributeName: paragraphStyle, NSShadowAttributeName: shadow])
+        NSFontAttributeName: UIFont.boldSystemFontOfSize(20), NSParagraphStyleAttributeName: paragraphStyle, NSShadowAttributeName: shadow])
     
     if pieChartDataCurrent[Int(idx)].count > 0 {
       return CPTTextLayer(attributedText: attrString)

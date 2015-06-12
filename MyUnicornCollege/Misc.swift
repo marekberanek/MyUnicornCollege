@@ -24,10 +24,10 @@ let UCCPTBlue = CPTColor(componentRed: 0.0 / 255.0, green: 40.0 / 255.0, blue: 1
 let UCCPTGreen = CPTColor(componentRed: 0.0 / 255.0, green: 135.0 / 255.0, blue: 137.0 / 255.0, alpha: 1)
 let UCCPTGreenAdditional = CPTColor(componentRed: 0.0 / 255.0, green: 183.0 / 255.0, blue: 198.0 / 255.0, alpha: 1)
 let UCCPTGray = CPTColor(componentRed: 125.0 / 255.0, green: 125.0 / 255.0, blue: 125.0 / 255.0, alpha: 1)
-let UCCPTActive = CPTColor.greenColor()
-let UCCPTInitial = CPTColor.blueColor()
-let UCCPTFinal = CPTColor.purpleColor()
-let UCCPTAlternativeFinal = CPTColor.redColor()
+let UCCPTActive = CPTColor(componentRed: 89.0 / 255.0, green: 227.0 / 255.0, blue: 48.0 / 255.0, alpha: 1)
+let UCCPTInitial = CPTColor(componentRed: 52.0 / 255.0, green: 226.0 / 255.0, blue: 239.0 / 255.0, alpha: 1)
+let UCCPTFinal = CPTColor(componentRed: 114.0 / 255.0, green: 177.0 / 255.0, blue: 255.0 / 255.0, alpha: 1)
+let UCCPTAlternativeFinal = CPTColor(componentRed: 255.0 / 255.0, green: 162.0 / 255.0, blue: 193.0 / 255.0, alpha: 1)
 
 let UCBlue = UIColor(red: 0.0 / 255.0, green: 40.0 / 255.0, blue: 130.0 / 255.0, alpha: 1)
 let UCGreen = UIColor(red: 0.0 / 255.0, green: 135.0 / 255.0, blue: 137.0 / 255.0, alpha: 1)
@@ -76,4 +76,18 @@ enum UCPrimaryDataField : String {
   case ICT = "Management ICT projektů"
   case IT = "Informační technologie"
   case EM = "Ekonomika a management"
+}
+
+enum UCApplicationState : String {
+  case Initial = "INITIAL"
+  case Active = "ACTIVE"
+  case Final = "Přijat ke studiu"
+  case AlternativeFinal = "ALTERNATIVE_FINAL"
+}
+
+enum UCDescApplicationState : String {
+  case Initial = "Created"
+  case Active = "Waiting for interview"
+  case Final = "Accepted"
+  case AlternativeFinal = "Not Accepted"
 }

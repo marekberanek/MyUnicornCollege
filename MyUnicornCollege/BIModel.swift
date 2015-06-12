@@ -28,7 +28,10 @@ class BIModel: NSObject {
       case "fieldPie" :
         formPieChartData = prepareDataForFieldPieChart(data)
         break
-      default:
+    case "statePie" :
+      formPieChartData = prepareDataForStatePieChart(data)
+      break
+    default:
         break
     }
     
@@ -200,66 +203,85 @@ class BIModel: NSObject {
     Applicants for study without language differentiation
     */
     
-    // ICT Project Management
-    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.ICT.rawValue }
+    // Initial
+    tempFilteredData = data.filter { a in a.stateType == UCApplicationState.Initial.rawValue }
     if (tempFilteredData.count > 0) {
-      dataForChart.append(pieChartDataStruct(category: UCDescField.ICT.rawValue , lang: .All, count: tempFilteredData.count, color: UCCPTBlue))
+      dataForChart.append(pieChartDataStruct(category: UCDescApplicationState.Initial.rawValue , lang: .All, count: tempFilteredData.count, color: UCCPTInitial))
     }
     
-    // Information Technology
-    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.IT.rawValue }
+    // Active
+    tempFilteredData = data.filter { a in a.stateType == UCApplicationState.Active.rawValue }
     if (tempFilteredData.count > 0) {
-      dataForChart.append(pieChartDataStruct(category: UCDescField.IT.rawValue, lang: .All, count: tempFilteredData.count, color: UCCPTGreen))
+      dataForChart.append(pieChartDataStruct(category: UCDescApplicationState.Active.rawValue , lang: .All, count: tempFilteredData.count, color: UCCPTActive))
     }
     
-    // Economics & Management
-    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.EM.rawValue }
+    // Final
+    tempFilteredData = data.filter { a in a.state == UCApplicationState.Final.rawValue }
     if (tempFilteredData.count > 0) {
-      dataForChart.append(pieChartDataStruct(category: UCDescField.EM.rawValue, lang: .All, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+      dataForChart.append(pieChartDataStruct(category: UCDescApplicationState.Final.rawValue , lang: .All, count: tempFilteredData.count, color: UCCPTFinal))
     }
-    
+
+    // Alternative Final
+    tempFilteredData = data.filter { a in a.stateType == UCApplicationState.AlternativeFinal.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescApplicationState.AlternativeFinal.rawValue , lang: .All, count: tempFilteredData.count, color: UCCPTAlternativeFinal))
+    }
+
     /*
     Applicants for study in Czech
     */
+
     
-    // ICT Project Management
-    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.ICT.rawValue &&  a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    // Initial=
+    tempFilteredData = data.filter { a in a.stateType == UCApplicationState.Initial.rawValue && a.language == UCPrimaryDataLanguage.Czech.rawValue }
     if (tempFilteredData.count > 0) {
-      dataForChart.append(pieChartDataStruct(category: UCDescField.ICT.rawValue , lang: .Czech, count: tempFilteredData.count, color: UCCPTBlue))
+      dataForChart.append(pieChartDataStruct(category: UCDescApplicationState.Initial.rawValue , lang: .Czech, count: tempFilteredData.count, color: UCCPTInitial))
     }
     
-    // Information Technology
-    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.IT.rawValue &&  a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    // Active
+    tempFilteredData = data.filter { a in a.stateType == UCApplicationState.Active.rawValue && a.language == UCPrimaryDataLanguage.Czech.rawValue }
     if (tempFilteredData.count > 0) {
-      dataForChart.append(pieChartDataStruct(category: UCDescField.IT.rawValue, lang: .Czech, count: tempFilteredData.count, color: UCCPTGreen))
+      dataForChart.append(pieChartDataStruct(category: UCDescApplicationState.Active.rawValue , lang: .Czech, count: tempFilteredData.count, color: UCCPTActive))
     }
     
-    // Economics & Management
-    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.EM.rawValue &&  a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    // Final
+    tempFilteredData = data.filter { a in a.state == UCApplicationState.Final.rawValue && a.language == UCPrimaryDataLanguage.Czech.rawValue }
     if (tempFilteredData.count > 0) {
-      dataForChart.append(pieChartDataStruct(category: UCDescField.EM.rawValue, lang: .Czech, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+      dataForChart.append(pieChartDataStruct(category: UCDescApplicationState.Final.rawValue , lang: .Czech, count: tempFilteredData.count, color: UCCPTFinal))
     }
     
+    // Alternative Final
+    tempFilteredData = data.filter { a in a.stateType == UCApplicationState.AlternativeFinal.rawValue && a.language == UCPrimaryDataLanguage.Czech.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescApplicationState.AlternativeFinal.rawValue , lang: .Czech, count: tempFilteredData.count, color: UCCPTAlternativeFinal))
+    }
+
     /*
     Applicants for study in English
     */
     
-    // ICT Project Management
-    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.ICT.rawValue &&  a.language == UCPrimaryDataLanguage.English.rawValue }
+    // Initial
+    tempFilteredData = data.filter { a in a.stateType == UCApplicationState.Initial.rawValue && a.language == UCPrimaryDataLanguage.English.rawValue }
     if (tempFilteredData.count > 0) {
-      dataForChart.append(pieChartDataStruct(category: UCDescField.ICT.rawValue , lang: .English, count: tempFilteredData.count, color: UCCPTBlue))
+      dataForChart.append(pieChartDataStruct(category: UCDescApplicationState.Initial.rawValue , lang: .English, count: tempFilteredData.count, color: UCCPTInitial))
     }
     
-    // Information Technology
-    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.IT.rawValue &&  a.language == UCPrimaryDataLanguage.English.rawValue }
+    // Active
+    tempFilteredData = data.filter { a in a.stateType == UCApplicationState.Active.rawValue && a.language == UCPrimaryDataLanguage.English.rawValue }
     if (tempFilteredData.count > 0) {
-      dataForChart.append(pieChartDataStruct(category: UCDescField.IT.rawValue, lang: .English, count: tempFilteredData.count, color: UCCPTGreen))
+      dataForChart.append(pieChartDataStruct(category: UCDescApplicationState.Active.rawValue , lang: .English, count: tempFilteredData.count, color: UCCPTActive))
     }
     
-    // Economics & Management
-    tempFilteredData = data.filter { a in a.field == UCPrimaryDataField.EM.rawValue &&  a.language == UCPrimaryDataLanguage.English.rawValue }
+    // Final
+    tempFilteredData = data.filter { a in a.state == UCApplicationState.Final.rawValue && a.language == UCPrimaryDataLanguage.English.rawValue }
     if (tempFilteredData.count > 0) {
-      dataForChart.append(pieChartDataStruct(category: UCDescField.EM.rawValue, lang: .English, count: tempFilteredData.count, color: UCCPTGreenAdditional))
+      dataForChart.append(pieChartDataStruct(category: UCDescApplicationState.Final.rawValue , lang: .English, count: tempFilteredData.count, color: UCCPTFinal))
+    }
+    
+    // Alternative Final
+    tempFilteredData = data.filter { a in a.stateType == UCApplicationState.AlternativeFinal.rawValue && a.language == UCPrimaryDataLanguage.English.rawValue }
+    if (tempFilteredData.count > 0) {
+      dataForChart.append(pieChartDataStruct(category: UCDescApplicationState.AlternativeFinal.rawValue , lang: .English, count: tempFilteredData.count, color: UCCPTAlternativeFinal))
     }
     
     return dataForChart

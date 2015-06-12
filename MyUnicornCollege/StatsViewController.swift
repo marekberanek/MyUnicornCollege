@@ -70,6 +70,10 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource, UIP
     segmentControl.selectedSegmentIndex = pendingViewControllers.first!.language
   }
   
+  func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
+    segmentControl.selectedSegmentIndex = pageViewController.viewControllers.first!.language
+  }
+  
   // Backward navigation
   func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
 
@@ -95,7 +99,7 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource, UIP
     } else if viewController == formChartController {
       properViewController = fieldChartController!
     } else if viewController == stateChartController {
-      properViewController = stateChartController!
+      properViewController = formChartController!
     }
     
     return properViewController
