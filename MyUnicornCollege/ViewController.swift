@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 extension String
 {
@@ -16,13 +17,14 @@ extension String
   }
 }
 
-
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ApplicationsModelDelegate {
   var tableData: [ApplicationItem] = []
   var allData: [ApplicationItem] = []
   var processed : Bool = false
   
   var tableViewController = UITableViewController()
+
+  let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
   
   @IBOutlet weak var segmentedControl: UISegmentedControl!
   @IBOutlet var appsTableView : UITableView?
@@ -36,7 +38,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+        
     tableViewController.tableView = self.appsTableView
     
     // setting a background color of UITable refresh control
@@ -64,12 +66,21 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     model.loadApplicationsList()
     //model.loadApplicationsListDummy()
+    
   }
   
   func loadingCompleted(data: AnyObject) {
     self.allData = data as! [ApplicationItem]
     self.tableData = data as! [ApplicationItem]
-    self.appsTableView!.reloadData()
+    
+/*
+    let fetchRequest = NSFetchRequest(entityName: "DBApplicationItem")
+    
+    if let fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [ApplicationItem] {
+      println(fetchResults.count)
+    }
+
+*/
     
     var sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
     sharedValues.setInteger(self.allData.count, forKey: "totalApplications")

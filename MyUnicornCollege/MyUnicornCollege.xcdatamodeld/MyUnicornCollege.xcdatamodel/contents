@@ -1,18 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14C109" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="ApplicationItem" syncable="YES">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="DBApplicationItem" representedClassName="DBApplicationItem" isAbstract="YES" syncable="YES">
+        <attribute name="birth_number" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="citizenship" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="country" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="education_background" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="entrance_date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="field" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="from_where" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="language" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="mar" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pa_email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pa_state" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pa_street" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pa_telephone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pa_town" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pa_zipcode" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sex" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="scholarship_date" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="state" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="stateType" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="ta_state" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ta_street" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ta_town" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ta_zipcode" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ApplicationItem" positionX="-63" positionY="-18" width="128" height="195"/>
+        <element name="DBApplicationItem" positionX="-63" positionY="-18" width="128" height="450"/>
     </elements>
 </model>

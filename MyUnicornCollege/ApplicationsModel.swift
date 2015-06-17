@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Marek Beránek. All rights reserved.
 //
 import Foundation
+import CoreData
 import Alamofire
 
 protocol ApplicationsModelDelegate {
@@ -13,6 +14,8 @@ protocol ApplicationsModelDelegate {
   func updateProgress(progress:Float)
   func loadingError(error:String)
 }
+
+
 
 class ApplicationsModel: NSObject {
   var delegate:ApplicationsModelDelegate!
@@ -31,7 +34,6 @@ class ApplicationsModel: NSObject {
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss:Z"
     
     
-
     var application = ApplicationItem(id: "uca001", name: "Beránek Marek")
     application.mar = "UCLMMD/A"
     application.state = "Založena"
@@ -40,7 +42,9 @@ class ApplicationsModel: NSObject {
     application.field = "Management ICT projektů"
     application.type = "Prezenční studium"
     application.language = "čeština"
+    application.save()
     applications.append(application)
+    
 
     application = ApplicationItem(id: "uca002", name: "Čadil Jan")
     application.mar = "UCLMMD/A"
@@ -50,6 +54,7 @@ class ApplicationsModel: NSObject {
     application.field = "Ekonomika a management"
     application.type = "Kombinované studium"
     application.language = "čeština"
+    application.save()
     applications.append(application)
 
     application = ApplicationItem(id: "uca003", name: "Zouhar Ondřej")
@@ -60,6 +65,7 @@ class ApplicationsModel: NSObject {
     application.field = "Informační technologie"
     application.type = "Prezenční studium"
     application.language = "čeština"
+    application.save()
     applications.append(application)
 
     application = ApplicationItem(id: "uca004", name: "Novák Jan")
@@ -70,6 +76,7 @@ class ApplicationsModel: NSObject {
     application.field = "Ekonomika a management"
     application.type = "Prezenční studium"
     application.language = "angličtina"
+    application.save()
     applications.append(application)
 
     application = ApplicationItem(id: "uca005", name: "Nováková Jana")
@@ -80,6 +87,7 @@ class ApplicationsModel: NSObject {
     application.field = "Ekonomika a management"
     application.type = "Prezenční studium"
     application.language = "čeština"
+    application.save()
     applications.append(application)
 
     self.data = applications

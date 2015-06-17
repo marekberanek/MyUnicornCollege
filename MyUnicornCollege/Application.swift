@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import CoreData
 
 class ApplicationItem: NSObject {
   let id: String
@@ -54,6 +55,56 @@ class ApplicationItem: NSObject {
     
     let decodedString = NSString(data: decodedData!, encoding: NSUTF8StringEncoding)
     return decodedString! as String
+  }
+    
+  func save() {
+    
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    
+    
+    let entityDescription = NSEntityDescription.entityForName("DBApplicationItem", inManagedObjectContext: managedObjectContext!)
+    
+    let newItem = DBApplicationItem(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext!)
+    
+//    var newItem = NSEntityDescription.insertNewObjectForEntityForName("DBApplicationItem", inManagedObjectContext: managedObjectContext!) as! DBApplicationItem
+    
+    newItem.id = self.id
+    newItem.name = self.name
+    newItem.state = self.state
+    newItem.mar = self.mar
+    newItem.stateType = self.stateType
+    newItem.date = self.date
+    newItem.field = self.field
+    newItem.type = self.type
+    newItem.language = self.language
+    newItem.from_where = self.from_where
+    newItem.entrance_date = self.entrance_date
+    newItem.scholarship_date = self.scholarship_date
+    newItem.sex = self.sex
+    newItem.birth_number = self.birth_number
+    newItem.citizenship = self.citizenship
+    newItem.pa_email = self.pa_email
+    newItem.pa_telephone = self.pa_telephone
+    newItem.pa_street = self.pa_street
+    newItem.pa_town = self.pa_town
+    newItem.pa_zipcode = self.pa_zipcode
+    newItem.pa_state = self.pa_state
+    newItem.ta_street = self.ta_street
+    newItem.ta_town = self.ta_town
+    newItem.ta_zipcode = self.ta_zipcode
+    newItem.ta_state = self.ta_state
+    newItem.education_background = self.education_background
+    
+    var error : NSError?
+    managedObjectContext?.save(&error)
+    
+    if let err = error {
+      println(err.localizedFailureReason)
+      
+    } else {
+      println("saved")
+    }
+    
   }
   
   // cast String to NSData

@@ -36,6 +36,8 @@
 		D5D3C5271AAF2F4100A5BF78 /* ucApplications WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D5D3C50F1AAF2F4000A5BF78 /* ucApplications WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D5DD40E21AAF219B004ABA1C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D5DD40E11AAF219B004ABA1C /* Settings.bundle */; };
 		D5FBDBCE1ABEA6DB001B912A /* ChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FBDBCD1ABEA6DB001B912A /* ChartController.swift */; };
+		D5FD2F221B2CBD480009B1EA /* ucApplications.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = D5D3C52F1AAF33DA00A5BF78 /* ucApplications.entitlements */; };
+		D5FD2F231B2CBDAE0009B1EA /* DBApplicationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FD2F201B2CADE00009B1EA /* DBApplicationItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -166,6 +168,7 @@
 		D5D3C5371AAF372900A5BF78 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		D5DD40E11AAF219B004ABA1C /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D5FBDBCD1ABEA6DB001B912A /* ChartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChartController.swift; sourceTree = "<group>"; };
+		D5FD2F201B2CADE00009B1EA /* DBApplicationItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBApplicationItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,6 +311,7 @@
 		D589F4CC1AB1FFF500B039A6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D5FD2F201B2CADE00009B1EA /* DBApplicationItem.swift */,
 				D5D3C52F1AAF33DA00A5BF78 /* ucApplications.entitlements */,
 				D5091B761A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld */,
 				D59AFC491A8F72BE001A2D93 /* Application.swift */,
@@ -465,6 +469,7 @@
 				TargetAttributes = {
 					D5091B6E1A8F6D3A0079D893 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = S7UZ3M9ANQ;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -477,6 +482,7 @@
 					};
 					D5D3C50E1AAF2F4000A5BF78 = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = S7UZ3M9ANQ;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -553,6 +559,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5DD40E21AAF219B004ABA1C /* Settings.bundle in Resources */,
+				D5FD2F221B2CBD480009B1EA /* ucApplications.entitlements in Resources */,
 				D5091B7D1A8F6D3A0079D893 /* Main.storyboard in Resources */,
 				D5091B821A8F6D3A0079D893 /* LaunchScreen.xib in Resources */,
 				D5091B7F1A8F6D3A0079D893 /* Images.xcassets in Resources */,
@@ -624,6 +631,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5FD2F231B2CBDAE0009B1EA /* DBApplicationItem.swift in Sources */,
 				D59AFC4A1A8F72BE001A2D93 /* Application.swift in Sources */,
 				D5091B7A1A8F6D3A0079D893 /* ViewController.swift in Sources */,
 				D5091B781A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld in Sources */,

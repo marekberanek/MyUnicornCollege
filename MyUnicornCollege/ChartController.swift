@@ -175,11 +175,42 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     reloadGraph()
   }
   
-  override func viewDidAppear(animated: Bool) {
-    super.viewDidAppear(animated)
-  }
-  
   func reloadGraph() {
+    var model = appDelegate.applicationsModel
+    var biModel = appDelegate.biModel
+    
+    // Data update
+    
+    pieChartDataAll.removeAll(keepCapacity: false)
+    pieChartDataCZ.removeAll(keepCapacity: false)
+    pieChartDataEN.removeAll(keepCapacity: false)
+    
+    if (model.data.count > 0)
+    {
+      pieChartData = biModel.loadDataForChart(model.data, chartType: chartType)
+      
+      //All
+      for a in pieChartData {
+        if a.lang == UCLang.All {
+          pieChartDataAll.append(a)
+        }
+      }
+      
+      //CZ
+      for a in pieChartData {
+        if a.lang == UCLang.Czech {
+          pieChartDataCZ.append(a)
+        }
+      }
+      
+      //EN
+      for a in pieChartData {
+        if a.lang == UCLang.English {
+          pieChartDataEN.append(a)
+        }
+      }
+    }
+    
     switch language {
     case 1:
       countLabel.text = String(getTotalPerLang(pieChartDataCZ))
