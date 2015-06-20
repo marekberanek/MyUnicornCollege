@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Krm-fG-ygN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="XsE-RR-bMd">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Tab Bar Controller-->
+        <!--Main-->
         <scene sceneID="JU3-em-J4D">
             <objects>
-                <tabBarController id="Krm-fG-ygN" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainView" title="Main" id="Krm-fG-ygN" sceneMemberID="viewController">
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="G9E-px-bjS">
@@ -24,6 +24,82 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bWY-7H-O2m" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-507" y="1024"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="Ubg-OK-9H4">
+            <objects>
+                <viewController storyboardIdentifier="LoginView" id="XsE-RR-bMd" customClass="LoginViewController" customModule="ucApplications" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5fg-i3-N49"/>
+                        <viewControllerLayoutGuide type="bottom" id="9Ri-1D-X4B"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ePv-Rb-LZ9">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Access Code 2" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mdG-mh-KpD">
+                                <rect key="frame" x="16" y="395" width="568" height="30"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="accessCodeTwoEditingBegin:" destination="XsE-RR-bMd" eventType="editingDidBegin" id="sXP-36-cJF"/>
+                                    <action selector="accessCodeTwoEditingEnd:" destination="XsE-RR-bMd" eventType="editingDidEnd" id="bVS-Cx-1j2"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mAU-8O-XAA">
+                                <rect key="frame" x="559" y="500" width="25" height="25"/>
+                                <state key="normal" image="Login">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginButtonTouchDown:" destination="XsE-RR-bMd" eventType="touchDown" id="SMF-dX-dMS"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Access Code 1" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yWF-g5-Bu8">
+                                <rect key="frame" x="16" y="350" width="568" height="30"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="accessCodeOneDidEndOnExit:" destination="XsE-RR-bMd" eventType="editingDidEndOnExit" id="Xhk-rn-64R"/>
+                                    <action selector="accessCodeOneEditingBegin:" destination="XsE-RR-bMd" eventType="editingDidBegin" id="tlQ-Hf-FBu"/>
+                                    <action selector="accessCodeOneEditingEnd:" destination="XsE-RR-bMd" eventType="editingDidEnd" id="Ely-A1-ZgN"/>
+                                </connections>
+                            </textField>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="Intro" translatesAutoresizingMaskIntoConstraints="NO" id="S9s-jM-cpI">
+                                <rect key="frame" x="100" y="40" width="400" height="220"/>
+                            </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Ct9-ZY-Hjp">
+                                <rect key="frame" x="290" y="462" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="9Ri-1D-X4B" firstAttribute="top" secondItem="mAU-8O-XAA" secondAttribute="bottom" constant="75" id="6Z3-Up-gys"/>
+                            <constraint firstItem="yWF-g5-Bu8" firstAttribute="leading" secondItem="ePv-Rb-LZ9" secondAttribute="leadingMargin" id="9uZ-fG-mKu"/>
+                            <constraint firstItem="mdG-mh-KpD" firstAttribute="leading" secondItem="ePv-Rb-LZ9" secondAttribute="leadingMargin" id="DbN-fI-awd"/>
+                            <constraint firstItem="mAU-8O-XAA" firstAttribute="top" secondItem="mdG-mh-KpD" secondAttribute="bottom" constant="75" id="JUn-Eh-Cnj"/>
+                            <constraint firstItem="Ct9-ZY-Hjp" firstAttribute="top" secondItem="mdG-mh-KpD" secondAttribute="bottom" constant="37" id="K9E-KN-sIz"/>
+                            <constraint firstAttribute="centerX" secondItem="Ct9-ZY-Hjp" secondAttribute="centerX" id="Wwm-dM-xiy"/>
+                            <constraint firstItem="S9s-jM-cpI" firstAttribute="top" secondItem="5fg-i3-N49" secondAttribute="bottom" constant="20" id="c12-0w-4kV"/>
+                            <constraint firstAttribute="centerX" secondItem="S9s-jM-cpI" secondAttribute="centerX" id="cb2-FV-rum"/>
+                            <constraint firstItem="yWF-g5-Bu8" firstAttribute="trailing" secondItem="ePv-Rb-LZ9" secondAttribute="trailingMargin" id="d03-dL-T5z"/>
+                            <constraint firstItem="mdG-mh-KpD" firstAttribute="trailing" secondItem="ePv-Rb-LZ9" secondAttribute="trailingMargin" id="lc0-sd-kDC"/>
+                            <constraint firstItem="mAU-8O-XAA" firstAttribute="trailing" secondItem="ePv-Rb-LZ9" secondAttribute="trailingMargin" id="oAh-Xd-Xzc"/>
+                            <constraint firstItem="mdG-mh-KpD" firstAttribute="top" secondItem="yWF-g5-Bu8" secondAttribute="bottom" constant="15" id="saS-qe-75c"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="accessCodeOne" destination="yWF-g5-Bu8" id="8FU-V2-D3U"/>
+                        <outlet property="accessCodeTwo" destination="mdG-mh-KpD" id="Ad3-eB-WWM"/>
+                        <outlet property="loginButton" destination="mAU-8O-XAA" id="5uK-sH-pEk"/>
+                        <outlet property="progressIndicator" destination="Ct9-ZY-Hjp" id="ZmT-RZ-OuP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3Fk-vb-xLB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-507" y="1735"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="ufC-wZ-h7g">
@@ -235,6 +311,8 @@
     </scenes>
     <resources>
         <image name="Applications" width="25" height="25"/>
+        <image name="Intro" width="400" height="220"/>
+        <image name="Login" width="25" height="25"/>
         <image name="Stats" width="25" height="25"/>
     </resources>
 </document>

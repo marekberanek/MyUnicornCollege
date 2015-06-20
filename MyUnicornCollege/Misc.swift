@@ -16,8 +16,10 @@ struct pieChartDataStruct {
 }
 
 let defaults = NSUserDefaults.standardUserDefaults()
-let p4u_user : String? = defaults.stringForKey("access_code1")
-let p4u_password : String? = defaults.stringForKey("access_code2")
+var p4u_user : String? = defaults.stringForKey("access_code1")
+var p4u_password : String? = defaults.stringForKey("access_code2")
+var p4u_logged : String? = defaults.stringForKey("logged")
+var p4u_autologin : Bool? = defaults.boolForKey("autologin")
 
 //let UCBlue = UIColor(red: , green: , blue: , alpha: 1)
 let UCCPTBlue = CPTColor(componentRed: 0.0 / 255.0, green: 40.0 / 255.0, blue: 130.0 / 255.0, alpha: 1)
@@ -90,4 +92,9 @@ enum UCDescApplicationState : String {
   case Active = "Waiting for interview"
   case Final = "Accepted"
   case AlternativeFinal = "Not Accepted"
+}
+
+enum UCDefaultACValue : String {
+  case ACOne = "Access Code 1"
+  case ACTwo = "Access Code 2"
 }

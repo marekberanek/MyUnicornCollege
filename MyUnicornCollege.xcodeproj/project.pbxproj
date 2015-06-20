@@ -19,6 +19,7 @@
 		D51255C11A91091A006C897D /* Misc.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51255C01A91091A006C897D /* Misc.swift */; };
 		D51E8F2D1AA3629B00E7FD48 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */; };
 		D54F8DA51ABCAA1100EDF5BB /* BIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54F8DA41ABCAA1100EDF5BB /* BIModel.swift */; };
+		D57EAAD71B3548D100B48B1E /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57EAAD61B3548D100B48B1E /* LoginViewController.swift */; };
 		D589F4D01AB2003C00B039A6 /* ApplicationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D589F4CF1AB2003C00B039A6 /* ApplicationsModel.swift */; };
 		D58A84711AA8EA6E00E1E625 /* NSData+GZIP.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58A84701AA8EA6E00E1E625 /* NSData+GZIP.swift */; };
 		D58A84721AA8EAD800E1E625 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D58A846D1AA8E90700E1E625 /* libz.dylib */; };
@@ -144,6 +145,7 @@
 		D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "Alamofire-master/Alamofire.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		D54F8DA41ABCAA1100EDF5BB /* BIModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BIModel.swift; sourceTree = "<group>"; };
+		D57EAAD61B3548D100B48B1E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D589D40A1AD5A93800AAEF1B /* CorePlot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CorePlot.framework; path = "Pods/../build/Debug-iphoneos/Pods-MyUnicornCollege/CorePlot.framework"; sourceTree = "<group>"; };
 		D589D40C1AD5A98900AAEF1B /* CorePlot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CorePlot.framework; path = "Pods/../build/Debug-iphoneos/Pods-MyUnicornCollege/CorePlot.framework"; sourceTree = "<group>"; };
 		D589F4CF1AB2003C00B039A6 /* ApplicationsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationsModel.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 				D5091B791A8F6D3A0079D893 /* ViewController.swift */,
 				D50E0A001AA1D453004E6E04 /* StatsViewController.swift */,
 				D5FBDBCD1ABEA6DB001B912A /* ChartController.swift */,
+				D57EAAD61B3548D100B48B1E /* LoginViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -311,10 +314,10 @@
 		D589F4CC1AB1FFF500B039A6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				D5FD2F201B2CADE00009B1EA /* DBApplicationItem.swift */,
 				D5D3C52F1AAF33DA00A5BF78 /* ucApplications.entitlements */,
 				D5091B761A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld */,
 				D59AFC491A8F72BE001A2D93 /* Application.swift */,
+				D5FD2F201B2CADE00009B1EA /* DBApplicationItem.swift */,
 				D589F4CF1AB2003C00B039A6 /* ApplicationsModel.swift */,
 				D54F8DA41ABCAA1100EDF5BB /* BIModel.swift */,
 			);
@@ -642,6 +645,7 @@
 				D58A84791AA8FCB800E1E625 /* SwiftyJSON.swift in Sources */,
 				D5091B751A8F6D3A0079D893 /* AppDelegate.swift in Sources */,
 				D51255C11A91091A006C897D /* Misc.swift in Sources */,
+				D57EAAD71B3548D100B48B1E /* LoginViewController.swift in Sources */,
 				D54F8DA51ABCAA1100EDF5BB /* BIModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

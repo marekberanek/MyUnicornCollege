@@ -56,55 +56,83 @@ class ApplicationItem: NSObject {
     let decodedString = NSString(data: decodedData!, encoding: NSUTF8StringEncoding)
     return decodedString! as String
   }
+  
+  
+  func isExist(data: [DBApplicationItem], id: String) -> Int {
+    var filtered = [DBApplicationItem]()
     
-  func save() {
+    filtered = data.filter { a in a.id == id }
     
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-    
-    
-    let entityDescription = NSEntityDescription.entityForName("DBApplicationItem", inManagedObjectContext: managedObjectContext!)
-    
-    let newItem = DBApplicationItem(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext!)
-    
-//    var newItem = NSEntityDescription.insertNewObjectForEntityForName("DBApplicationItem", inManagedObjectContext: managedObjectContext!) as! DBApplicationItem
-    
-    newItem.id = self.id
-    newItem.name = self.name
-    newItem.state = self.state
-    newItem.mar = self.mar
-    newItem.stateType = self.stateType
-    newItem.date = self.date
-    newItem.field = self.field
-    newItem.type = self.type
-    newItem.language = self.language
-    newItem.from_where = self.from_where
-    newItem.entrance_date = self.entrance_date
-    newItem.scholarship_date = self.scholarship_date
-    newItem.sex = self.sex
-    newItem.birth_number = self.birth_number
-    newItem.citizenship = self.citizenship
-    newItem.pa_email = self.pa_email
-    newItem.pa_telephone = self.pa_telephone
-    newItem.pa_street = self.pa_street
-    newItem.pa_town = self.pa_town
-    newItem.pa_zipcode = self.pa_zipcode
-    newItem.pa_state = self.pa_state
-    newItem.ta_street = self.ta_street
-    newItem.ta_town = self.ta_town
-    newItem.ta_zipcode = self.ta_zipcode
-    newItem.ta_state = self.ta_state
-    newItem.education_background = self.education_background
-    
-    var error : NSError?
-    managedObjectContext?.save(&error)
-    
-    if let err = error {
-      println(err.localizedFailureReason)
-      
+    if (filtered.count == 0) {
+      return 0
     } else {
-      println("saved")
+      return 1
     }
+  }
+
+  func isExistWithSameState(data: [DBApplicationItem], id: String, state: String) -> Int {
+    var filtered = [DBApplicationItem]()
     
+    filtered = data.filter { a in a.id == id  && a.state == state}
+    
+    if (filtered.count == 0) {
+      return 0
+    } else {
+      return 1
+    }
+  }
+
+  
+  func save(data: [DBApplicationItem], managedObjectContext: AnyObject ) {
+
+//    var managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+
+    var entityDescription = NSEntityDescription.entityForName("DBApplicationItem", inManagedObjectContext: managedObjectContext as! NSManagedObjectContext)
+
+    if isExist(data, id: self.id) == 1
+    {
+    } else {
+      
+      let newItem = DBApplicationItem(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext as? NSManagedObjectContext)
+      
+    //    var newItem = NSEntityDescription.insertNewObjectForEntityForName("DBApplicationItem", inManagedObjectContext: managedObjectContext!) as! DBApplicationItem
+      
+      newItem.id = self.id
+      newItem.name = self.name
+      newItem.state = self.state
+      newItem.mar = self.mar
+      newItem.stateType = self.stateType
+      newItem.date = self.date
+      newItem.field = self.field
+      newItem.type = self.type
+      newItem.language = self.language
+      newItem.from_where = self.from_where
+      newItem.entrance_date = self.entrance_date
+      newItem.scholarship_date = self.scholarship_date
+      newItem.sex = self.sex
+      newItem.birth_number = self.birth_number
+      newItem.citizenship = self.citizenship
+      newItem.pa_email = self.pa_email
+      newItem.pa_telephone = self.pa_telephone
+      newItem.pa_street = self.pa_street
+      newItem.pa_town = self.pa_town
+      newItem.pa_zipcode = self.pa_zipcode
+      newItem.pa_state = self.pa_state
+      newItem.ta_street = self.ta_street
+      newItem.ta_town = self.ta_town
+      newItem.ta_zipcode = self.ta_zipcode
+      newItem.ta_state = self.ta_state
+      newItem.education_background = self.education_background
+      
+      var error : NSError?
+      managedObjectContext.save(&error)
+      
+      if let err = error {
+        println(err.localizedFailureReason)
+      }
+      
+    }
+
   }
   
   // cast String to NSData
@@ -115,9 +143,9 @@ class ApplicationItem: NSObject {
     return dateFormatter.dateFromString(dateString)
   }
   
-  //get basic information about artifact
+  // get basic information about artifact
   func getBasicInformation(callback: () -> ()) {
-    var url = "https://api.unicornuniverse.eu/ues/wcp/ues/core/artifact/UESArtifact/getAttributes?uesuri=ues:UCL-BT:" + self.id
+    var url = "https://api.plus4u.net/ues/wcp/ues/core/artifact/UESArtifact/getAttributes?uesuri=ues:UCL-BT:" + self.id
     
     Alamofire.request(.GET, url)
       .authenticate(user: p4u_user!, password: p4u_password!)
@@ -143,7 +171,7 @@ class ApplicationItem: NSObject {
   
   // get JSON file with an additional information
   func getAdditionalInformation(callback: () -> ()) {
-    var url = "https://api.unicornuniverse.eu/ues/wcp/ues/core/attachment/UESAttachment/getAttachmentData?uesuri=ues:UCL-BT:\(self.id):APPLICATION_FIELDS"
+    var url = "https://api.plus4u.net/ues/wcp/ues/core/attachment/UESAttachment/getAttachmentData?uesuri=ues:UCL-BT:\(self.id):APPLICATION_FIELDS"
     
     var jsonString : String = ""
     var jsonData: AnyObject?

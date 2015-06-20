@@ -14,7 +14,7 @@ class BIModel: NSObject {
     super.init()
   }
   
-  func loadDataForChart(data: [ApplicationItem], chartType: String) -> [pieChartDataStruct]
+  func loadDataForChart(data: [DBApplicationItem], chartType: String) -> [pieChartDataStruct]
   {
     var formPieChartData: [pieChartDataStruct]
 
@@ -40,11 +40,11 @@ class BIModel: NSObject {
   
   
   // preparing data for form pie chart
-  private func prepareDataForFormPieChart(data: [ApplicationItem]) -> [pieChartDataStruct]
+  private func prepareDataForFormPieChart(data: [DBApplicationItem]) -> [pieChartDataStruct]
   {
     var dataForChart : [pieChartDataStruct] = []
     
-    var tempFilteredData : [ApplicationItem] = []
+    var tempFilteredData : [DBApplicationItem] = []
     
     /*
       Applicants for study without language differentiation
@@ -117,11 +117,11 @@ class BIModel: NSObject {
   }
   
   // preparing data for field pie chart
-  private func prepareDataForFieldPieChart(data: [ApplicationItem]) -> [pieChartDataStruct]
+  private func prepareDataForFieldPieChart(data: [DBApplicationItem]) -> [pieChartDataStruct]
   {
     var dataForChart : [pieChartDataStruct] = []
     
-    var tempFilteredData : [ApplicationItem] = []
+    var tempFilteredData : [DBApplicationItem] = []
     
     /*
     Applicants for study without language differentiation
@@ -193,11 +193,11 @@ class BIModel: NSObject {
   }
   
   // preparing data for field pie chart
-  private func prepareDataForStatePieChart(data: [ApplicationItem]) -> [pieChartDataStruct]
+  private func prepareDataForStatePieChart(data: [DBApplicationItem]) -> [pieChartDataStruct]
   {
     var dataForChart : [pieChartDataStruct] = []
     
-    var tempFilteredData : [ApplicationItem] = []
+    var tempFilteredData : [DBApplicationItem] = []
     
     /*
     Applicants for study without language differentiation

@@ -57,8 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     UIPageControl.appearance().pageIndicatorTintColor = UIColor.groupTableViewBackgroundColor()
     UIPageControl.appearance().currentPageIndicatorTintColor = UIColor.lightGrayColor()
-
-
+    
     return true
   }
 

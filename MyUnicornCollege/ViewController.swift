@@ -18,8 +18,8 @@ extension String
 }
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ApplicationsModelDelegate {
-  var tableData: [ApplicationItem] = []
-  var allData: [ApplicationItem] = []
+  var tableData: [DBApplicationItem] = []
+  var allData: [DBApplicationItem] = []
   var processed : Bool = false
   
   var tableViewController = UITableViewController()
@@ -64,23 +64,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     /* for testing purposes only, call loadApplicationsListDummy() */
 
-    model.loadApplicationsList()
-    //model.loadApplicationsListDummy()
+    //model.loadApplicationsList()
+    model.loadApplicationsListDummy(managedObjectContext!)
     
   }
   
   func loadingCompleted(data: AnyObject) {
-    self.allData = data as! [ApplicationItem]
-    self.tableData = data as! [ApplicationItem]
-    
-/*
-    let fetchRequest = NSFetchRequest(entityName: "DBApplicationItem")
-    
-    if let fetchResults = managedObjectContext!.executeFetchRequest(fetchRequest, error: nil) as? [ApplicationItem] {
-      println(fetchResults.count)
-    }
-
-*/
+    self.allData = data as! [DBApplicationItem]
+    self.tableData = data as! [DBApplicationItem]
     
     var sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
     sharedValues.setInteger(self.allData.count, forKey: "totalApplications")
@@ -131,7 +122,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   
   func applyFilter()
   {
-    var filteredData : [ApplicationItem] = []
+    var filteredData : [DBApplicationItem] = []
     
     switch segmentedControl.selectedSegmentIndex
     {
@@ -177,7 +168,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     var cell = tableView.dequeueReusableCellWithIdentifier("ApplicationCell") as! UITableViewCell
     
-    let rowData: ApplicationItem = self.tableData[indexPath.row] as ApplicationItem
+    let rowData: DBApplicationItem = self.tableData[indexPath.row] as DBApplicationItem
     
     let df = NSDateFormatter()
 //    df.dateFormat = "MMM d, h:mm a"
