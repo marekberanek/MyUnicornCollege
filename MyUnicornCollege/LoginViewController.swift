@@ -17,13 +17,20 @@ class LoginViewController: UIViewController {
   @IBOutlet weak var progressIndicator: UIActivityIndicatorView!
   
   var defaultTextFiledColor : UIColor = UIColor.blackColor()
+  var isShown : Bool = false
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+    
+
     self.accessCodeOne.hidden = true
     self.accessCodeTwo.hidden = true
     self.loginButton.hidden = true
+    
+    if p4u_user == nil { p4u_user = "" }
+    if p4u_password == nil { p4u_password = "" }
     
     verifyUserCredentials(p4u_user!, password: p4u_password!, callback: {
       self.progressIndicator.hidden = true
@@ -36,9 +43,6 @@ class LoginViewController: UIViewController {
         
         var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.window?.rootViewController = vc
-        
-        println("logged")
-        
       } else {
         self.defaultTextFiledColor = self.accessCodeOne.textColor
         self.progressIndicator.hidden = true
@@ -97,12 +101,44 @@ class LoginViewController: UIViewController {
     verifyUserCredentials(accessCodeOne.text, password: accessCodeTwo.text, callback: {
       self.progressIndicator.hidden = true
       self.progressIndicator.stopAnimating()
-
-      let mainStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-      let vc : UITabBarController = mainStoryboard.instantiateViewControllerWithIdentifier("MainView") as! UITabBarController
       
-      var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-      appDelegate.window?.rootViewController = vc
+      if p4u_logged == "1" {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+        let vc : UITabBarController = mainStoryboard.instantiateViewControllerWithIdentifier("MainView") as! UITabBarController
+        
+        var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.window?.rootViewController = vc
+      } else {
+        self.accessCodeOne.text = UCDefaultACValue.ACOne.rawValue
+        self.accessCodeOne.textColor = self.defaultTextFiledColor
+        self.accessCodeOne.secureTextEntry = false
+        self.accessCodeTwo.text = UCDefaultACValue.ACTwo.rawValue
+        self.accessCodeTwo.textColor = self.defaultTextFiledColor
+        self.accessCodeTwo.secureTextEntry = false
+        
+        
+        var errorView = UIView()
+        var errorLabel = UILabel(frame: CGRectMake(0, 0, self.view.frame.width, 40))
+        errorLabel.textAlignment = NSTextAlignment.Center
+        errorLabel.text = "Incorrect access codes were entered"
+        errorLabel.font.fontWithSize(10)
+        errorLabel.textColor = UIColor.whiteColor()
+        errorView.addSubview(errorLabel)
+        errorView.alpha = 1.0
+        self.view.addSubview(errorView)
+        
+
+        errorView.frame = CGRectMake(0, 20, self.view.frame.width, 0)
+        errorView.backgroundColor = UCGreen
+        
+        UIView.animateWithDuration(0.75, animations: {
+          errorView.frame = CGRectMake(0, 20, self.view.frame.width, 40)
+        }, completion: { (finished) -> Void in
+          UIView.animateWithDuration(0.75, animations: {
+            errorView.frame = CGRectMake(0, 20, self.view.frame.width, 0)
+              }, completion: nil)
+        })
+      }
     })
   }
   
@@ -131,8 +167,9 @@ class LoginViewController: UIViewController {
           defaults.setValue("0", forKey: "logged")
           p4u_logged = "0"
         }
-        
+
         callback()
+        
     }
   }
 }

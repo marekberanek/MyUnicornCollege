@@ -21,6 +21,7 @@ var p4u_password : String? = defaults.stringForKey("access_code2")
 var p4u_logged : String? = defaults.stringForKey("logged")
 var p4u_autologin : Bool? = defaults.boolForKey("autologin")
 
+
 //let UCBlue = UIColor(red: , green: , blue: , alpha: 1)
 let UCCPTBlue = CPTColor(componentRed: 0.0 / 255.0, green: 40.0 / 255.0, blue: 130.0 / 255.0, alpha: 1)
 let UCCPTGreen = CPTColor(componentRed: 0.0 / 255.0, green: 135.0 / 255.0, blue: 137.0 / 255.0, alpha: 1)

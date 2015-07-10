@@ -38,7 +38,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   
   override func viewDidLoad() {
     super.viewDidLoad()
-        
+    
+    UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+
+    
     tableViewController.tableView = self.appsTableView
     
     // setting a background color of UITable refresh control
@@ -148,12 +151,44 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   
   func loadingError(error: String) {
     self.refreshControl.endRefreshing()
-
     
+    var errorView = UIView()
+    var errorLabel = UILabel(frame: CGRectMake(0, 0, self.view.frame.width, 40))
+    errorLabel.textAlignment = NSTextAlignment.Center
+    errorLabel.text = error
+    errorLabel.font.fontWithSize(10)
+    errorLabel.textColor = UIColor.whiteColor()
+    errorView.addSubview(errorLabel)
+    errorView.alpha = 1.0
+    self.view.addSubview(errorView)
+    
+    
+    errorView.frame = CGRectMake(0, 20, self.view.frame.width, 0)
+    errorView.backgroundColor = UCGreen
+    
+    UIView.animateWithDuration(0.75, animations: {
+      errorView.frame = CGRectMake(0, 20, self.view.frame.width, 40)
+      }, completion: { (finished) -> Void in
+        UIView.animateWithDuration(0.75, animations: {
+          errorView.frame = CGRectMake(0, 20, self.view.frame.width, 0)
+          }, completion: nil)
+    })
+
+    if error == "CREDENTIALS" {
+      let mainStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
+      let vc : UITabBarController = mainStoryboard.instantiateViewControllerWithIdentifier("LoginView") as! UITabBarController
+      
+      var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+      appDelegate.window?.rootViewController = vc
+    }
+
+/*
     let alert = UIAlertController(title: "Critical Error", message: error, preferredStyle: UIAlertControllerStyle.Alert)
     
     alert.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default, handler: nil))
     self.presentViewController(alert, animated: true, completion: nil)
+
+*/
   }
 
   @IBAction func indexChanged(sender: UISegmentedControl) {
