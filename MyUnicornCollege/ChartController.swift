@@ -30,8 +30,8 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    var model = appDelegate.applicationsModel
-    var biModel = appDelegate.biModel
+    let model = appDelegate.applicationsModel
+    let biModel = appDelegate.biModel
 
     if (model.data.count > 0)
     {
@@ -61,7 +61,7 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     
     // all
     
-    var graph = CPTXYGraph(frame: CGRectZero)
+    let graph = CPTXYGraph(frame: CGRectZero)
     //graph.title = chartType
     graph.paddingLeft = 0
     graph.paddingTop = 0
@@ -69,8 +69,8 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     graph.paddingBottom = 0
     
     // hide the axes
-    var axes = graph?.axisSet as! CPTXYAxisSet
-    var lineStyle = CPTMutableLineStyle()
+    let axes = graph?.axisSet as! CPTXYAxisSet
+    let lineStyle = CPTMutableLineStyle()
     lineStyle.lineWidth = 0
     axes.xAxis.axisLineStyle = lineStyle
     axes.yAxis.axisLineStyle = lineStyle
@@ -79,7 +79,7 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     
     
     // add a pie plot
-    var pie = CPTPieChart(frame: graph.frame)
+    let pie = CPTPieChart(frame: graph.frame)
     pie.dataSource = self
     pie.pieRadius = (self.view.frame.size.width * 0.9)/2
     pie.pieInnerRadius = (self.view.frame.size.width * 0.3)/2
@@ -95,7 +95,7 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     graph!.axisSet = nil
     graph!.borderLineStyle = nil
 
-    var legend = CPTLegend(graph: graph)
+    let legend = CPTLegend(graph: graph)
     
     switch chartType {
       case UCChartType.FieldPie.rawValue:
@@ -128,7 +128,7 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     let dataPercentage: Float = 100*Float(pieChartDataCurrent[Int(idx)].count) / Float(getTotalPerLang(pieChartDataCurrent))
     let dataRaw: Int = pieChartDataCurrent[Int(idx)].count
     
-    var label: String = "\(Int(dataRaw))"
+    let label: String = "\(Int(dataRaw))"
     
     let paragraphStyle =  NSMutableParagraphStyle()
     paragraphStyle.alignment = NSTextAlignment.Center
@@ -151,8 +151,8 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
   }
   
   func sliceFillForPieChart(pieChart: CPTPieChart!, recordIndex idx: UInt) -> CPTFill! {
-    var areaColor : CPTColor = pieChartDataCurrent[Int(idx)].color
-    var sliceFill : CPTFill = CPTFill(color: areaColor)
+    let areaColor : CPTColor = pieChartDataCurrent[Int(idx)].color
+    let sliceFill : CPTFill = CPTFill(color: areaColor)
     
     return sliceFill
   }
@@ -176,8 +176,8 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
   }
   
   func reloadGraph() {
-    var model = appDelegate.applicationsModel
-    var biModel = appDelegate.biModel
+    let model = appDelegate.applicationsModel
+    let biModel = appDelegate.biModel
     
     // Data update
     

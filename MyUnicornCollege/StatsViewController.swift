@@ -39,7 +39,7 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource, UIP
     let firstController = formChartController
     let startingViewControler: [ChartController] = [firstController!]
     
-    pageController.setViewControllers(startingViewControler as [AnyObject], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
+    pageController.setViewControllers(startingViewControler as [UIViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
     
     pageViewController = pageController
     addChildViewController(pageViewController!)
@@ -50,7 +50,7 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource, UIP
   // Reload chart according to selected language
   @IBAction func indexChanged(sender: AnyObject) {
     
-    var chartController: ChartController? = pageViewController?.viewControllers[0] as? ChartController
+    let chartController: ChartController? = pageViewController?.viewControllers?[0] as? ChartController
     
     if chartController == formChartController {
       formChartController?.language = sender.selectedSegmentIndex
@@ -66,12 +66,18 @@ class StatsViewController: UIViewController, UIPageViewControllerDataSource, UIP
   }
   
   // Set proper selected segment index
-  func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [AnyObject]) {
-    segmentControl.selectedSegmentIndex = pendingViewControllers.first!.language
+  func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [UIViewController]) {
+    let controller = pendingViewControllers.first as! ChartController
+    segmentControl.selectedSegmentIndex = controller.language
   }
   
-  func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
-    segmentControl.selectedSegmentIndex = pageViewController.viewControllers.first!.language
+  func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    
+    if (completed && finished) {
+      let controller = pageViewController.viewControllers?.first as! ChartController
+      segmentControl.selectedSegmentIndex = controller.language
+    }
+
   }
   
   // Backward navigation

@@ -24,7 +24,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   
   var tableViewController = UITableViewController()
 
-  let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
   
   @IBOutlet weak var segmentedControl: UISegmentedControl!
   @IBOutlet var appsTableView : UITableView?
@@ -57,9 +56,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
   func loadApplications()
   {
-    var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
-    var model = appDelegate.applicationsModel
+    let model = appDelegate.applicationsModel
     
     model.delegate = self
     
@@ -68,7 +67,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     /* for testing purposes only, call loadApplicationsListDummy() */
 
     model.loadApplicationsList()
-    //model.loadApplicationsListDummy(managedObjectContext!)
+    //model.loadApplicationsListDummy()
     
   }
   
@@ -76,7 +75,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     self.allData = data as! [ApplicationItem]
     self.tableData = data as! [ApplicationItem]
     
-    var sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
+    let sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
     sharedValues.setInteger(self.allData.count, forKey: "totalApplications")
     sharedValues.setInteger(self.allData.filter { a in
       a.language == "čeština" }.count, forKey: "czechApplications")
@@ -85,13 +84,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     applyFilter()
     
-    var formatter = NSDateFormatter()
+    let formatter = NSDateFormatter()
     formatter.dateFormat = "MMM d, HH:mm"
-    var date = NSDate()
-    var title = NSString(format: "Last update: %@", formatter.stringFromDate(date))
-    var attrsDictionary = NSDictionary(object: UIColor.darkTextColor(), forKey: NSForegroundColorAttributeName)
+    let date = NSDate()
+    let title = NSString(format: "Last update: %@", formatter.stringFromDate(date))    
+    let fontAttribute = [NSForegroundColorAttributeName: UIColor.darkTextColor()]
     
-    var attributedTitle = NSAttributedString(string: title as String, attributes: attrsDictionary as [NSObject : AnyObject])
+    let attributedTitle = NSAttributedString(string: title as String, attributes: fontAttribute)
     self.refreshControl.attributedTitle = attributedTitle
     
     self.refreshControl.endRefreshing()
@@ -125,7 +124,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   
   func applyFilter()
   {
-    var filteredData : [ApplicationItem] = []
+    //let filteredData : [ApplicationItem] = []
     
     switch segmentedControl.selectedSegmentIndex
     {
@@ -152,8 +151,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   func loadingError(error: String) {
     self.refreshControl.endRefreshing()
     
-    var errorView = UIView()
-    var errorLabel = UILabel(frame: CGRectMake(0, 0, self.view.frame.width, 40))
+    let errorView = UIView()
+    let errorLabel = UILabel(frame: CGRectMake(0, 0, self.view.frame.width, 40))
     errorLabel.textAlignment = NSTextAlignment.Center
     errorLabel.text = error
     errorLabel.font.fontWithSize(10)
@@ -178,7 +177,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
       let mainStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
       let vc : UITabBarController = mainStoryboard.instantiateViewControllerWithIdentifier("LoginView") as! UITabBarController
       
-      var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+      let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
       appDelegate.window?.rootViewController = vc
     }
 
@@ -201,13 +200,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   
   func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     
-    var cell = tableView.dequeueReusableCellWithIdentifier("ApplicationCell") as! UITableViewCell
+    let cell = tableView.dequeueReusableCellWithIdentifier("ApplicationCell") as UITableViewCell!
     
     let rowData: ApplicationItem = self.tableData[indexPath.row] as ApplicationItem
     
     let df = NSDateFormatter()
 //    df.dateFormat = "MMM d, h:mm a"
     df.dateFormat = "dd.MM.yyyy, HH:mm"
+    
+    print(rowData.stateType!)
+    print(rowData.date)
 
     cell.textLabel?.text = rowData.name
     cell.detailTextLabel?.text = "\(df.stringFromDate(rowData.date!))"

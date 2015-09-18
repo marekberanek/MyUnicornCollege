@@ -37,9 +37,9 @@ class TotalInterfaceController: WKInterfaceController {
     
     let sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
     
-    var total = sharedValues.integerForKey("totalApplications")
+    let total = sharedValues.integerForKey("totalApplications")
     
-    println(total)
+    print(total)
 
     return total
   }
