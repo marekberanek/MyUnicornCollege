@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyUnicornCollege/Application.swift"
-            timestampString = "464281359.288719"
+            timestampString = "464282674.037846"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "243"
-            endingLineNumber = "243"
+            startingLineNumber = "165"
+            endingLineNumber = "165"
             landmarkName = "getArtCode(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -38,7 +38,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MyUnicornCollege/ViewController.swift"
@@ -48,6 +48,54 @@
             startingLineNumber = "83"
             endingLineNumber = "83"
             landmarkName = "loadingCompleted(_:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ucApplications.ViewController.loadingCompleted (ucApplications.ViewController)(Swift.AnyObject) -&gt; ()"
+                  moduleName = "ucApplications"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marekberanek/Documents/XCode%20Projects/MyUnicornCollege/MyUnicornCollege/ViewController.swift"
+                  timestampString = "464283072.581058"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "83"
+                  endingLineNumber = "83"
+                  offsetFromSymbolStart = "1100">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ucApplications.ViewController.(loadingCompleted (ucApplications.ViewController) -&gt; (Swift.AnyObject) -&gt; ()).(closure #2)"
+                  moduleName = "ucApplications"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/marekberanek/Documents/XCode%20Projects/MyUnicornCollege/MyUnicornCollege/ViewController.swift"
+                  timestampString = "464283072.581277"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84"
+                  offsetFromSymbolStart = "15">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MyUnicornCollege/StatsViewController.swift"
+            timestampString = "464283072.545666"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

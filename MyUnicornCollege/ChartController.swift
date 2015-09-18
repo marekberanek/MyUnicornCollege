@@ -33,9 +33,9 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     var model = appDelegate.applicationsModel
     var biModel = appDelegate.biModel
 
-    if (model.persistentData.count > 0)
+    if (model.data.count > 0)
     {
-      pieChartData = biModel.loadDataForChart(model.persistentData, chartType: chartType)
+      pieChartData = biModel.loadDataForChart(model.data, chartType: chartType)
       
       //All
       for a in pieChartData {
@@ -185,9 +185,9 @@ class ChartController: UIViewController, CPTPlotDataSource, CPTPieChartDataSourc
     pieChartDataCZ.removeAll(keepCapacity: false)
     pieChartDataEN.removeAll(keepCapacity: false)
     
-    if (model.persistentData.count > 0)
+    if (model.data.count > 0)
     {
-      pieChartData = biModel.loadDataForChart(model.persistentData, chartType: chartType)
+      pieChartData = biModel.loadDataForChart(model.data, chartType: chartType)
       
       //All
       for a in pieChartData {

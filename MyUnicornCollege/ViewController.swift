@@ -18,8 +18,8 @@ extension String
 }
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ApplicationsModelDelegate {
-  var tableData: [DBApplicationItem] = []
-  var allData: [DBApplicationItem] = []
+  var tableData: [ApplicationItem] = []
+  var allData: [ApplicationItem] = []
   var processed : Bool = false
   
   var tableViewController = UITableViewController()
@@ -73,8 +73,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   }
   
   func loadingCompleted(data: AnyObject) {
-    self.allData = data as! [DBApplicationItem]
-    self.tableData = data as! [DBApplicationItem]
+    self.allData = data as! [ApplicationItem]
+    self.tableData = data as! [ApplicationItem]
     
     var sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
     sharedValues.setInteger(self.allData.count, forKey: "totalApplications")
@@ -125,7 +125,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
   
   func applyFilter()
   {
-    var filteredData : [DBApplicationItem] = []
+    var filteredData : [ApplicationItem] = []
     
     switch segmentedControl.selectedSegmentIndex
     {
@@ -203,7 +203,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     var cell = tableView.dequeueReusableCellWithIdentifier("ApplicationCell") as! UITableViewCell
     
-    let rowData: DBApplicationItem = self.tableData[indexPath.row] as DBApplicationItem
+    let rowData: ApplicationItem = self.tableData[indexPath.row] as ApplicationItem
     
     let df = NSDateFormatter()
 //    df.dateFormat = "MMM d, h:mm a"

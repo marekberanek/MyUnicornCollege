@@ -25,7 +25,7 @@ class ApplicationsModel: NSObject {
   
   override init() {
     data = []
-    persistentData = []
+//    persistentData = []
     super.init()
   }
   
@@ -65,9 +65,11 @@ class ApplicationsModel: NSObject {
   {
     
     // Only for testing purpose
-    removePersistentDataAll(moc)
+    //removePersistentDataAll(moc)
 
-    initializePersistentData(moc)
+    //initializePersistentData(moc)
+    
+    
     
     var applications : [ApplicationItem] = []
     
@@ -83,7 +85,6 @@ class ApplicationsModel: NSObject {
     application.field = "Management ICT projektů"
     application.type = "Prezenční studium"
     application.language = "čeština"
-    application.save(persistentData, managedObjectContext: moc)
     applications.append(application)
     
 
@@ -95,7 +96,6 @@ class ApplicationsModel: NSObject {
     application.field = "Ekonomika a management"
     application.type = "Kombinované studium"
     application.language = "čeština"
-    application.save(persistentData, managedObjectContext: moc)
     applications.append(application)
 
     application = ApplicationItem(id: "uca003", name: "Zouhar Ondřej")
@@ -106,7 +106,6 @@ class ApplicationsModel: NSObject {
     application.field = "Informační technologie"
     application.type = "Prezenční studium"
     application.language = "čeština"
-    application.save(persistentData, managedObjectContext: moc)
     applications.append(application)
 
     application = ApplicationItem(id: "uca004", name: "Novák Jan")
@@ -117,7 +116,6 @@ class ApplicationsModel: NSObject {
     application.field = "Ekonomika a management"
     application.type = "Prezenční studium"
     application.language = "angličtina"
-    application.save(persistentData, managedObjectContext: moc)
     applications.append(application)
 
     application = ApplicationItem(id: "uca005", name: "Nováková Jana")
@@ -128,7 +126,6 @@ class ApplicationsModel: NSObject {
     application.field = "Ekonomika a management"
     application.type = "Prezenční studium"
     application.language = "čeština"
-    application.save(persistentData, managedObjectContext: moc)
     applications.append(application)
 
     
@@ -140,7 +137,6 @@ class ApplicationsModel: NSObject {
     application.field = "Informační technologie"
     application.type = "Prezenční studium"
     application.language = "angličtina"
-    application.save(persistentData, managedObjectContext: moc)
     applications.append(application)
 
     application = ApplicationItem(id: "uca008", name: "Smith Peter")
@@ -151,12 +147,12 @@ class ApplicationsModel: NSObject {
     application.field = "Informační technologie"
     application.type = "Prezenční studium"
     application.language = "angličtina"
-    application.save(persistentData, managedObjectContext: moc)
     applications.append(application)
 
-    initializePersistentData(moc)
+//    initializePersistentData(moc)
 
-    self.delegate.loadingCompleted(self.persistentData)
+    self.data = applications
+    self.delegate.loadingCompleted(self.data)
   }
   
   // Step 1: Get list of all possible applications stored in defined folder
