@@ -231,9 +231,10 @@ class ApplicationsModel: NSObject {
       (item as ApplicationItem).getAdditionalInformation({
         if (++maxCount == totalCount) {
           /* all data is downloaded */
+          println(self.data.count)
           self.delegate.loadingCompleted(self.data)
         }
-        self.delegate.updateProgress(Float(maxCount)/Float(totalCount))
+        //self.delegate.updateProgress(Float(maxCount)/Float(totalCount))
       })
     }
   }

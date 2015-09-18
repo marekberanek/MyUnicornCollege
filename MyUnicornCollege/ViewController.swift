@@ -67,8 +67,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     /* for testing purposes only, call loadApplicationsListDummy() */
 
-    //model.loadApplicationsList()
-    model.loadApplicationsListDummy(managedObjectContext!)
+    model.loadApplicationsList()
+    //model.loadApplicationsListDummy(managedObjectContext!)
     
   }
   

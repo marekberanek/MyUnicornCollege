@@ -156,6 +156,8 @@ class ApplicationItem: NSObject {
           self.date = self.castString2Date(dataJSON!.valueForKeyPath("creationTime") as! String!, dateFormat: "yyyy-MM-dd'T'HH:mm:ss:Z")
           self.mar = self.getArtCode(dataJSON!.valueForKeyPath("metaArtifactUri") as! String!)
           self.state = dataJSON!.valueForKeyPath("stateName") as! String?
+          
+          println(self.id)
           callback()
         } else {
           // if QoS limit is exceeded, repeat a request
@@ -214,9 +216,12 @@ class ApplicationItem: NSObject {
           self.ta_state = jsonData!.valueForKeyPath("ta_state") as! String!
           self.education_background = jsonData!.valueForKeyPath("education_background") as! String!
           
+          println(self.id + " : " + self.language!)
+
+          
           callback()
         } else {
-          println(response?.statusCode)
+          //println(response?.statusCode)
           // if QoS limit is exceeded, repeat a request
           if (response?.statusCode == 429 || response?.statusCode == nil) {
             self.getAdditionalInformation(callback)
