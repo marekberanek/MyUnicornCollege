@@ -1,6 +1,6 @@
-// Alamofire.swift
+// BaseTestCase.swift
 //
-// Copyright (c) 2014–2015 Alamofire (http://alamofire.org)
+// Copyright (c) 2014–2015 Alamofire Software Foundation (http://alamofire.org/)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "UniversalFramework_Base.xcconfig"
+import Alamofire
+import Foundation
+import XCTest
 
-// iOS-specific default settings
-CODE_SIGN_IDENTITY[sdk=iphoneos*]             = iPhone Developer
-TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]  = 1,2
-TARGETED_DEVICE_FAMILY[sdk=iphone*]           = 1,2
+class BaseTestCase: XCTestCase {
+    let defaultTimeout: NSTimeInterval = 10
 
-// OSX-specific default settings
-FRAMEWORK_VERSION[sdk=macosx*]                = A
-COMBINE_HIDPI_IMAGES[sdk=macosx*]             = YES
+    func URLForResource(fileName: String, withExtension: String) -> NSURL {
+        let bundle = NSBundle(forClass: BaseTestCase.self)
+        return bundle.URLForResource(fileName, withExtension: withExtension)!
+    }
+}

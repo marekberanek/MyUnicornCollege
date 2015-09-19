@@ -41,16 +41,15 @@ class LoginViewController: UIViewController {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         let vc : UITabBarController = mainStoryboard.instantiateViewControllerWithIdentifier("MainView") as! UITabBarController
         
-        var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.window?.rootViewController = vc
       } else {
-        self.defaultTextFiledColor = self.accessCodeOne.textColor
+        self.defaultTextFiledColor = self.accessCodeOne.textColor!
         self.progressIndicator.hidden = true
 
         self.accessCodeOne.hidden = false
         self.accessCodeTwo.hidden = false
         self.loginButton.hidden = false
-      
       }
     })
     
@@ -98,7 +97,7 @@ class LoginViewController: UIViewController {
   }
   
   @IBAction func loginButtonTouchDown(sender: AnyObject) {
-    verifyUserCredentials(accessCodeOne.text, password: accessCodeTwo.text, callback: {
+    verifyUserCredentials(accessCodeOne.text!, password: accessCodeTwo.text!, callback: {
       self.progressIndicator.hidden = true
       self.progressIndicator.stopAnimating()
       
@@ -106,7 +105,7 @@ class LoginViewController: UIViewController {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
         let vc : UITabBarController = mainStoryboard.instantiateViewControllerWithIdentifier("MainView") as! UITabBarController
         
-        var appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.window?.rootViewController = vc
       } else {
         self.accessCodeOne.text = UCDefaultACValue.ACOne.rawValue
@@ -117,8 +116,8 @@ class LoginViewController: UIViewController {
         self.accessCodeTwo.secureTextEntry = false
         
         
-        var errorView = UIView()
-        var errorLabel = UILabel(frame: CGRectMake(0, 0, self.view.frame.width, 40))
+        let errorView = UIView()
+        let errorLabel = UILabel(frame: CGRectMake(0, 0, self.view.frame.width, 40))
         errorLabel.textAlignment = NSTextAlignment.Center
         errorLabel.text = "Incorrect access codes were entered"
         errorLabel.font.fontWithSize(10)
@@ -143,22 +142,20 @@ class LoginViewController: UIViewController {
   }
   
   func verifyUserCredentials(user: String, password: String, callback: () -> ()) {
-    var url = "https://api.plus4u.net/ues/wcp/ues/core/artifact/UESArtifact/getAttributes?uesuri=ues:UCL-BT:SGC.EPR/1516"
+    let url = "https://api.plus4u.net/ues/wcp/ues/core/artifact/UESArtifact/getAttributes?uesuri=ues:UCL-BT:SGC.EPR/1516"
     
     progressIndicator.hidden = false
     progressIndicator.startAnimating()
-    
+
     Alamofire.request(.GET, url)
       .authenticate(user: user, password: password)
-      .responseJSON() {
-        (_, response, _, _) in
+      .responseJSON {
+        _, response, _ in
 
         defaults.setValue(user, forKey: "access_code1")
         defaults.setValue(password, forKey: "access_code2")
         p4u_user = user
         p4u_password = password
-        
-        
         
         if response?.statusCode == 200 {
           defaults.setValue("1", forKey: "logged")
@@ -169,7 +166,6 @@ class LoginViewController: UIViewController {
         }
 
         callback()
-        
     }
   }
 }

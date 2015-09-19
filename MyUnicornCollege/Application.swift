@@ -51,111 +51,38 @@ class ApplicationItem: NSObject {
   
   //decode JSON file from base64 to string
   private func getJSON(dataBase64: String) -> String {
-    let decodedData = NSData(base64EncodedString: dataBase64, options: NSDataBase64DecodingOptions(0))
+    let decodedData = NSData(base64EncodedString: dataBase64, options: NSDataBase64DecodingOptions(rawValue: 0))
     
     let decodedString = NSString(data: decodedData!, encoding: NSUTF8StringEncoding)
     return decodedString! as String
-  }
-  
-  
-  func isExist(data: [DBApplicationItem], id: String) -> Int {
-    var filtered = [DBApplicationItem]()
-    
-    filtered = data.filter { a in a.id == id }
-    
-    if (filtered.count == 0) {
-      return 0
-    } else {
-      return 1
-    }
-  }
-
-  func isExistWithSameState(data: [DBApplicationItem], id: String, state: String) -> Int {
-    var filtered = [DBApplicationItem]()
-    
-    filtered = data.filter { a in a.id == id  && a.state == state}
-    
-    if (filtered.count == 0) {
-      return 0
-    } else {
-      return 1
-    }
-  }
-
-  
-  func save(data: [DBApplicationItem], managedObjectContext: AnyObject ) {
-
-//    var managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-
-    var entityDescription = NSEntityDescription.entityForName("DBApplicationItem", inManagedObjectContext: managedObjectContext as! NSManagedObjectContext)
-
-    if isExist(data, id: self.id) == 1
-    {
-    } else {
-      
-      let newItem = DBApplicationItem(entity: entityDescription!, insertIntoManagedObjectContext: managedObjectContext as? NSManagedObjectContext)
-      
-    //    var newItem = NSEntityDescription.insertNewObjectForEntityForName("DBApplicationItem", inManagedObjectContext: managedObjectContext!) as! DBApplicationItem
-      
-      newItem.id = self.id
-      newItem.name = self.name
-      newItem.state = self.state
-      newItem.mar = self.mar
-      newItem.stateType = self.stateType
-      newItem.date = self.date
-      newItem.field = self.field
-      newItem.type = self.type
-      newItem.language = self.language
-      newItem.from_where = self.from_where
-      newItem.entrance_date = self.entrance_date
-      newItem.scholarship_date = self.scholarship_date
-      newItem.sex = self.sex
-      newItem.birth_number = self.birth_number
-      newItem.citizenship = self.citizenship
-      newItem.pa_email = self.pa_email
-      newItem.pa_telephone = self.pa_telephone
-      newItem.pa_street = self.pa_street
-      newItem.pa_town = self.pa_town
-      newItem.pa_zipcode = self.pa_zipcode
-      newItem.pa_state = self.pa_state
-      newItem.ta_street = self.ta_street
-      newItem.ta_town = self.ta_town
-      newItem.ta_zipcode = self.ta_zipcode
-      newItem.ta_state = self.ta_state
-      newItem.education_background = self.education_background
-      
-      var error : NSError?
-      managedObjectContext.save(&error)
-      
-      if let err = error {
-        println(err.localizedFailureReason)
-      }
-      
-    }
-
   }
   
   // cast String to NSData
   private func castString2Date(dateString: String, dateFormat: String) -> NSDate? {
     let dateFormatter = NSDateFormatter()
     dateFormatter.dateFormat = dateFormat
-  
-    return dateFormatter.dateFromString(dateString)
+    
+    var dateStringArray = dateString.componentsSeparatedByString("T")
+
+    return dateFormatter.dateFromString(dateStringArray[0])
   }
   
   // get basic information about artifact
   func getBasicInformation(callback: () -> ()) {
-    var url = "https://api.plus4u.net/ues/wcp/ues/core/artifact/UESArtifact/getAttributes?uesuri=ues:UCL-BT:" + self.id
+    let url = "https://api.plus4u.net/ues/wcp/ues/core/artifact/UESArtifact/getAttributes?uesuri=ues:UCL-BT:" + self.id
     
     Alamofire.request(.GET, url)
       .authenticate(user: p4u_user!, password: p4u_password!)
-      .responseJSON() {
-        (_, response, dataJSON, _) in
-        if(dataJSON != nil){
-          self.stateType = dataJSON!.valueForKeyPath("stateType") as! String!
-          self.date = self.castString2Date(dataJSON!.valueForKeyPath("creationTime") as! String!, dateFormat: "yyyy-MM-dd'T'HH:mm:ss:Z")
-          self.mar = self.getArtCode(dataJSON!.valueForKeyPath("metaArtifactUri") as! String!)
-          self.state = dataJSON!.valueForKeyPath("stateName") as! String?
+      .responseJSON {
+        _, response, dataJSON in
+        if(dataJSON.value != nil){
+          self.stateType = dataJSON.value!.valueForKeyPath("stateType") as! String!
+//          self.date = self.castString2Date(dataJSON.value!.valueForKeyPath("creationTime") as! String!, dateFormat: "yyyy-MM-dd'T'HH:mm:ss:Z")
+          self.date = self.castString2Date(dataJSON.value!.valueForKeyPath("creationTime") as! String!, dateFormat: "yyyy-MM-dd")
+          self.mar = self.getArtCode(dataJSON.value!.valueForKeyPath("metaArtifactUri") as! String!)
+          self.state = dataJSON.value!.valueForKeyPath("stateName") as! String?
+          
+          //println(self.id)
           callback()
         } else {
           // if QoS limit is exceeded, repeat a request
@@ -163,7 +90,7 @@ class ApplicationItem: NSObject {
             self.getBasicInformation(callback)
           } else {
             self.error = "BASIC_INFORMATION"
-            println("\(self.id): \(self.error)")
+            print("\(self.id): \(self.error)")
           }
         }
     }
@@ -171,7 +98,7 @@ class ApplicationItem: NSObject {
   
   // get JSON file with an additional information
   func getAdditionalInformation(callback: () -> ()) {
-    var url = "https://api.plus4u.net/ues/wcp/ues/core/attachment/UESAttachment/getAttachmentData?uesuri=ues:UCL-BT:\(self.id):APPLICATION_FIELDS"
+    let url = "https://api.plus4u.net/ues/wcp/ues/core/attachment/UESAttachment/getAttachmentData?uesuri=ues:UCL-BT:\(self.id):APPLICATION_FIELDS"
     
     var jsonString : String = ""
     var jsonData: AnyObject?
@@ -181,17 +108,24 @@ class ApplicationItem: NSObject {
     
       let req = Alamofire.request(.GET, url)
       req.authenticate(user: p4u_user!, password: p4u_password!)
-      req.responseJSON { (request, response, data, error) in
-        if(data != nil) {
-          if (data!.valueForKeyPath("dataHandler") == nil)
+      req.responseJSON { request, response, result in
+        if(result.value != nil) {
+          if (result.value!.valueForKeyPath("dataHandler") == nil)
           {
-            jsonData = data
+            jsonData = result.value
           } else {
-            jsonString = self.getJSON(data!.valueForKeyPath("dataHandler") as! String)
+            jsonString = self.getJSON(result.value!.valueForKeyPath("dataHandler") as! String)
             var nsdata: NSData = jsonString.dataUsingEncoding(NSUTF8StringEncoding)!
             var error: NSError?
             
-            jsonData = NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions(0), error: &error)
+            do {
+              jsonData = try NSJSONSerialization.JSONObjectWithData(nsdata, options: NSJSONReadingOptions(rawValue: 0))
+            } catch var error1 as NSError {
+              error = error1
+              jsonData = nil
+            } catch {
+              fatalError()
+            }
           }
           self.field = jsonData!.valueForKeyPath("field") as! String!
           self.type = jsonData!.valueForKeyPath("type") as! String!
@@ -214,15 +148,18 @@ class ApplicationItem: NSObject {
           self.ta_state = jsonData!.valueForKeyPath("ta_state") as! String!
           self.education_background = jsonData!.valueForKeyPath("education_background") as! String!
           
+          // println(self.id + " : " + self.language!)
+
+          
           callback()
         } else {
-          println(response?.statusCode)
+          //println(response?.statusCode)
           // if QoS limit is exceeded, repeat a request
           if (response?.statusCode == 429 || response?.statusCode == nil) {
             self.getAdditionalInformation(callback)
           } else {
             self.error = "ADDITIONAL_INFORMATION"
-            println("\(self.id): \(self.error): \(error)")
+            print("\(self.id): \(self.error): \(result.error)")
           }
         }
       }
@@ -232,13 +169,13 @@ class ApplicationItem: NSObject {
   // return artifact code from uesuri
   func getArtCode(uesuri: String) -> String {
     
-    var artcodeuri = uesuri.componentsSeparatedByString(":")[2]
+    let artcodeuri = uesuri.componentsSeparatedByString(":")[2]
     
-    var startIn = count(artcodeuri.utf16)-19
+    var startIn = artcodeuri.utf16.count-19
     //    var startIn = artcodeuri.utf16Count-19
     var artcode = ""
     
-    artcode = artcodeuri.substringWithRange(Range<String.Index>(start:artcodeuri.startIndex, end:advance(artcodeuri.endIndex, -19)))
+    artcode = artcodeuri.substringWithRange(Range<String.Index>(start:artcodeuri.startIndex, end:artcodeuri.endIndex.advancedBy(-19)))
 
     return artcode
   }

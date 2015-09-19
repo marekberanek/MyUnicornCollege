@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		84A11479DD7FA1184A266ADD /* libPods-MyUnicornCollege.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D6C0CF7A6864273E21CEA82 /* libPods-MyUnicornCollege.a */; };
+		D50577C61BAC9A10005A471B /* ucApplications WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D5D3C50F1AAF2F4000A5BF78 /* ucApplications WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D50577C91BAC9A10005A471B /* ucApplications WatchKit App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D5D3C5191AAF2F4000A5BF78 /* ucApplications WatchKit App.app */; };
+		D50577E01BAC9E16005A471B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D50577D71BAC9D96005A471B /* Alamofire.framework */; };
+		D50577E11BAC9E16005A471B /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D50577D71BAC9D96005A471B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D5091B751A8F6D3A0079D893 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5091B741A8F6D3A0079D893 /* AppDelegate.swift */; };
-		D5091B781A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D5091B761A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld */; };
 		D5091B7A1A8F6D3A0079D893 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5091B791A8F6D3A0079D893 /* ViewController.swift */; };
 		D5091B7D1A8F6D3A0079D893 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5091B7B1A8F6D3A0079D893 /* Main.storyboard */; };
 		D5091B7F1A8F6D3A0079D893 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5091B7E1A8F6D3A0079D893 /* Images.xcassets */; };
@@ -27,14 +30,10 @@
 		D58E06131AAF4BE500C880B5 /* CzechInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58E06121AAF4BE500C880B5 /* CzechInterfaceController.swift */; };
 		D58E06151AAF4C2F00C880B5 /* EnglishInterfaceControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58E06141AAF4C2F00C880B5 /* EnglishInterfaceControler.swift */; };
 		D59AFC4A1A8F72BE001A2D93 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = D59AFC491A8F72BE001A2D93 /* Application.swift */; };
-		D5D1F8441B28ABC800DC5432 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D504726B1B28AA7E002E0316 /* Alamofire.framework */; };
-		D5D1F8451B28ABD800DC5432 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D504726B1B28AA7E002E0316 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D5D3C5141AAF2F4000A5BF78 /* TotalInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D3C5131AAF2F4000A5BF78 /* TotalInterfaceController.swift */; };
 		D5D3C5161AAF2F4000A5BF78 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5D3C5151AAF2F4000A5BF78 /* Images.xcassets */; };
-		D5D3C51A1AAF2F4100A5BF78 /* ucApplications WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = D5D3C5191AAF2F4000A5BF78 /* ucApplications WatchKit App.app */; };
 		D5D3C5221AAF2F4100A5BF78 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D5D3C5201AAF2F4100A5BF78 /* Interface.storyboard */; };
 		D5D3C5241AAF2F4100A5BF78 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5D3C5231AAF2F4100A5BF78 /* Images.xcassets */; };
-		D5D3C5271AAF2F4100A5BF78 /* ucApplications WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D5D3C50F1AAF2F4000A5BF78 /* ucApplications WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D5DD40E21AAF219B004ABA1C /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D5DD40E11AAF219B004ABA1C /* Settings.bundle */; };
 		D5FBDBCE1ABEA6DB001B912A /* ChartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5FBDBCD1ABEA6DB001B912A /* ChartController.swift */; };
 		D5FD2F221B2CBD480009B1EA /* ucApplications.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = D5D3C52F1AAF33DA00A5BF78 /* ucApplications.entitlements */; };
@@ -42,33 +41,61 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D504726A1B28AA7E002E0316 /* PBXContainerItemProxy */ = {
+		D50577C41BAC9A10005A471B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */;
+			containerPortal = D5091B671A8F6D3A0079D893 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D5D3C50E1AAF2F4000A5BF78;
+			remoteInfo = "ucApplications WatchKit Extension";
+		};
+		D50577C71BAC9A10005A471B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5091B671A8F6D3A0079D893 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D5D3C5181AAF2F4000A5BF78;
+			remoteInfo = "ucApplications WatchKit App";
+		};
+		D50577D61BAC9D96005A471B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D50577CE1BAC9D96005A471B /* Alamofire.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F8111E3319A95C8B0040E7D1;
 			remoteInfo = "Alamofire iOS";
 		};
-		D504726C1B28AA7E002E0316 /* PBXContainerItemProxy */ = {
+		D50577D81BAC9D96005A471B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */;
+			containerPortal = D50577CE1BAC9D96005A471B /* Alamofire.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4DD67C0B1A5C55C900ED2280;
 			remoteInfo = "Alamofire OSX";
 		};
-		D504726E1B28AA7E002E0316 /* PBXContainerItemProxy */ = {
+		D50577DA1BAC9D96005A471B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */;
+			containerPortal = D50577CE1BAC9D96005A471B /* Alamofire.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E4202FE01B667AA100C997FB;
+			remoteInfo = "Alamofire watchOS";
+		};
+		D50577DC1BAC9D96005A471B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D50577CE1BAC9D96005A471B /* Alamofire.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F8111E3E19A95C8B0040E7D1;
 			remoteInfo = "Alamofire iOS Tests";
 		};
-		D50472701B28AA7E002E0316 /* PBXContainerItemProxy */ = {
+		D50577DE1BAC9D96005A471B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */;
+			containerPortal = D50577CE1BAC9D96005A471B /* Alamofire.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = F829C6B21A7A94F100A2CD59;
 			remoteInfo = "Alamofire OSX Tests";
+		};
+		D50577E21BAC9E17005A471B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D50577CE1BAC9D96005A471B /* Alamofire.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
+			remoteInfo = "Alamofire iOS";
 		};
 		D5091B881A8F6D3A0079D893 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -77,50 +104,40 @@
 			remoteGlobalIDString = D5091B6E1A8F6D3A0079D893;
 			remoteInfo = MyUnicornCollege;
 		};
-		D5D1F83E1B28ABBA00DC5432 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
-			remoteInfo = "Alamofire iOS";
-		};
-		D5D3C51B1AAF2F4100A5BF78 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D5091B671A8F6D3A0079D893 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D5D3C5181AAF2F4000A5BF78;
-			remoteInfo = "ucApplications WatchKit App";
-		};
-		D5D3C5251AAF2F4100A5BF78 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D5091B671A8F6D3A0079D893 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D5D3C50E1AAF2F4000A5BF78;
-			remoteInfo = "ucApplications WatchKit Extension";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		D50577CA1BAC9A10005A471B /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D50577C61BAC9A10005A471B /* ucApplications WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D50577CB1BAC9A10005A471B /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				D50577C91BAC9A10005A471B /* ucApplications WatchKit App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D5091BA41A8F6D560079D893 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D5D1F8451B28ABD800DC5432 /* Alamofire.framework in Embed Frameworks */,
+				D50577E11BAC9E16005A471B /* Alamofire.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D5D3C52E1AAF2F4100A5BF78 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				D5D3C5271AAF2F4100A5BF78 /* ucApplications WatchKit Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -129,10 +146,10 @@
 		09D5D9ADDC0B1BBF494E80BE /* Pods-MyUnicornCollege.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyUnicornCollege.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyUnicornCollege/Pods-MyUnicornCollege.release.xcconfig"; sourceTree = "<group>"; };
 		3D6C0CF7A6864273E21CEA82 /* libPods-MyUnicornCollege.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MyUnicornCollege.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		734F43F7031FE4E28B6B8698 /* Pods-MyUnicornCollege.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyUnicornCollege.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyUnicornCollege/Pods-MyUnicornCollege.debug.xcconfig"; sourceTree = "<group>"; };
+		D50577CE1BAC9D96005A471B /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "Alamofire-master/Alamofire.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		D5091B6F1A8F6D3A0079D893 /* ucApplications.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ucApplications.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5091B731A8F6D3A0079D893 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5091B741A8F6D3A0079D893 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D5091B771A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyUnicornCollege.xcdatamodel; sourceTree = "<group>"; };
 		D5091B791A8F6D3A0079D893 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D5091B7C1A8F6D3A0079D893 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D5091B7E1A8F6D3A0079D893 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -143,7 +160,6 @@
 		D50E0A001AA1D453004E6E04 /* StatsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		D51255C01A91091A006C897D /* Misc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Misc.swift; sourceTree = "<group>"; };
 		D51E8F2C1AA3629B00E7FD48 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = "Alamofire-master/Alamofire.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		D54F8DA41ABCAA1100EDF5BB /* BIModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BIModel.swift; sourceTree = "<group>"; };
 		D57EAAD61B3548D100B48B1E /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D589D40A1AD5A93800AAEF1B /* CorePlot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CorePlot.framework; path = "Pods/../build/Debug-iphoneos/Pods-MyUnicornCollege/CorePlot.framework"; sourceTree = "<group>"; };
@@ -178,10 +194,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D5D1F8441B28ABC800DC5432 /* Alamofire.framework in Frameworks */,
 				D58A84721AA8EAD800E1E625 /* libz.dylib in Frameworks */,
 				D51E8F2D1AA3629B00E7FD48 /* CoreData.framework in Frameworks */,
 				84A11479DD7FA1184A266ADD /* libPods-MyUnicornCollege.a in Frameworks */,
+				D50577E01BAC9E16005A471B /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,6 +225,18 @@
 				09D5D9ADDC0B1BBF494E80BE /* Pods-MyUnicornCollege.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		D50577CF1BAC9D96005A471B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D50577D71BAC9D96005A471B /* Alamofire.framework */,
+				D50577D91BAC9D96005A471B /* Alamofire.framework */,
+				D50577DB1BAC9D96005A471B /* Alamofire.framework */,
+				D50577DD1BAC9D96005A471B /* Alamofire iOS Tests.xctest */,
+				D50577DF1BAC9D96005A471B /* Alamofire OSX Tests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		D5091B661A8F6D3A0079D893 = {
@@ -281,21 +309,10 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		D54358121AD5AF5C00C34EE9 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D504726B1B28AA7E002E0316 /* Alamofire.framework */,
-				D504726D1B28AA7E002E0316 /* Alamofire.framework */,
-				D504726F1B28AA7E002E0316 /* Alamofire iOS Tests.xctest */,
-				D50472711B28AA7E002E0316 /* Alamofire OSX Tests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		D543581C1AD5AFDF00C34EE9 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */,
+				D50577CE1BAC9D96005A471B /* Alamofire.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -315,7 +332,6 @@
 			isa = PBXGroup;
 			children = (
 				D5D3C52F1AAF33DA00A5BF78 /* ucApplications.entitlements */,
-				D5091B761A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld */,
 				D59AFC491A8F72BE001A2D93 /* Application.swift */,
 				D5FD2F201B2CADE00009B1EA /* DBApplicationItem.swift */,
 				D589F4CF1AB2003C00B039A6 /* ApplicationsModel.swift */,
@@ -396,14 +412,14 @@
 				D5091B6C1A8F6D3A0079D893 /* Frameworks */,
 				D5091B6D1A8F6D3A0079D893 /* Resources */,
 				D5091BA41A8F6D560079D893 /* Embed Frameworks */,
-				D5D3C52E1AAF2F4100A5BF78 /* Embed App Extensions */,
 				73C7E0107F2C3047817BA5AD /* Copy Pods Resources */,
+				D50577CB1BAC9A10005A471B /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				D5D1F83F1B28ABBA00DC5432 /* PBXTargetDependency */,
-				D5D3C5261AAF2F4100A5BF78 /* PBXTargetDependency */,
+				D50577C81BAC9A10005A471B /* PBXTargetDependency */,
+				D50577E31BAC9E17005A471B /* PBXTargetDependency */,
 			);
 			name = MyUnicornCollege;
 			productName = MyUnicornCollege;
@@ -439,27 +455,28 @@
 			buildRules = (
 			);
 			dependencies = (
-				D5D3C51C1AAF2F4100A5BF78 /* PBXTargetDependency */,
 			);
 			name = "ucApplications WatchKit Extension";
 			productName = "ucApplications WatchKit Extension";
 			productReference = D5D3C50F1AAF2F4000A5BF78 /* ucApplications WatchKit Extension.appex */;
-			productType = "com.apple.product-type.watchkit-extension";
+			productType = "com.apple.product-type.watchkit2-extension";
 		};
 		D5D3C5181AAF2F4000A5BF78 /* ucApplications WatchKit App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D5D3C5281AAF2F4100A5BF78 /* Build configuration list for PBXNativeTarget "ucApplications WatchKit App" */;
 			buildPhases = (
 				D5D3C5171AAF2F4000A5BF78 /* Resources */,
+				D50577CA1BAC9A10005A471B /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D50577C51BAC9A10005A471B /* PBXTargetDependency */,
 			);
 			name = "ucApplications WatchKit App";
 			productName = "ucApplications WatchKit App";
 			productReference = D5D3C5191AAF2F4000A5BF78 /* ucApplications WatchKit App.app */;
-			productType = "com.apple.product-type.application.watchapp";
+			productType = "com.apple.product-type.application.watchapp2";
 		};
 /* End PBXNativeTarget section */
 
@@ -467,7 +484,9 @@
 		D5091B671A8F6D3A0079D893 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Marek Beránek";
 				TargetAttributes = {
 					D5091B6E1A8F6D3A0079D893 = {
@@ -475,6 +494,9 @@
 						DevelopmentTeam = S7UZ3M9ANQ;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.DataProtection = {
 								enabled = 1;
 							};
 						};
@@ -511,8 +533,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = D54358121AD5AF5C00C34EE9 /* Products */;
-					ProjectRef = D54358111AD5AF5C00C34EE9 /* Alamofire.xcodeproj */;
+					ProductGroup = D50577CF1BAC9D96005A471B /* Products */;
+					ProjectRef = D50577CE1BAC9D96005A471B /* Alamofire.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -526,32 +548,39 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		D504726B1B28AA7E002E0316 /* Alamofire.framework */ = {
+		D50577D71BAC9D96005A471B /* Alamofire.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Alamofire.framework;
-			remoteRef = D504726A1B28AA7E002E0316 /* PBXContainerItemProxy */;
+			remoteRef = D50577D61BAC9D96005A471B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D504726D1B28AA7E002E0316 /* Alamofire.framework */ = {
+		D50577D91BAC9D96005A471B /* Alamofire.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Alamofire.framework;
-			remoteRef = D504726C1B28AA7E002E0316 /* PBXContainerItemProxy */;
+			remoteRef = D50577D81BAC9D96005A471B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D504726F1B28AA7E002E0316 /* Alamofire iOS Tests.xctest */ = {
+		D50577DB1BAC9D96005A471B /* Alamofire.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Alamofire.framework;
+			remoteRef = D50577DA1BAC9D96005A471B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D50577DD1BAC9D96005A471B /* Alamofire iOS Tests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "Alamofire iOS Tests.xctest";
-			remoteRef = D504726E1B28AA7E002E0316 /* PBXContainerItemProxy */;
+			remoteRef = D50577DC1BAC9D96005A471B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D50472711B28AA7E002E0316 /* Alamofire OSX Tests.xctest */ = {
+		D50577DF1BAC9D96005A471B /* Alamofire OSX Tests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "Alamofire OSX Tests.xctest";
-			remoteRef = D50472701B28AA7E002E0316 /* PBXContainerItemProxy */;
+			remoteRef = D50577DE1BAC9D96005A471B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -581,7 +610,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5D3C5161AAF2F4000A5BF78 /* Images.xcassets in Resources */,
-				D5D3C51A1AAF2F4100A5BF78 /* ucApplications WatchKit App.app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,7 +665,6 @@
 				D5FD2F231B2CBDAE0009B1EA /* DBApplicationItem.swift in Sources */,
 				D59AFC4A1A8F72BE001A2D93 /* Application.swift in Sources */,
 				D5091B7A1A8F6D3A0079D893 /* ViewController.swift in Sources */,
-				D5091B781A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld in Sources */,
 				D5FBDBCE1ABEA6DB001B912A /* ChartController.swift in Sources */,
 				D58A84711AA8EA6E00E1E625 /* NSData+GZIP.swift in Sources */,
 				D589F4D01AB2003C00B039A6 /* ApplicationsModel.swift in Sources */,
@@ -671,25 +698,25 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D50577C51BAC9A10005A471B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D5D3C50E1AAF2F4000A5BF78 /* ucApplications WatchKit Extension */;
+			targetProxy = D50577C41BAC9A10005A471B /* PBXContainerItemProxy */;
+		};
+		D50577C81BAC9A10005A471B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D5D3C5181AAF2F4000A5BF78 /* ucApplications WatchKit App */;
+			targetProxy = D50577C71BAC9A10005A471B /* PBXContainerItemProxy */;
+		};
+		D50577E31BAC9E17005A471B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Alamofire iOS";
+			targetProxy = D50577E21BAC9E17005A471B /* PBXContainerItemProxy */;
+		};
 		D5091B891A8F6D3A0079D893 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D5091B6E1A8F6D3A0079D893 /* MyUnicornCollege */;
 			targetProxy = D5091B881A8F6D3A0079D893 /* PBXContainerItemProxy */;
-		};
-		D5D1F83F1B28ABBA00DC5432 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Alamofire iOS";
-			targetProxy = D5D1F83E1B28ABBA00DC5432 /* PBXContainerItemProxy */;
-		};
-		D5D3C51C1AAF2F4100A5BF78 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D5D3C5181AAF2F4000A5BF78 /* ucApplications WatchKit App */;
-			targetProxy = D5D3C51B1AAF2F4100A5BF78 /* PBXContainerItemProxy */;
-		};
-		D5D3C5261AAF2F4100A5BF78 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D5D3C50E1AAF2F4000A5BF78 /* ucApplications WatchKit Extension */;
-			targetProxy = D5D3C5251AAF2F4100A5BF78 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -741,6 +768,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -794,6 +822,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -819,6 +848,7 @@
 				);
 				INFOPLIST_FILE = MyUnicornCollege/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ucl.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ucApplications;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MyUnicornCollege/MyUnicornCollege-Bridging-Header.h";
@@ -846,6 +876,7 @@
 				);
 				INFOPLIST_FILE = MyUnicornCollege/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ucl.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ucApplications;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "MyUnicornCollege/MyUnicornCollege-Bridging-Header.h";
@@ -866,6 +897,7 @@
 				);
 				INFOPLIST_FILE = MyUnicornCollegeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ucl.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MyUnicornCollegeTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ucApplications.app/ucApplications";
 			};
@@ -881,6 +913,7 @@
 				);
 				INFOPLIST_FILE = MyUnicornCollegeTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ucl.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = MyUnicornCollegeTests;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ucApplications.app/ucApplications";
 			};
@@ -892,18 +925,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				IBSC_MODULE = ucApplications_WatchKit_Extension;
 				INFOPLIST_FILE = "ucApplications WatchKit App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_BUNDLE_IDENTIFIER = ucl.ucApplications.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
-				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -914,14 +949,16 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				IBSC_MODULE = ucApplications_WatchKit_Extension;
 				INFOPLIST_FILE = "ucApplications WatchKit App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				PRODUCT_BUNDLE_IDENTIFIER = ucl.ucApplications.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
-				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -938,9 +975,13 @@
 				INFOPLIST_FILE = "ucApplications WatchKit Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ucl.ucApplications.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -954,9 +995,13 @@
 				INFOPLIST_FILE = "ucApplications WatchKit Extension/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = ucl.ucApplications.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE = "";
+				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};
@@ -1009,19 +1054,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		D5091B761A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				D5091B771A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodel */,
-			);
-			currentVersion = D5091B771A8F6D3A0079D893 /* MyUnicornCollege.xcdatamodel */;
-			path = MyUnicornCollege.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = D5091B671A8F6D3A0079D893 /* Project object */;
 }

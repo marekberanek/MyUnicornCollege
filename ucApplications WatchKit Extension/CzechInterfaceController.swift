@@ -37,7 +37,7 @@ class CzechInterfaceController: WKInterfaceController {
     
     let sharedValues : NSUserDefaults = NSUserDefaults(suiteName: "group.ucApplicationsSharingValues")!
     
-    var total = sharedValues.integerForKey("czechApplications")
+    let total = sharedValues.integerForKey("czechApplications")
     
     return total
   }
